@@ -1,35 +1,98 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-bold text-gray-900 mb-3">New Connection Application</h1>
+        <p class="text-xl text-gray-600">Start your electricity connection process today</p>
+    </div>
+    
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {{-- Left: Informational panel --}}
-        <div class="bg-white rounded-xl shadow p-6 fade-in">
-            <h2 class="text-2xl font-bold mb-3">Apply for New Connection</h2>
-            <p class="text-gray-600 mb-4">Enter your application number to start — further fields unlock progressively. You
-                don't need to login.</p>
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl shadow-lg p-8 border border-blue-100 animate-fade-in-left">
+            <div class="flex items-center mb-6">
+                <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Apply for New Connection</h2>
+            </div>
+            
+            <p class="text-gray-700 mb-6 leading-relaxed">Enter your application number to start — further fields unlock progressively. You don't need to login.</p>
 
-            <ul class="space-y-2 text-sm">
-                <li class="flex items-start gap-2"><span class="text-blue-600 font-semibold">•</span> Fill application number
-                    first</li>
-                <li class="flex items-start gap-2"><span class="text-blue-600 font-semibold">•</span> Provide contact details
-                </li>
-                <li class="flex items-start gap-2"><span class="text-blue-600 font-semibold">•</span> Submit and track status
-                    via application number</li>
-            </ul>
+            <div class="bg-white rounded-lg p-6 mb-6 border border-blue-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    How it works
+                </h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <div class="bg-blue-100 rounded-full p-1 mt-1 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Fill application number first</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="bg-blue-100 rounded-full p-1 mt-1 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Provide contact details</span>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="bg-blue-100 rounded-full p-1 mt-1 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <span class="text-gray-700">Submit and track status via application number</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="bg-blue-500 text-white rounded-lg p-5">
+                <div class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="text-sm">Your application number is unique and will be used to track your application status throughout the process.</p>
+                </div>
+            </div>
         </div>
 
         {{-- Right: Form card --}}
-        <div x-data="applicationForm()" class="bg-white rounded-xl shadow p-6 fade-in">
-            <h3 class="text-xl font-semibold mb-4">Application Form</h3>
+        <div x-data="applicationForm()" class="bg-white rounded-2xl shadow-lg p-8 border border-gray-200 animate-fade-in-right">
+            <div class="flex items-center mb-6">
+                <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900">Application Form</h3>
+            </div>
 
             {{-- server-side validation errors --}}
             @if ($errors->any())
-                <div class="mb-4 rounded p-3 bg-red-50 text-red-800">
-                    <ul class="list-disc pl-5">
-                        @foreach ($errors->all() as $error)
-                            <li class="text-sm">{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                <div class="mb-6 rounded-lg p-4 bg-red-50 border border-red-200 animate-shake">
+                    <div class="flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-400 mr-2 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <h3 class="text-sm font-medium text-red-800">There were errors with your submission</h3>
+                            <ul class="mt-2 list-disc pl-5 space-y-1 text-sm text-red-700">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             @endif
 
@@ -37,176 +100,338 @@
                 @csrf
 
                 {{-- Application Number (first field) --}}
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Application Number</label>
-                    <input x-model="form.application_no" @input="checkUnlock" name="application_no"
+                <div class="mb-6">
+                    <label for="application_no_field" class="block text-sm font-medium text-gray-700 mb-2">Application Number <span class="text-red-500">*</span></label>
+                    <input x-model="form.application_no" @input="checkUnlock" @keydown.enter="focusNext('customer_name_field')" name="application_no"
                         value="{{ old('application_no') }}"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Enter application number" required>
-                    <p x-show="!unlocked" class="text-xs text-gray-400 mt-1">Enter application number to unlock rest of the
-                        form.</p>
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                        placeholder="Enter application number" required id="application_no_field">
+                    <p x-show="!unlocked" class="text-xs text-gray-500 mt-2 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Enter application number to unlock rest of the form.
+                    </p>
                 </div>
 
                 {{-- Progressive unlocked fields --}}
-                <div x-show="unlocked" x-transition class="space-y-4 mt-3">
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Customer Name</label>
-                        <input x-model="form.customer_name" name="customer_name" value="{{ old('customer_name') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <div x-show="unlocked" x-transition class="space-y-6">
+                    <!-- Customer Name -->
+                    <div x-show="step >= 1" x-transition>
+                        <label for="customer_name_field" class="block text-sm font-medium text-gray-700 mb-2">Customer Name <span class="text-red-500">*</span></label>
+                        <input x-model="form.customer_name" @input="checkStep(1)" name="customer_name" value="{{ old('customer_name') }}" :disabled="step < 1"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            placeholder="Enter your full name" id="customer_name_field" required>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">CNIC</label>
-                        <input x-model="form.customer_cnic" name="customer_cnic" value="{{ old('customer_cnic') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="xxxxx-xxxxxxx-x">
+                    <!-- CNIC -->
+                    <div x-show="step >= 2" x-transition>
+                        <label for="customer_cnic_field" class="block text-sm font-medium text-gray-700 mb-2">CNIC <span class="text-red-500">*</span></label>
+                        <input x-model="form.customer_cnic" @input="checkStep(2)" name="customer_cnic" value="{{ old('customer_cnic') }}" :disabled="step < 2"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            placeholder="xxxxx-xxxxxxx-x" id="customer_cnic_field" required>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Phone</label>
-                        <input x-model="form.phone" name="phone" value="{{ old('phone') }}"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="+92XXXXXXXXXX">
+                    <!-- Phone -->
+                    <div x-show="step >= 3" x-transition>
+                        <label for="phone_field" class="block text-sm font-medium text-gray-700 mb-2">Phone <span class="text-red-500">*</span></label>
+                        <input x-model="form.phone" @input="checkStep(3)" name="phone" value="{{ old('phone') }}" :disabled="step < 3"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            placeholder="+92XXXXXXXXXX" id="phone_field" required>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Address</label>
-                        <textarea x-model="form.address" name="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                            rows="3">{{ old('address') }}</textarea>
+                    <!-- Address -->
+                    <div x-show="step >= 4" x-transition>
+                        <label for="address_field" class="block text-sm font-medium text-gray-700 mb-2">Address <span class="text-red-500">*</span></label>
+                        <textarea x-model="form.address" @input="checkStep(4)" name="address" :disabled="step < 4"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100"
+                            rows="3" placeholder="Enter your full address" id="address_field" required>{{ old('address') }}</textarea>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Company</label>
-                            <select x-model="form.company_id" name="company_id"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                                <option value="">Select Company</option>
-                                @foreach ($companies ?? [] as $company)
-                                    <option value="{{ $company->id }}" @selected(old('company_id') == $company->id)>{{ $company->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Subdivision</label>
-                            <select x-model="form.subdivision_id" name="subdivision_id"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                                <option value="">Select Subdivision</option>
-                                @foreach ($subdivisions ?? [] as $sd)
-                                    <option value="{{ $sd->id }}" @selected(old('subdivision_id') == $sd->id)>{{ $sd->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                    <!-- Company -->
+                    <div x-show="step >= 5" x-transition>
+                        <label for="company_id_field" class="block text-sm font-medium text-gray-700 mb-2">Company <span class="text-red-500">*</span></label>
+                        <select x-model="form.company_id" @change="checkStep(5)" name="company_id" :disabled="step < 5"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            id="company_id_field" required>
+                            <option value="">Select Company</option>
+                            @foreach ($companies ?? [] as $company)
+                                <option value="{{ $company->id }}" @selected(old('company_id') == $company->id)>{{ $company->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Meter Number (optional)</label>
-                            <input x-model="form.meter_number" name="meter_number" value="{{ old('meter_number') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Connection Type</label>
-                            <select x-model="form.connection_type" name="connection_type"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                                <option value="">Select type</option>
-                                <option value="Domestic" @selected(old('connection_type') == 'Domestic')>Domestic</option>
-                                <option value="Commercial" @selected(old('connection_type') == 'Commercial')>Commercial</option>
-                                <option value="Industrial" @selected(old('connection_type') == 'Industrial')>Industrial</option>
-                            </select>
-                        </div>
+                    <!-- Subdivision -->
+                    <div x-show="step >= 6" x-transition>
+                        <label for="subdivision_id_field" class="block text-sm font-medium text-gray-700 mb-2">Subdivision <span class="text-red-500">*</span></label>
+                        <select x-model="form.subdivision_id" @change="checkStep(6)" name="subdivision_id" :disabled="step < 6"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            id="subdivision_id_field" required>
+                            <option value="">Select Subdivision</option>
+                            @foreach ($subdivisions ?? [] as $sd)
+                                <option value="{{ $sd->id }}" @selected(old('subdivision_id') == $sd->id)>{{ $sd->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <button type="submit" :disabled="submitting"
-                            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                            <template x-if="!submitting">Submit Application</template>
+                    <!-- Meter Number (Optional with AJAX validation) -->
+                    <div x-show="step >= 7" x-transition>
+                        <label for="meter_number_field" class="block text-sm font-medium text-gray-700 mb-2">Meter Number (optional)</label>
+                        <input x-model="form.meter_number" @input="checkMeterNumber" name="meter_number" value="{{ old('meter_number') }}" :disabled="step < 7"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            placeholder="Leave empty if you don't have a meter" id="meter_number_field">
+                        <p x-show="meterChecking" class="text-xs text-blue-600 mt-2 flex items-center">
+                            <svg class="animate-spin h-4 w-4 mr-1" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Checking meter number...
+                        </p>
+                        <p x-show="meterError" class="text-xs text-red-600 mt-2 flex items-center">
+                            <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                            </svg>
+                            This meter number is already registered in the system.
+                        </p>
+                        <p x-show="!meterError && form.meter_number && !meterChecking" class="text-xs text-green-600 mt-2 flex items-center">
+                            <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            Meter number is available.
+                        </p>
+                    </div>
+
+                    <!-- Connection Type -->
+                    <div x-show="step >= 8" x-transition>
+                        <label for="connection_type_field" class="block text-sm font-medium text-gray-700 mb-2">Connection Type <span class="text-red-500">*</span></label>
+                        <select x-model="form.connection_type" @change="checkStep(8)" name="connection_type" :disabled="step < 8"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            id="connection_type_field" required>
+                            <option value="">Select type</option>
+                            <option value="Domestic" @selected(old('connection_type') == 'Domestic')>Domestic</option>
+                            <option value="Commercial" @selected(old('connection_type') == 'Commercial')>Commercial</option>
+                            <option value="Industrial" @selected(old('connection_type') == 'Industrial')>Industrial</option>
+                        </select>
+                    </div>
+
+                    <div x-show="step >= 9" x-transition class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+                        <button type="button" @click="resetForm" class="w-full sm:w-auto px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                            Reset Form
+                        </button>
+                        <button type="submit" :disabled="submitting || meterError || !canSubmit" id="submit_button"
+                            class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                            <template x-if="!submitting">
+                                <span class="flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    Submit Application
+                                </span>
+                            </template>
                             <template x-if="submitting">
-                                <svg class="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3"
-                                        fill="none"></circle>
-                                </svg>
-                                Submitting...
+                                <span class="flex items-center justify-center">
+                                    <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" fill="none"></circle>
+                                    </svg>
+                                    Submitting...
+                                </span>
                             </template>
                         </button>
-
-                        <button type="button" @click="resetForm" class="px-4 py-2 border rounded">Reset</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+</div>
 
-    {{-- small Alpine component script --}}
-    <script>
-        function applicationForm() {
-            return {
-                form: {
-                    application_no: '{{ old('application_no') }}' || '',
-                    customer_name: '{{ addslashes(old('customer_name', '')) }}',
-                    customer_cnic: '{{ old('customer_cnic') }}' || '',
-                    phone: '{{ old('phone') }}' || '',
-                    address: `{{ addslashes(old('address', '')) }}`,
-                    company_id: '{{ old('company_id') }}' || '',
-                    subdivision_id: '{{ old('subdivision_id') }}' || '',
-                    meter_number: '{{ old('meter_number') }}' || '',
-                    connection_type: '{{ old('connection_type') }}' || ''
-                },
-                unlocked: false,
-                submitting: false,
+{{-- small Alpine component script --}}
+<script>
+    function applicationForm() {
+        return {
+            form: {
+                application_no: '',
+                customer_name: '',
+                customer_cnic: '',
+                phone: '',
+                address: '',
+                company_id: '',
+                subdivision_id: '',
+                meter_number: '',
+                connection_type: ''
+            },
+            unlocked: false,
+            step: 0,
+            submitting: false,
+            meterChecking: false,
+            meterError: false,
+            meterCheckTimeout: null,
+            canSubmit: false,
 
-                checkUnlock() {
-                    // unlock when application_no has some characters (you can add regex rules)
-                    this.unlocked = (this.form.application_no && this.form.application_no.trim().length >= 3);
-                },
-
-                submit(e) {
-                    // HTML form element will be submitted via standard POST if you prefer server validation.
-                    // Here we allow JS to submit to keep state for UX.
-                    this.submitting = true;
-                    // create a native form and submit (keeps server behavior)
-                    let form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = '{{ route('applications.store') }}';
-                    // CSRF
-                    let tokenInput = document.createElement('input');
-                    tokenInput.type = 'hidden';
-                    tokenInput.name = '_token';
-                    tokenInput.value = '{{ csrf_token() }}';
-                    form.appendChild(tokenInput);
-                    // append fields
-                    for (const key in this.form) {
-                        let input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = key;
-                        input.value = this.form[key] ?? '';
-                        form.appendChild(input);
-                    }
-                    document.body.appendChild(form);
-                    form.submit();
-                },
-
-                resetForm() {
-                    this.form = {
-                        application_no: '',
-                        customer_name: '',
-                        customer_cnic: '',
-                        phone: '',
-                        address: '',
-                        company_id: '',
-                        subdivision_id: '',
-                        meter_number: '',
-                        connection_type: ''
-                    };
-                    this.unlocked = false;
-                },
-
-                init() {
-                    this.checkUnlock();
+            checkUnlock() {
+                this.unlocked = (this.form.application_no && this.form.application_no.trim().length >= 3);
+                if (this.unlocked && this.step === 0) {
+                    this.step = 1;
                 }
+            },
+
+            checkStep(currentStep) {
+                let value = '';
+                switch(currentStep) {
+                    case 1: value = this.form.customer_name; break;
+                    case 2: value = this.form.customer_cnic; break;
+                    case 3: value = this.form.phone; break;
+                    case 4: value = this.form.address; break;
+                    case 5: value = this.form.company_id; break;
+                    case 6: value = this.form.subdivision_id; break;
+                    case 8: value = this.form.connection_type; break;
+                }
+                
+                if (value && value.toString().trim().length > 0) {
+                    if (this.step === currentStep) {
+                        this.step = currentStep + 1;
+                    }
+                }
+                
+                this.updateCanSubmit();
+            },
+
+            checkMeterNumber() {
+                clearTimeout(this.meterCheckTimeout);
+                this.meterError = false;
+                
+                if (!this.form.meter_number || this.form.meter_number.trim().length === 0) {
+                    this.meterChecking = false;
+                    if (this.step === 7) {
+                        this.step = 8;
+                    }
+                    this.updateCanSubmit();
+                    return;
+                }
+                
+                this.meterChecking = true;
+                
+                this.meterCheckTimeout = setTimeout(() => {
+                    fetch('{{ route("check.meter") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            meter_no: this.form.meter_number
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.meterChecking = false;
+                        this.meterError = data.exists;
+                        if (!data.exists && this.step === 7) {
+                            this.step = 8;
+                        }
+                        this.updateCanSubmit();
+                    })
+                    .catch(error => {
+                        console.error('Error checking meter:', error);
+                        this.meterChecking = false;
+                        this.updateCanSubmit();
+                    });
+                }, 500);
+            },
+
+            updateCanSubmit() {
+                this.canSubmit = this.form.application_no &&
+                                this.form.customer_name &&
+                                this.form.customer_cnic &&
+                                this.form.phone &&
+                                this.form.address &&
+                                this.form.company_id &&
+                                this.form.subdivision_id &&
+                                this.form.connection_type &&
+                                !this.meterError &&
+                                !this.meterChecking;
+                
+                if (this.canSubmit && this.step < 9) {
+                    this.step = 9;
+                }
+            },
+
+            submit(e) {
+                if (!this.canSubmit || this.meterError) {
+                    return false;
+                }
+                
+                this.submitting = true;
+                e.target.submit();
+            },
+
+            resetForm() {
+                this.form = {
+                    application_no: '',
+                    customer_name: '',
+                    customer_cnic: '',
+                    phone: '',
+                    address: '',
+                    company_id: '',
+                    subdivision_id: '',
+                    meter_number: '',
+                    connection_type: ''
+                };
+                this.unlocked = false;
+                this.step = 0;
+                this.meterError = false;
+                this.meterChecking = false;
+                this.canSubmit = false;
+                document.getElementById('application_no_field').focus();
+            },
+
+            init() {
+                this.checkUnlock();
             }
         }
-    </script>
+    }
+</script>
+
+<style>
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+    
+    .animate-fade-in-left {
+        animation: fadeInLeft 0.6s ease-out forwards;
+    }
+    
+    .animate-fade-in-right {
+        animation: fadeInRight 0.6s ease-out forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+    }
+    
+    .animate-shake {
+        animation: shake 0.5s ease-in-out;
+    }
+</style>
 @endsection

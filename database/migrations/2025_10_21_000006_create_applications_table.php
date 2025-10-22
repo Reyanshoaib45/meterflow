@@ -15,14 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('application_no')->unique();
             $table->string('customer_name');
-            $table->text('address');
-            $table->string('phone');
-            $table->string('cnic');
-            $table->string('meter_type')->unique();
-            $table->integer('load_demand');
-            $table->foreignId('subdivision_id')->constrained()->onDelete('cascade');
-            $table->foreignId('company_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('cnic')->nullable();
+            $table->string('meter_type')->nullable();
+            $table->string('meter_number')->nullable();
+            $table->integer('load_demand')->nullable();
+            $table->foreignId('subdivision_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('connection_type')->nullable();
+            $table->string('status')->default('pending');
+            $table->decimal('fee_amount', 10, 2)->nullable();
             $table->timestamps();
         });
     }

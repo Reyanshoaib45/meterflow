@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('meters', function (Blueprint $table) {
             $table->id();
-            $table->string('meter_no');
-            $table->string('meter_make');
-            $table->decimal('reading', 10, 2);
-            $table->string('remarks');
-            $table->string('sim_number');
-            $table->foreignId('application_id')->constrained()->onDelete('cascade');
+            $table->string('meter_no')->unique();
+            $table->string('meter_make')->nullable();
+            $table->decimal('reading', 10, 2)->default(0);
+            $table->text('remarks')->nullable();
+            $table->string('sim_number')->nullable();
+            $table->foreignId('application_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

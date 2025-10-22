@@ -21,6 +21,17 @@ class Meter extends Model
         'remarks',
         'sim_number',
         'application_id',
+        'consumer_id',
+        'subdivision_id',
+        'status',
+        'installed_on',
+        'last_reading',
+        'last_reading_date',
+    ];
+
+    protected $casts = [
+        'installed_on' => 'date',
+        'last_reading_date' => 'date',
     ];
 
     /**
@@ -29,5 +40,29 @@ class Meter extends Model
     public function application()
     {
         return $this->belongsTo(Application::class);
+    }
+
+    /**
+     * Get the consumer that owns the meter.
+     */
+    public function consumer()
+    {
+        return $this->belongsTo(Consumer::class);
+    }
+
+    /**
+     * Get the subdivision that owns the meter.
+     */
+    public function subdivision()
+    {
+        return $this->belongsTo(Subdivision::class);
+    }
+
+    /**
+     * Get the bills for the meter.
+     */
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
     }
 }

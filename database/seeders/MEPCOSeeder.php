@@ -11,6 +11,7 @@ use App\Models\Meter;
 use App\Models\ApplicationHistory;
 use App\Models\ApplicationSummary;
 use App\Models\ExtraSummary;
+use App\Models\GlobalSummary;
 
 class MEPCOSeeder extends Seeder
 {
@@ -52,6 +53,14 @@ class MEPCOSeeder extends Seeder
                     // Create application summary
                     ApplicationSummary::factory()->create([
                         'application_id' => $application->id,
+                    ]);
+                    
+                    // Create global summary for application
+                    GlobalSummary::factory()->create([
+                        'application_id' => $application->id,
+                        'application_no' => $application->application_no,
+                        'customer_name' => $application->customer_name,
+                        'meter_no' => $application->meter_no,
                     ]);
                 }
             }

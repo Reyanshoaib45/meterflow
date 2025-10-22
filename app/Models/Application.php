@@ -26,10 +26,13 @@ class Application extends Model
         'phone',
         'cnic',
         'meter_type',
+        'meter_number',
         'load_demand',
         'subdivision_id',
         'company_id',
+        'connection_type',
         'status',
+        'fee_amount',
     ];
 
     /**

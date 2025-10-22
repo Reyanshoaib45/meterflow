@@ -14,14 +14,11 @@ return new class extends Migration
         Schema::create('application_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('application_id')->constrained()->onDelete('cascade');
-            $table->string('meter_number');
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone_number');
-            $table->foreignId('subdivision_id')->constrained()->onDelete('cascade');
-            $table->foreignId('company_id')->constrained()->onDelete('cascade');
-            $table->enum('action_type', ['submitted', 'verified', 'approved', 'rejected']);
+            $table->foreignId('subdivision_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('action_type'); // submitted, verified, approved, rejected, status_changed, closed
             $table->text('remarks')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }
