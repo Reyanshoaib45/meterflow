@@ -4,8 +4,11 @@
 <div class="max-w-6xl mx-auto px-4 py-8">
     <!-- Hero Section -->
     <div class="text-center mb-16 mt-8">
+        <div class="flex justify-center mb-6">
+            <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-32 w-auto animate-pulse">
+        </div>
         <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Welcome to MEPCO
+            Welcome to Meter Flow Nation
         </h1>
         <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Your trusted partner for electricity connection management
@@ -13,7 +16,7 @@
     </div>
     
     <!-- Main Services Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 max-w-4xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-6xl mx-auto">
         <!-- New Application Card -->
         <div class="bg-white rounded-2xl shadow-xl p-10 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-blue-100 hover:border-blue-300">
             <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -51,11 +54,30 @@
                 </span>
             </a>
         </div>
+        
+        <!-- File Complaint Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-10 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-red-100 hover:border-red-300">
+            <div class="bg-gradient-to-br from-red-500 to-red-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+            </div>
+            <h3 class="text-3xl font-bold text-gray-900 mb-4">File Complaint</h3>
+            <p class="text-gray-600 mb-8 leading-relaxed text-lg">Report any issue or complaint about electricity service or billing</p>
+            <a href="{{ route('file-complaint') }}" class="inline-block bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                <span class="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    File Now
+                </span>
+            </a>
+        </div>
     </div>
     
     <!-- Stats Section -->
     <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16 border border-gray-200">
-        <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Why Choose MEPCO?</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Why Choose Meter Flow Nation?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="text-center">
                 <div class="text-4xl font-bold text-blue-600 mb-2">24/7</div>
@@ -84,7 +106,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span class="font-medium text-lg">1800-MEPCO-HELP</span>
+                <span class="font-medium text-lg">1800-MFN-HELP</span>
             </div>
             <div class="flex items-center justify-center bg-white bg-opacity-20 rounded-lg px-6 py-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

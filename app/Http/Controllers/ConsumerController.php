@@ -41,7 +41,9 @@ class ConsumerController extends Controller
             $query->where('connection_type', $request->connection_type);
         }
 
-        $consumers = $query->latest()->paginate(20);
+        // Use 27 records for initial load, 15 for subsequent pages
+        $perPage = $request->get('page', 1) == 1 ? 27 : 15;
+        $consumers = $query->latest()->paginate($perPage);
         $subdivisions = Subdivision::orderBy('name')->get();
 
         return view('admin.consumers.index', compact('consumers', 'subdivisions'));

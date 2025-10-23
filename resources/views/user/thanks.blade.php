@@ -11,7 +11,7 @@
                 </svg>
             </div>
             <h1 class="text-4xl font-bold text-gray-900 mb-4">Application Submitted Successfully!</h1>
-            <p class="text-xl text-gray-600">Thank you for choosing MEPCO</p>
+            <p class="text-xl text-gray-600">Thank you for choosing Meter Flow Nation</p>
         </div>
 
         <!-- Application Details Card -->

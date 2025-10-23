@@ -6,15 +6,13 @@
         <!-- Header Section -->
         <div class="animate-fade-in-up">
             <div class="flex justify-center">
-                <div class="h-24 w-24 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-xl animate-float">
-                    <i class="fas fa-bolt text-white text-3xl"></i>
-                </div>
+                <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-32 w-auto animate-float">
             </div>
             <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">
                 Sign in to your account
             </h2>
             <p class="mt-2 text-center text-gray-600">
-                MEPCO Electricity Connection Management System
+                Meter Flow Nation - Electricity Connection Management
             </p>
         </div>
 
@@ -111,16 +109,6 @@
                     </div>
                 </form>
             </div>
-        </div>
-        
-        <!-- Sign Up Link -->
-        <div class="animate-fade-in-up text-center" style="animation-delay: 0.3s">
-            <p class="text-sm text-gray-600">
-                Don't have an account? 
-                <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:text-blue-500 transition">
-                    Sign up
-                </a>
-            </p>
         </div>
     </div>
 </div>

@@ -15,9 +15,11 @@ class TariffController extends Controller
      */
     public function index()
     {
+        // Use 27 records for initial load, 15 for subsequent pages
+        $perPage = request()->get('page', 1) == 1 ? 27 : 15;
         $tariffs = Tariff::orderBy('category')
             ->orderBy('from_units')
-            ->paginate(20);
+            ->paginate($perPage);
         
         return view('admin.tariffs.index', compact('tariffs'));
     }

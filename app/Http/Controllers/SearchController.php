@@ -74,7 +74,7 @@ class SearchController extends Controller
     private function searchBills($query)
     {
         return Bill::where(function($q) use ($query) {
-            $q->where('bill_number', 'like', "%{$query}%")
+            $q->where('bill_no', 'like', "%{$query}%")
               ->orWhereHas('consumer', function($q) use ($query) {
                   $q->where('name', 'like', "%{$query}%")
                     ->orWhere('cnic', 'like', "%{$query}%");
@@ -137,10 +137,10 @@ class SearchController extends Controller
                 ->with('consumer:id,name')
                 ->limit(5)
                 ->get(['id', 'meter_no', 'consumer_id']),
-            'bills' => Bill::where('bill_number', 'like', "%{$query}%")
+            'bills' => Bill::where('bill_no', 'like', "%{$query}%")
                 ->with('consumer:id,name')
                 ->limit(5)
-                ->get(['id', 'bill_number', 'consumer_id', 'total_amount']),
+                ->get(['id', 'bill_no', 'consumer_id', 'total_amount']),
             'complaints' => Complaint::where('complaint_id', 'like', "%{$query}%")
                 ->orWhere('subject', 'like', "%{$query}%")
                 ->limit(5)

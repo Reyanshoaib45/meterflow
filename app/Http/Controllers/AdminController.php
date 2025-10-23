@@ -342,6 +342,37 @@ class AdminController extends Controller
         return redirect()->route('admin.subdivisions')
             ->with('success', 'Subdivision deleted successfully.');
     }
+
+    /**
+     * Show form to edit subdivision message.
+     */
+    public function editSubdivisionMessage(Subdivision $subdivision)
+    {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized access. Admin role required.');
+        }
+        
+        return view('admin.subdivisions.message', compact('subdivision'));
+    }
+
+    /**
+     * Update subdivision message.
+     */
+    public function updateSubdivisionMessage(Request $request, Subdivision $subdivision)
+    {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized access. Admin role required.');
+        }
+        
+        $validated = $request->validate([
+            'subdivision_message' => 'nullable|string|max:500',
+        ]);
+        
+        $subdivision->update($validated);
+        
+        return redirect()->route('admin.subdivisions')
+            ->with('success', 'Subdivision message updated successfully.');
+    }
     
     /**
      * Display the users management page.
@@ -384,20 +415,30 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:admin,user,ls',
-            'subdivision_id' => 'required_if:role,ls|nullable|exists:subdivisions,id',
+            'subdivision_ids' => 'required_if:role,ls|array',
+            'subdivision_ids.*' => 'exists:subdivisions,id',
         ]);
         
         $validated['password'] = bcrypt($validated['password']);
         
+        // Remove subdivision_ids from user data (not a column in users table)
+        $subdivisionIds = $validated['subdivision_ids'] ?? [];
+        unset($validated['subdivision_ids']);
+        
+        // Set the first subdivision as primary subdivision_id
+        if ($request->role === 'ls' && !empty($subdivisionIds)) {
+            $validated['subdivision_id'] = $subdivisionIds[0];
+        }
+        
         $user = User::create($validated);
         
-        // Update subdivision ls_id if LS user is created
-        if ($request->role === 'ls' && $request->subdivision_id) {
-            Subdivision::where('id', $request->subdivision_id)->update(['ls_id' => $user->id]);
+        // Update all selected subdivisions with this LS user's ID
+        if ($request->role === 'ls' && !empty($subdivisionIds)) {
+            Subdivision::whereIn('id', $subdivisionIds)->update(['ls_id' => $user->id]);
         }
         
         return redirect()->route('admin.users')
-            ->with('success', 'User created successfully.');
+            ->with('success', 'User created successfully and assigned to ' . count($subdivisionIds) . ' subdivision(s).');
     }
     
     /**
@@ -409,7 +450,9 @@ class AdminController extends Controller
             abort(403, 'Unauthorized access. Admin role required.');
         }
         
-        return view('admin.users.edit', compact('user'));
+        $subdivisions = Subdivision::with('company')->orderBy('name')->get();
+        
+        return view('admin.users.edit', compact('user', 'subdivisions'));
     }
     
     /**
@@ -426,6 +469,8 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'role' => 'required|in:admin,user,ls',
             'password' => 'nullable|string|min:8|confirmed',
+            'subdivision_ids' => 'required_if:role,ls|array',
+            'subdivision_ids.*' => 'exists:subdivisions,id',
         ]);
         
         if (!empty($validated['password'])) {
@@ -434,7 +479,30 @@ class AdminController extends Controller
             unset($validated['password']);
         }
         
+        // Handle subdivision assignments
+        $subdivisionIds = $validated['subdivision_ids'] ?? [];
+        unset($validated['subdivision_ids']);
+        
+        // Set the first subdivision as primary subdivision_id
+        if ($request->role === 'ls' && !empty($subdivisionIds)) {
+            $validated['subdivision_id'] = $subdivisionIds[0];
+        } else {
+            $validated['subdivision_id'] = null;
+        }
+        
         $user->update($validated);
+        
+        // Update subdivision assignments for LS users
+        if ($request->role === 'ls' && !empty($subdivisionIds)) {
+            // Remove this user from previously assigned subdivisions
+            Subdivision::where('ls_id', $user->id)->update(['ls_id' => null]);
+            
+            // Assign to new subdivisions
+            Subdivision::whereIn('id', $subdivisionIds)->update(['ls_id' => $user->id]);
+        } else {
+            // If no longer LS user, remove from all subdivisions
+            Subdivision::where('ls_id', $user->id)->update(['ls_id' => null]);
+        }
         
         return redirect()->route('admin.users')
             ->with('success', 'User updated successfully.');
@@ -470,9 +538,11 @@ class AdminController extends Controller
             abort(403, 'Unauthorized access. Admin role required.');
         }
         
+        // Use 27 records for initial load, 15 for subsequent pages
+        $perPage = request()->get('page', 1) == 1 ? 27 : 15;
         $applications = Application::with(['company', 'subdivision'])
             ->latest()
-            ->paginate(15);
+            ->paginate($perPage);
             
         return view('admin.applications.index', compact('applications'));
     }
@@ -673,5 +743,197 @@ class AdminController extends Controller
         
         return redirect()->route('admin.ls-management')
             ->with('success', 'Subdivision reopened successfully.');
+    }
+    
+    /**
+     * Export all system data.
+     */
+    public function exportData(Request $request)
+    {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized access. Admin role required.');
+        }
+        
+        $type = $request->get('type', 'consumers');
+        
+        switch ($type) {
+            case 'consumers':
+                return $this->exportConsumers();
+            case 'applications':
+                return $this->exportApplications();
+            case 'bills':
+                return $this->exportBills();
+            case 'meters':
+                return $this->exportMeters();
+            case 'complaints':
+                return $this->exportComplaints();
+            default:
+                return redirect()->back()->with('error', 'Invalid export type');
+        }
+    }
+    
+    private function exportConsumers()
+    {
+        $consumers = Consumer::with('subdivision')->get();
+        $filename = 'consumers_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+        
+        $callback = function() use ($consumers) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'Name', 'CNIC', 'Phone', 'Address', 'Subdivision', 'Connection Type', 'Status', 'Created At']);
+            
+            foreach ($consumers as $consumer) {
+                fputcsv($file, [
+                    $consumer->id,
+                    $consumer->name,
+                    $consumer->cnic,
+                    $consumer->phone,
+                    $consumer->address,
+                    $consumer->subdivision->name ?? 'N/A',
+                    $consumer->connection_type,
+                    $consumer->status,
+                    $consumer->created_at,
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
+    }
+    
+    private function exportApplications()
+    {
+        $applications = Application::with(['subdivision', 'company'])->get();
+        $filename = 'applications_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+        
+        $callback = function() use ($applications) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Application No', 'Customer Name', 'CNIC', 'Phone', 'Subdivision', 'Status', 'Fee Amount', 'Created At']);
+            
+            foreach ($applications as $app) {
+                fputcsv($file, [
+                    $app->application_no,
+                    $app->customer_name,
+                    $app->cnic,
+                    $app->phone,
+                    $app->subdivision->name ?? 'N/A',
+                    $app->status,
+                    $app->fee_amount,
+                    $app->created_at,
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
+    }
+    
+    private function exportBills()
+    {
+        $bills = Bill::with(['consumer', 'subdivision'])->get();
+        $filename = 'bills_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+        
+        $callback = function() use ($bills) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Bill No', 'Consumer', 'Month', 'Year', 'Units', 'Amount', 'Paid', 'Status', 'Due Date']);
+            
+            foreach ($bills as $bill) {
+                fputcsv($file, [
+                    $bill->bill_no,
+                    $bill->consumer->name ?? 'N/A',
+                    $bill->billing_month,
+                    $bill->billing_year,
+                    $bill->units_consumed,
+                    $bill->total_amount,
+                    $bill->amount_paid,
+                    $bill->payment_status,
+                    $bill->due_date,
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
+    }
+    
+    private function exportMeters()
+    {
+        $meters = Meter::with(['consumer', 'subdivision'])->get();
+        $filename = 'meters_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+        
+        $callback = function() use ($meters) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Meter No', 'Consumer', 'Make', 'Reading', 'Status', 'Subdivision', 'Installed On']);
+            
+            foreach ($meters as $meter) {
+                fputcsv($file, [
+                    $meter->meter_no,
+                    $meter->consumer->name ?? 'N/A',
+                    $meter->meter_make,
+                    $meter->reading,
+                    $meter->status,
+                    $meter->subdivision->name ?? 'N/A',
+                    $meter->installed_on,
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
+    }
+    
+    private function exportComplaints()
+    {
+        $complaints = Complaint::with(['consumer', 'subdivision'])->get();
+        $filename = 'complaints_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ];
+        
+        $callback = function() use ($complaints) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['Complaint ID', 'Consumer', 'Subject', 'Type', 'Status', 'Priority', 'Created At']);
+            
+            foreach ($complaints as $complaint) {
+                fputcsv($file, [
+                    $complaint->complaint_id,
+                    $complaint->consumer->name ?? 'N/A',
+                    $complaint->subject,
+                    $complaint->complaint_type ?? 'General',
+                    $complaint->status,
+                    $complaint->priority ?? 'normal',
+                    $complaint->created_at,
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
     }
 }

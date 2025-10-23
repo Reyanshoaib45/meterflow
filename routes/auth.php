@@ -12,21 +12,28 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+    // Registration disabled - users must be created by admin
+    Route::get('register', function () {
+        return redirect()->route('login')->with('status', 'Registration is disabled. Please contact the administrator.');
+    })->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('register', function () {
+        return redirect()->route('login')->with('status', 'Registration is disabled. Please contact the administrator.');
+    });
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
-        ->name('password.request');
+    // Password reset disabled - contact admin page instead
+    Route::get('forgot-password', function () {
+        return view('auth.forgot-password');
+    })->name('password.request');
 
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-        ->name('password.email');
+    Route::post('forgot-password', function () {
+        return redirect()->route('password.request')->with('status', 'Please contact the administrator for password reset.');
+    })->name('password.email');
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');

@@ -46,6 +46,11 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $subdivision->applications->count() }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('admin.subdivisions.edit', $subdivision) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                        <a href="{{ route('admin.subdivisions.message', $subdivision) }}" class="text-blue-600 hover:text-blue-900 mr-3" title="Set Custom Message">
+                                            <svg class="w-5 h-5 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                                            </svg>
+                                        </a>
                                         <form action="{{ route('admin.subdivisions.destroy', $subdivision) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')

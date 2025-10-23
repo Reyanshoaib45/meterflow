@@ -22,7 +22,7 @@
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Total Subdivisions -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500 hover-lift animate-fade-in-up">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Subdivisions</p>
@@ -37,7 +37,7 @@
             </div>
 
             <!-- Total Consumers -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500 hover-lift animate-fade-in-up" style="animation-delay: 0.1s">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Consumers</p>
@@ -52,7 +52,7 @@
             </div>
 
             <!-- Active Meters -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500 hover-lift animate-fade-in-up" style="animation-delay: 0.2s">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Active Meters</p>
@@ -290,19 +290,26 @@
                 <h3 class="text-lg font-semibold text-gray-900">Quick Actions</h3>
             </div>
             <div class="p-6">
-                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <a href="{{ route('admin.subdivisions') }}" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 stagger-children">
+                    <a href="{{ route('admin.subdivisions') }}" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition quick-action">
                         <svg class="w-8 h-8 text-blue-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                         </svg>
                         <span class="text-sm font-medium text-gray-700">Subdivisions</span>
                     </a>
 
-                    <a href="{{ route('admin.users') }}" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
+                    <a href="{{ route('admin.users') }}" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition quick-action">
                         <svg class="w-8 h-8 text-green-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                         <span class="text-sm font-medium text-gray-700">SDO Users</span>
+                    </a>
+
+                    <a href="{{ route('admin.companies') }}" class="flex flex-col items-center p-4 bg-amber-50 rounded-lg hover:bg-amber-100 transition quick-action">
+                        <svg class="w-8 h-8 text-amber-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        <span class="text-sm font-medium text-gray-700">Companies</span>
                     </a>
 
                     <a href="{{ route('admin.meters.index') }}" class="flex flex-col items-center p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition">
@@ -368,7 +375,7 @@
                         <span class="text-sm font-medium text-gray-700">Global Summaries</span>
                     </a>
 
-                    <a href="{{ route('admin.ls-management') }}" class="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
+                    <a href="{{ route('admin.ls-management') }}" class="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition quick-action">
                         <svg class="w-8 h-8 text-orange-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

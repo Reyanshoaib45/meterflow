@@ -31,12 +31,64 @@ class ApplicationController extends Controller
         $meterNo = $request->input('meter_no');
         
         if (empty($meterNo)) {
-            return response()->json(['exists' => false]);
+            return response()->json(['available' => false, 'message' => 'Enter meter number']);
         }
         
-        $exists = Meter::where('meter_no', $meterNo)->exists();
+        $meter = Meter::where('meter_no', $meterNo)->first();
         
-        return response()->json(['exists' => $exists]);
+        if ($meter) {
+            return response()->json([
+                'available' => true, 
+                'exists' => true,
+                'message' => 'Meter number is available',
+                'meter' => [
+                    'consumer' => $meter->consumer->name ?? 'N/A',
+                    'status' => $meter->status
+                ]
+            ]);
+        }
+        
+        return response()->json([
+            'available' => false,
+            'exists' => false, 
+            'message' => 'Meter number not found in system'
+        ]);
+    }
+    
+    /**
+     * Check if application number is valid (AJAX).
+     */
+    public function checkApplicationNumber(Request $request)
+    {
+        $applicationNo = $request->input('application_no');
+        
+        if (empty($applicationNo)) {
+            return response()->json(['available' => true, 'message' => '']);
+        }
+        
+        $application = Application::where('application_no', $applicationNo)->first();
+        
+        // If no application exists, it's available
+        if (!$application) {
+            return response()->json([
+                'available' => true,
+                'message' => 'Application number is available'
+            ]);
+        }
+        
+        // If application exists and is rejected, show error
+        if ($application->status === 'rejected') {
+            return response()->json([
+                'available' => false,
+                'message' => 'This application number was rejected. Please use a different number.'
+            ]);
+        }
+        
+        // If application exists but not rejected, allow it
+        return response()->json([
+            'available' => true,
+            'message' => 'Application number is available (existing application is ' . $application->status . ')'
+        ]);
     }
     public function track(Request $request)
     {

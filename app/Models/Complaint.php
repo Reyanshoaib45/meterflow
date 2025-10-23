@@ -13,6 +13,7 @@ class Complaint extends Model
         'complaint_id',
         'consumer_id',
         'subdivision_id',
+        'company_id',
         'type',
         'subject',
         'description',
@@ -22,6 +23,10 @@ class Complaint extends Model
         'created_by',
         'resolved_at',
         'resolution_notes',
+        'customer_name',
+        'phone',
+        'consumer_ref',
+        'complaint_type',
     ];
 
     protected $casts = [
@@ -42,6 +47,14 @@ class Complaint extends Model
     public function subdivision()
     {
         return $this->belongsTo(Subdivision::class);
+    }
+
+    /**
+     * Get the company that owns the complaint.
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     /**

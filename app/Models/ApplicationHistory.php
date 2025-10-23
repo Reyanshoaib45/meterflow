@@ -24,6 +24,7 @@ class ApplicationHistory extends Model
         'company_id',
         'action_type',
         'remarks',
+        'user_id',
     ];
 
     /**
@@ -48,5 +49,13 @@ class ApplicationHistory extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+    
+    /**
+     * Get the user who made the change.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -4,15 +4,11 @@
             <!-- About Section -->
             <div>
                 <div class="flex items-center mb-4">
-                    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <span class="text-2xl font-bold">MEPCO</span>
+                    <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-12 w-auto mr-3">
+                    <span class="text-2xl font-bold">Meter Flow Nation</span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed">
-                    Multan Electric Power Company - Providing reliable electricity services to millions of customers across Pakistan.
+                    Your trusted partner for electricity connection management - Providing reliable electricity services to millions of customers across Pakistan.
                 </p>
             </div>
 
@@ -74,7 +70,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                         </svg>
-                        <span class="text-gray-400 text-sm">1800-MEPCO-HELP<br>Available 24/7</span>
+                        <span class="text-gray-400 text-sm">1800-MFN-HELP<br>Available 24/7</span>
                     </li>
                     <li class="flex items-start">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -94,11 +90,12 @@
         </div>
 
         <!-- Bottom Bar -->
-        <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-gray-400 text-sm">
-                © {{ date('Y') }} MEPCO. All rights reserved.
-            </p>
-            <div class="flex space-x-6 mt-4 md:mt-0">
+        <div class="border-t border-gray-800 mt-8 pt-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+                <p class="text-gray-400 text-sm">
+                    © {{ date('Y') }} Meter Flow Nation. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
                 <a href="#" class="text-gray-400 hover:text-white transition-colors">
                     <span class="sr-only">Facebook</span>
                     <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -117,6 +114,15 @@
                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                     </svg>
                 </a>
+            </div>
+            </div>
+            
+            <!-- Developer Credit -->
+            <div class="text-center pt-4 border-t border-gray-800">
+                <p class="text-gray-500 text-sm animate-pulse">
+                    Powered and Managed by 
+                    <span class="text-blue-400 font-semibold hover:text-blue-300 transition-colors">Reyan Shoaib</span>
+                </p>
             </div>
         </div>
     </div>

@@ -40,7 +40,9 @@ class MeterController extends Controller
             $query->where('subdivision_id', $request->subdivision_id);
         }
 
-        $meters = $query->latest()->paginate(20);
+        // Use 27 records for initial load, 15 for subsequent pages
+        $perPage = $request->get('page', 1) == 1 ? 27 : 15;
+        $meters = $query->latest()->paginate($perPage);
         $subdivisions = Subdivision::orderBy('name')->get();
 
         return view('admin.meters.index', compact('meters', 'subdivisions'));

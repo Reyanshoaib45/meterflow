@@ -4,20 +4,16 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="flex items-center">
-                        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 w-8 h-8 rounded-lg flex items-center justify-center mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
-                        </div>
-                        <span class="text-xl font-bold text-gray-900">MEPCO</span>
+                    <a href="{{ route('landing') }}" class="flex items-center gap-2">
+                        <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-10 w-auto">
+                        <span class="text-xl font-bold text-white">Meter Flow Nation</span>
                     </a>
                 </div>
 
                 @if(Auth::check())
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300">
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                         
@@ -117,9 +113,6 @@
                     </a>
                     <a href="{{ route('ls.select-subdivision') }}" class="text-sm font-medium text-green-600 hover:text-green-900 transition duration-300">
                         {{ __('LS Login') }}
-                    </a>
-                    <a href="{{ route('register') }}" class="text-sm font-medium bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition duration-300 shadow-md hover:shadow-lg">
-                        {{ __('Register') }}
                     </a>
                 </div>
             @endif
@@ -228,12 +221,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                     {{ __('LS Login') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('register')" class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
-                    {{ __('Register') }}
                 </x-responsive-nav-link>
             </div>
         @endif

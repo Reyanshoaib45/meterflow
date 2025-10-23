@@ -372,11 +372,16 @@ class LsController extends Controller
         }
         
         $validated = $request->validate([
-            'total_applications' => 'required|integer|min:0',
-            'approved_count' => 'required|integer|min:0',
-            'rejected_count' => 'required|integer|min:0',
-            'pending_count' => 'required|integer|min:0',
-            'last_updated' => 'required|date',
+            'application_no' => 'required|string|max:255',
+            'customer_name' => 'required|string|max:255',
+            'meter_no' => 'nullable|string|max:255',
+            'sim_date' => 'nullable|date',
+            'date_on_draft_store' => 'nullable|date',
+            'date_received_lm_consumer' => 'nullable|date',
+            'customer_mobile_no' => 'nullable|string|max:20',
+            'customer_sc_no' => 'nullable|string|max:255',
+            'date_return_sdc_billing' => 'nullable|date',
+            'application_id' => 'nullable|exists:applications,id',
         ]);
         
         $validated['company_id'] = $subdivision->company_id;
@@ -420,11 +425,16 @@ class LsController extends Controller
         $oldValues = $extraSummary->toArray();
         
         $validated = $request->validate([
-            'total_applications' => 'required|integer|min:0',
-            'approved_count' => 'required|integer|min:0',
-            'rejected_count' => 'required|integer|min:0',
-            'pending_count' => 'required|integer|min:0',
-            'last_updated' => 'required|date',
+            'application_no' => 'required|string|max:255',
+            'customer_name' => 'required|string|max:255',
+            'meter_no' => 'nullable|string|max:255',
+            'sim_date' => 'nullable|date',
+            'date_on_draft_store' => 'nullable|date',
+            'date_received_lm_consumer' => 'nullable|date',
+            'customer_mobile_no' => 'nullable|string|max:20',
+            'customer_sc_no' => 'nullable|string|max:255',
+            'date_return_sdc_billing' => 'nullable|date',
+            'application_id' => 'nullable|exists:applications,id',
         ]);
         
         $extraSummary->update($validated);
@@ -459,16 +469,28 @@ class LsController extends Controller
     /**
      * View meter store.
      */
-    public function meterStore()
+    public function meterStore(Request $request)
     {
         $user = Auth::user();
         $subdivisions = Subdivision::where('ls_id', $user->id)->get();
         $currentSubdivisionId = session('current_subdivision_id', $subdivisions->first()->id ?? null);
         
-        $meters = Meter::where('subdivision_id', $currentSubdivisionId)
-            ->with(['consumer', 'application'])
-            ->latest()
-            ->paginate(20);
+        $query = Meter::where('subdivision_id', $currentSubdivisionId)
+            ->with(['consumer', 'application']);
+        
+        // Search functionality
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('meter_no', 'like', "%{$search}%")
+                  ->orWhere('meter_make', 'like', "%{$search}%")
+                  ->orWhereHas('consumer', function($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+            });
+        }
+        
+        $meters = $query->latest()->paginate(20);
         
         $stats = [
             'total' => Meter::where('subdivision_id', $currentSubdivisionId)->count(),

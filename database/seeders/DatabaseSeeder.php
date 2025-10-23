@@ -200,16 +200,24 @@ class DatabaseSeeder extends Seeder
                 }
             }
 
-            // Create extra summaries
-            ExtraSummary::create([
-                'company_id' => $subdivision->company_id,
-                'subdivision_id' => $subdivision->id,
-                'total_applications' => 10,
-                'approved_count' => Application::where('subdivision_id', $subdivision->id)->where('status', 'approved')->count(),
-                'rejected_count' => Application::where('subdivision_id', $subdivision->id)->where('status', 'rejected')->count(),
-                'pending_count' => Application::where('subdivision_id', $subdivision->id)->where('status', 'pending')->count(),
-                'last_updated' => now(),
-            ]);
+            // Create extra summaries (using first application as example)
+            $firstApp = Application::where('subdivision_id', $subdivision->id)->first();
+            if ($firstApp) {
+                ExtraSummary::create([
+                    'company_id' => $subdivision->company_id,
+                    'subdivision_id' => $subdivision->id,
+                    'application_no' => $firstApp->application_no,
+                    'customer_name' => $firstApp->customer_name,
+                    'meter_no' => $firstApp->meter_number,
+                    'sim_date' => now()->subDays(fake()->numberBetween(1, 30)),
+                    'date_on_draft_store' => now()->subDays(fake()->numberBetween(1, 25)),
+                    'date_received_lm_consumer' => now()->subDays(fake()->numberBetween(1, 20)),
+                    'customer_mobile_no' => $firstApp->phone,
+                    'customer_sc_no' => fake()->numerify('SC-########'),
+                    'date_return_sdc_billing' => now()->subDays(fake()->numberBetween(1, 15)),
+                    'application_id' => $firstApp->id,
+                ]);
+            }
         }
 
         // 6. Create Bills

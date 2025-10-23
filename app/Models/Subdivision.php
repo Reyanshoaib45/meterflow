@@ -23,6 +23,7 @@ class Subdivision extends Model
         'code',
         'ls_id',
         'is_active',
+        'subdivision_message',
     ];
 
     /**

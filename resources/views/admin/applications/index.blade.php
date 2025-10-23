@@ -28,7 +28,7 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-gray-200" data-infinite-scroll data-next-page="{{ $applications->nextPageUrl() }}">
                             @forelse($applications as $application)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $application->application_no }}</td>
@@ -60,9 +60,6 @@
                     </table>
                 </div>
 
-                <div class="mt-4">
-                    {{ $applications->links() }}
-                </div>
             </div>
         </div>
     </div>

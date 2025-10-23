@@ -51,7 +51,9 @@ class BillingController extends Controller
             $query->where('billing_year', $request->year);
         }
 
-        $bills = $query->latest()->paginate(20);
+        // Use 27 records for initial load, 15 for subsequent pages
+        $perPage = $request->get('page', 1) == 1 ? 27 : 15;
+        $bills = $query->latest()->paginate($perPage);
         $subdivisions = Subdivision::orderBy('name')->get();
 
         // Statistics

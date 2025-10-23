@@ -50,7 +50,9 @@ class ComplaintController extends Controller
             $query->where('priority', $request->priority);
         }
 
-        $complaints = $query->latest()->paginate(20);
+        // Use 27 records for initial load, 15 for subsequent pages
+        $perPage = $request->get('page', 1) == 1 ? 27 : 15;
+        $complaints = $query->latest()->paginate($perPage);
         $subdivisions = Subdivision::orderBy('name')->get();
         $sdoUsers = User::where('role', 'ls')->orderBy('name')->get();
 
@@ -352,5 +354,55 @@ class ComplaintController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Store a public complaint (from non-logged-in users).
+     */
+    public function storePublicComplaint(Request $request)
+    {
+        $validated = $request->validate([
+            'company_id' => 'required|exists:companies,id',
+            'subdivision_id' => 'required|exists:subdivisions,id',
+            'customer_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'consumer_ref' => 'nullable|string|max:255',
+            'complaint_type' => 'required|string|in:billing,power_outage,meter,service,other',
+            'subject' => 'required|string|max:255',
+            'description' => 'required|string',
+            'priority' => 'required|string|in:normal,high,urgent',
+        ]);
+
+        // Generate unique complaint ID
+        $complaintId = 'CMP-' . strtoupper(uniqid());
+
+        // Create the complaint
+        $complaint = Complaint::create([
+            'complaint_id' => $complaintId,
+            'company_id' => $validated['company_id'],
+            'subdivision_id' => $validated['subdivision_id'],
+            'customer_name' => $validated['customer_name'],
+            'phone' => $validated['phone'],
+            'consumer_ref' => $validated['consumer_ref'] ?? null,
+            'complaint_type' => $validated['complaint_type'],
+            'type' => $validated['complaint_type'], // Also set type field
+            'subject' => $validated['subject'],
+            'description' => $validated['description'],
+            'priority' => $validated['priority'],
+            'status' => 'pending',
+        ]);
+
+        // Create history record
+        ComplaintHistory::create([
+            'complaint_id' => $complaint->id,
+            'action_type' => 'created',
+            'description' => 'Complaint filed by customer',
+            'status_from' => null,
+            'status_to' => 'pending',
+        ]);
+
+        return redirect()->route('file-complaint')
+            ->with('success', 'Your complaint has been successfully submitted!')
+            ->with('complaint_id', $complaintId);
     }
 }

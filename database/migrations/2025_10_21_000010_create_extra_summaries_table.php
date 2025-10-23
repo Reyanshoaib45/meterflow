@@ -15,11 +15,16 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->foreignId('subdivision_id')->constrained()->onDelete('cascade');
-            $table->integer('total_applications');
-            $table->integer('approved_count');
-            $table->integer('rejected_count');
-            $table->integer('pending_count');
-            $table->timestamp('last_updated')->nullable();
+            $table->string('application_no');
+            $table->string('customer_name');
+            $table->string('meter_no')->nullable();
+            $table->date('sim_date')->nullable();
+            $table->date('date_on_draft_store')->nullable();
+            $table->date('date_received_lm_consumer')->nullable();
+            $table->string('customer_mobile_no', 20)->nullable();
+            $table->string('customer_sc_no')->nullable();
+            $table->date('date_return_sdc_billing')->nullable();
+            $table->foreignId('application_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

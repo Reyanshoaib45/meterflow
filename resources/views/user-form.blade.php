@@ -105,12 +105,32 @@
                     <input x-model="form.application_no" @input="checkUnlock" @keydown.enter="focusNext('customer_name_field')" name="application_no"
                         value="{{ old('application_no') }}"
                         class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                        placeholder="Enter application number" required id="application_no_field">
-                    <p x-show="!unlocked" class="text-xs text-gray-500 mt-2 flex items-center">
+                        placeholder="Enter unique application number (e.g., APP-2024-001)" required id="application_no_field"
+                        pattern="[A-Za-z0-9-]+" title="Alphanumeric characters and hyphen only">
+                    <p x-show="applicationChecking" class="text-xs text-blue-600 mt-2 flex items-center">
+                        <svg class="animate-spin h-4 w-4 mr-1" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Checking availability...
+                    </p>
+                    <p x-show="!applicationChecking && applicationAvailable && form.application_no" class="text-xs text-green-600 mt-2 flex items-center">
+                        <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span x-text="applicationMessage"></span>
+                    </p>
+                    <p x-show="!applicationChecking && !applicationAvailable && form.application_no" class="text-xs text-red-600 mt-2 flex items-center">
+                        <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span x-text="applicationMessage"></span>
+                    </p>
+                    <p x-show="!unlocked && !form.application_no" class="text-xs text-gray-500 mt-2 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        Enter application number to unlock rest of the form.
+                        Enter unique application number to unlock rest of the form.
                     </p>
                 </div>
 
@@ -127,9 +147,13 @@
                     <!-- CNIC -->
                     <div x-show="step >= 2" x-transition>
                         <label for="customer_cnic_field" class="block text-sm font-medium text-gray-700 mb-2">CNIC <span class="text-red-500">*</span></label>
-                        <input x-model="form.customer_cnic" @input="checkStep(2)" name="customer_cnic" value="{{ old('customer_cnic') }}" :disabled="step < 2"
+                        <input x-model="form.customer_cnic" @input="validateCnic(); checkStep(2)" name="customer_cnic" value="{{ old('customer_cnic') }}" :disabled="step < 2"
                             class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
-                            placeholder="xxxxx-xxxxxxx-x" id="customer_cnic_field" required>
+                            placeholder="3520212345671 (13 digits)" id="customer_cnic_field" required
+                            pattern="[0-9]{13}" maxlength="13" title="CNIC must be 13 digits">
+                        <p x-show="cnicError" class="text-xs text-red-600 mt-1">
+                            <i class="fas fa-exclamation-circle"></i> CNIC must be exactly 13 numeric digits
+                        </p>
                     </div>
 
                     <!-- Phone -->
@@ -152,7 +176,7 @@
                     <div x-show="step >= 5" x-transition>
                         <label for="company_id_field" class="block text-sm font-medium text-gray-700 mb-2">Company <span class="text-red-500">*</span></label>
                         <select x-model="form.company_id" @change="checkStep(5)" name="company_id" :disabled="step < 5"
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            class="no-select2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
                             id="company_id_field" required>
                             <option value="">Select Company</option>
                             @foreach ($companies ?? [] as $company)
@@ -165,7 +189,7 @@
                     <div x-show="step >= 6" x-transition>
                         <label for="subdivision_id_field" class="block text-sm font-medium text-gray-700 mb-2">Subdivision <span class="text-red-500">*</span></label>
                         <select x-model="form.subdivision_id" @change="checkStep(6)" name="subdivision_id" :disabled="step < 6"
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                            class="no-select2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
                             id="subdivision_id_field" required>
                             <option value="">Select Subdivision</option>
                             @foreach ($subdivisions ?? [] as $sd)
@@ -175,11 +199,12 @@
                     </div>
 
                     <!-- Meter Number (Optional with AJAX validation) -->
-                    <div x-show="step >= 7" x-transition>
+                    <div x-show="step >= 6" x-transition>
                         <label for="meter_number_field" class="block text-sm font-medium text-gray-700 mb-2">Meter Number (optional)</label>
-                        <input x-model="form.meter_number" @input="checkMeterNumber" name="meter_number" value="{{ old('meter_number') }}" :disabled="step < 7"
+                        <input x-model="form.meter_number" @input="checkMeterNumber" name="meter_number" value="{{ old('meter_number') }}" :disabled="step < 6"
                             class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
-                            placeholder="Leave empty if you don't have a meter" id="meter_number_field">
+                            placeholder="Enter meter number (e.g., MTR-12345)" id="meter_number_field"
+                            pattern="[A-Za-z0-9-]+" title="Alphanumeric characters and hyphen only">
                         <p x-show="meterChecking" class="text-xs text-blue-600 mt-2 flex items-center">
                             <svg class="animate-spin h-4 w-4 mr-1" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
@@ -187,25 +212,25 @@
                             </svg>
                             Checking meter number...
                         </p>
-                        <p x-show="meterError" class="text-xs text-red-600 mt-2 flex items-center">
-                            <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                            </svg>
-                            This meter number is already registered in the system.
-                        </p>
-                        <p x-show="!meterError && form.meter_number && !meterChecking" class="text-xs text-green-600 mt-2 flex items-center">
+                        <p x-show="meterAvailable && !meterChecking && form.meter_number" class="text-xs text-green-600 mt-2 flex items-center">
                             <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            Meter number is available.
+                            <span x-text="meterMessage"></span>
+                        </p>
+                        <p x-show="meterError && !meterChecking && form.meter_number" class="text-xs text-red-600 mt-2 flex items-center">
+                            <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span x-text="meterMessage"></span>
                         </p>
                     </div>
 
                     <!-- Connection Type -->
-                    <div x-show="step >= 8" x-transition>
+                    <div x-show="step >= 6" x-transition>
                         <label for="connection_type_field" class="block text-sm font-medium text-gray-700 mb-2">Connection Type <span class="text-red-500">*</span></label>
-                        <select x-model="form.connection_type" @change="checkStep(8)" name="connection_type" :disabled="step < 8"
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
+                        <select x-model="form.connection_type" @change="checkStep(8)" name="connection_type" :disabled="step < 6"
+                            class="no-select2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100" 
                             id="connection_type_field" required>
                             <option value="">Select type</option>
                             <option value="Domestic" @selected(old('connection_type') == 'Domestic')>Domestic</option>
@@ -214,7 +239,7 @@
                         </select>
                     </div>
 
-                    <div x-show="step >= 9" x-transition class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+                    <div x-show="step >= 6" x-transition class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
                         <button type="button" @click="resetForm" class="w-full sm:w-auto px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
                             Reset Form
                         </button>
@@ -263,33 +288,111 @@
             step: 0,
             submitting: false,
             meterChecking: false,
+            meterAvailable: false,
             meterError: false,
+            meterMessage: '',
             meterCheckTimeout: null,
+            applicationChecking: false,
+            applicationAvailable: false,
+            applicationMessage: '',
+            applicationCheckTimeout: null,
+            cnicError: false,
             canSubmit: false,
 
             checkUnlock() {
-                this.unlocked = (this.form.application_no && this.form.application_no.trim().length >= 3);
-                if (this.unlocked && this.step === 0) {
-                    this.step = 1;
+                const appNo = this.form.application_no && this.form.application_no.trim();
+                if (appNo && appNo.length >= 3) {
+                    this.checkApplicationNumber();
+                } else {
+                    this.unlocked = false;
+                    this.applicationAvailable = false;
+                }
+            },
+
+            checkApplicationNumber() {
+                clearTimeout(this.applicationCheckTimeout);
+                this.applicationChecking = true;
+                
+                this.applicationCheckTimeout = setTimeout(() => {
+                    fetch('{{ route("check.application") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            application_no: this.form.application_no
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.applicationChecking = false;
+                        this.applicationAvailable = data.available;
+                        this.applicationMessage = data.message;
+                        
+                        if (data.available) {
+                            this.unlocked = true;
+                            if (this.step === 0) {
+                                this.step = 1;
+                            }
+                        } else {
+                            this.unlocked = false;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking application number:', error);
+                        this.applicationChecking = false;
+                    });
+                }, 500);
+            },
+
+            validateCnic() {
+                const cnic = this.form.customer_cnic;
+                // Check if CNIC is exactly 13 digits
+                if (cnic && cnic.length > 0) {
+                    const isValid = /^[0-9]{13}$/.test(cnic);
+                    this.cnicError = !isValid;
+                } else {
+                    this.cnicError = false;
                 }
             },
 
             checkStep(currentStep) {
                 let value = '';
+                let isValid = true;
+                
                 switch(currentStep) {
                     case 1: value = this.form.customer_name; break;
-                    case 2: value = this.form.customer_cnic; break;
+                    case 2: 
+                        value = this.form.customer_cnic;
+                        // Check CNIC is valid (13 digits)
+                        isValid = /^[0-9]{13}$/.test(value);
+                        if (!isValid) this.cnicError = true;
+                        break;
                     case 3: value = this.form.phone; break;
                     case 4: value = this.form.address; break;
-                    case 5: value = this.form.company_id; break;
-                    case 6: value = this.form.subdivision_id; break;
-                    case 8: value = this.form.connection_type; break;
+                    case 5: 
+                        value = this.form.company_id;
+                        break;
+                    case 6: 
+                        value = this.form.subdivision_id;
+                        // Don't auto-advance past 6, all remaining fields show at step 6
+                        break;
+                    case 8: 
+                        value = this.form.connection_type; 
+                        break;
                 }
                 
-                if (value && value.toString().trim().length > 0) {
-                    if (this.step === currentStep) {
+                // Update step if value is valid and filled
+                // Advance steps up to 6, then stop (all remaining fields show at step 6)
+                if (value && value.toString().trim().length > 0 && isValid) {
+                    if (this.step === currentStep && currentStep < 6) {
                         this.step = currentStep + 1;
+                        console.log(`Step advanced from ${currentStep} to ${this.step}`);
                     }
+                    // Don't advance past step 6, all remaining fields are visible
+                } else {
+                    console.log(`Step ${currentStep} not advanced. Value: "${value}", Valid: ${isValid}`);
                 }
                 
                 this.updateCanSubmit();
@@ -301,9 +404,7 @@
                 
                 if (!this.form.meter_number || this.form.meter_number.trim().length === 0) {
                     this.meterChecking = false;
-                    if (this.step === 7) {
-                        this.step = 8;
-                    }
+                    this.meterAvailable = false;
                     this.updateCanSubmit();
                     return;
                 }
@@ -324,14 +425,13 @@
                     .then(response => response.json())
                     .then(data => {
                         this.meterChecking = false;
-                        this.meterError = data.exists;
-                        if (!data.exists && this.step === 7) {
-                            this.step = 8;
-                        }
+                        this.meterAvailable = data.available;
+                        this.meterMessage = data.message;
+                        this.meterError = !data.available;
                         this.updateCanSubmit();
                     })
                     .catch(error => {
-                        console.error('Error checking meter:', error);
+                        console.error('Error checking meter number:', error);
                         this.meterChecking = false;
                         this.updateCanSubmit();
                     });
@@ -340,23 +440,24 @@
 
             updateCanSubmit() {
                 this.canSubmit = this.form.application_no &&
+                                this.applicationAvailable &&
+                                !this.applicationChecking &&
                                 this.form.customer_name &&
                                 this.form.customer_cnic &&
+                                !this.cnicError &&
+                                /^[0-9]{13}$/.test(this.form.customer_cnic) &&
                                 this.form.phone &&
                                 this.form.address &&
                                 this.form.company_id &&
                                 this.form.subdivision_id &&
                                 this.form.connection_type &&
-                                !this.meterError &&
-                                !this.meterChecking;
-                
-                if (this.canSubmit && this.step < 9) {
-                    this.step = 9;
-                }
+                                !this.meterChecking &&
+                                (this.meterAvailable || !this.form.meter_number);
             },
 
             submit(e) {
-                if (!this.canSubmit || this.meterError) {
+                if (!this.canSubmit || !this.applicationAvailable || this.meterError || this.cnicError) {
+                    alert('Please fill all fields correctly before submitting.');
                     return false;
                 }
                 
@@ -380,6 +481,8 @@
                 this.step = 0;
                 this.meterError = false;
                 this.meterChecking = false;
+                this.cnicError = false;
+                this.applicationAvailable = false;
                 this.canSubmit = false;
                 document.getElementById('application_no_field').focus();
             },

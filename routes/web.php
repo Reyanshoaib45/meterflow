@@ -23,6 +23,7 @@ Route::get('/', function(){
 
 Route::get('/track', [ApplicationController::class,'track'])->name('track');
 Route::post('/check-meter', [ApplicationController::class, 'checkMeter'])->name('check.meter');
+Route::post('/check-application-number', [ApplicationController::class, 'checkApplicationNumber'])->name('check.application');
 Route::get('/application/thanks/{application_no}', [ApplicationController::class, 'thanks'])->name('application.thanks');
 Route::post('/application/{application_no}/close', [ApplicationController::class, 'close'])->name('application.close');
 Route::get('/application/{application_no}/invoice', [ApplicationController::class, 'generateInvoice'])->name('application.invoice');
@@ -36,6 +37,12 @@ Route::get('/user-form', function(){
 
 // store form
 Route::post('/applications', [ApplicationController::class,'store'])->name('applications.store');
+
+// Complaint routes (public)
+Route::get('/file-complaint', function(){
+    return view('file-complaint');
+})->name('file-complaint');
+Route::post('/store-complaint', [ComplaintController::class, 'storePublicComplaint'])->name('store-complaint');
 
 
 Route::get('/dashboard', function () {
@@ -68,6 +75,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/subdivisions/{subdivision}/edit', [AdminController::class, 'editSubdivision'])->name('admin.subdivisions.edit');
         Route::put('/admin/subdivisions/{subdivision}', [AdminController::class, 'updateSubdivision'])->name('admin.subdivisions.update');
         Route::delete('/admin/subdivisions/{subdivision}', [AdminController::class, 'destroySubdivision'])->name('admin.subdivisions.destroy');
+        Route::get('/admin/subdivisions/{subdivision}/message', [AdminController::class, 'editSubdivisionMessage'])->name('admin.subdivisions.message');
+        Route::put('/admin/subdivisions/{subdivision}/message', [AdminController::class, 'updateSubdivisionMessage'])->name('admin.subdivisions.update-message');
         
         // Users (SDO Management)
         Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
@@ -176,9 +185,10 @@ Route::middleware('auth')->group(function () {
         // Audit Logs
         Route::get('/admin/activity-logs', [AdminController::class, 'activityLogs'])->name('admin.activity-logs');
         Route::get('/admin/audit-logs', function() {
+            $perPage = request()->get('page', 1) == 1 ? 27 : 15;
             $logs = \App\Models\AuditLog::with('user')
                 ->latest()
-                ->paginate(50);
+                ->paginate($perPage);
             return view('admin.audit-logs.index', compact('logs'));
         })->name('admin.audit-logs');
         
@@ -243,6 +253,13 @@ Route::get('/api/check-meter/{meterNumber}', function($meterNumber) {
     }
     
     return response()->json(['exists' => false]);
+});
+
+Route::get('/api/subdivisions/{companyId}', function($companyId) {
+    $subdivisions = \App\Models\Subdivision::where('company_id', $companyId)
+        ->orderBy('name')
+        ->get(['id', 'name', 'subdivision_message']);
+    return response()->json($subdivisions);
 });
 
 require __DIR__.'/auth.php';

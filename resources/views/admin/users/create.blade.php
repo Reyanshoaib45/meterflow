@@ -52,18 +52,21 @@
                             </select>
                         </div>
 
-                        <div id="subdivision-field" style="display: {{ old('role') == 'ls' ? 'block' : 'none' }};">
-                            <label for="subdivision_id" class="block text-sm font-medium text-gray-700">Subdivision</label>
-                            <select name="subdivision_id" id="subdivision_id" 
+                        <div id="subdivision-field" style="display: none;">
+                            <label for="subdivision_ids" class="block text-sm font-medium text-gray-700">Assign Subdivisions</label>
+                            <select name="subdivision_ids[]" id="subdivision_ids" multiple
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                <option value="">Select Subdivision</option>
                                 @foreach($subdivisions as $subdivision)
-                                    <option value="{{ $subdivision->id }}" {{ old('subdivision_id') == $subdivision->id ? 'selected' : '' }}>
-                                        {{ $subdivision->name }} ({{ $subdivision->code }})
+                                    <option value="{{ $subdivision->id }}" 
+                                        {{ (is_array(old('subdivision_ids')) && in_array($subdivision->id, old('subdivision_ids'))) ? 'selected' : '' }}>
+                                        {{ $subdivision->name }} ({{ $subdivision->code }}) - {{ $subdivision->company->name }}
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="mt-1 text-sm text-gray-500">Select the subdivision this LS user will manage</p>
+                            <p class="mt-1 text-sm text-gray-500">
+                                <i class="fas fa-info-circle text-blue-500"></i>
+                                Select multiple subdivisions from the dropdown
+                            </p>
                         </div>
 
                         <div>
@@ -96,22 +99,35 @@
 </div>
 
 <script>
-function toggleSubdivisionField() {
-    const role = document.getElementById('role').value;
-    const subdivisionField = document.getElementById('subdivision-field');
-    const subdivisionSelect = document.getElementById('subdivision_id');
+$(document).ready(function() {
+    // Initialize Select2 for subdivision multi-select
+    $('#subdivision_ids').select2({
+        theme: 'default',
+        width: '100%',
+        placeholder: 'Select subdivisions',
+        allowClear: true,
+        closeOnSelect: false
+    });
     
-    if (role === 'ls') {
-        subdivisionField.style.display = 'block';
-        subdivisionSelect.required = true;
-    } else {
-        subdivisionField.style.display = 'none';
-        subdivisionSelect.required = false;
-        subdivisionSelect.value = '';
-    }
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', toggleSubdivisionField);
+    // Toggle function
+    window.toggleSubdivisionField = function() {
+        const role = $('#role').val();
+        const subdivisionField = $('#subdivision-field');
+        const subdivisionSelect = $('#subdivision_ids');
+        
+        if (role === 'ls') {
+            subdivisionField.show();
+            subdivisionSelect.prop('required', true);
+        } else {
+            subdivisionField.hide();
+            subdivisionSelect.prop('required', false);
+            // Clear selection using Select2 method
+            subdivisionSelect.val(null).trigger('change');
+        }
+    };
+    
+    // Initialize on page load
+    toggleSubdivisionField();
+});
 </script>
 @endsection

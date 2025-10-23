@@ -62,7 +62,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
+                        <tbody class="bg-white divide-y divide-gray-200" data-infinite-scroll data-next-page="{{ $bills->nextPageUrl() }}">
                             @forelse($bills as $bill)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap font-medium">{{ $bill->bill_no }}</td>
@@ -91,9 +91,6 @@
                     </table>
                 </div>
 
-                <div class="mt-4">
-                    {{ $bills->links() }}
-                </div>
             </div>
         </div>
     </div>

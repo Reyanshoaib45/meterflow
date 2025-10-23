@@ -46,11 +46,32 @@
                             <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
                             <select name="role" id="role" 
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
-                                    required>
+                                    required onchange="toggleSubdivisionField()">
                                 <option value="user" {{ (old('role', $user->role) == 'user') ? 'selected' : '' }}>User</option>
                                 <option value="ls" {{ (old('role', $user->role) == 'ls') ? 'selected' : '' }}>Login Subdivision (LS)</option>
                                 <option value="admin" {{ (old('role', $user->role) == 'admin') ? 'selected' : '' }}>Admin</option>
                             </select>
+                        </div>
+
+                        <div id="subdivision-field" style="display: none;">
+                            <label for="subdivision_ids" class="block text-sm font-medium text-gray-700">Assign Subdivisions</label>
+                            <select name="subdivision_ids[]" id="subdivision_ids" multiple
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                @foreach($subdivisions as $subdivision)
+                                    @php
+                                        $isAssigned = $user->subdivisions->contains($subdivision->id);
+                                        $isOldSelected = is_array(old('subdivision_ids')) && in_array($subdivision->id, old('subdivision_ids'));
+                                    @endphp
+                                    <option value="{{ $subdivision->id }}" 
+                                        {{ ($isOldSelected || (!old('subdivision_ids') && $isAssigned)) ? 'selected' : '' }}>
+                                        {{ $subdivision->name }} ({{ $subdivision->code }}) - {{ $subdivision->company->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <p class="mt-1 text-sm text-gray-500">
+                                <i class="fas fa-info-circle text-blue-500"></i>
+                                Select multiple subdivisions from the dropdown
+                            </p>
                         </div>
 
                         <div>
@@ -79,4 +100,37 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    // Initialize Select2 for subdivision multi-select
+    $('#subdivision_ids').select2({
+        theme: 'default',
+        width: '100%',
+        placeholder: 'Select subdivisions',
+        allowClear: true,
+        closeOnSelect: false
+    });
+    
+    // Toggle function
+    window.toggleSubdivisionField = function() {
+        const role = $('#role').val();
+        const subdivisionField = $('#subdivision-field');
+        const subdivisionSelect = $('#subdivision_ids');
+        
+        if (role === 'ls') {
+            subdivisionField.show();
+            subdivisionSelect.prop('required', true);
+        } else {
+            subdivisionField.hide();
+            subdivisionSelect.prop('required', false);
+            // Clear selection using Select2 method
+            subdivisionSelect.val(null).trigger('change');
+        }
+    };
+    
+    // Initialize on page load
+    toggleSubdivisionField();
+});
+</script>
 @endsection

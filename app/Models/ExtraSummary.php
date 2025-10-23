@@ -17,11 +17,26 @@ class ExtraSummary extends Model
     protected $fillable = [
         'company_id',
         'subdivision_id',
-        'total_applications',
-        'approved_count',
-        'rejected_count',
-        'pending_count',
-        'last_updated',
+        'application_no',
+        'customer_name',
+        'meter_no',
+        'sim_date',
+        'date_on_draft_store',
+        'date_received_lm_consumer',
+        'customer_mobile_no',
+        'customer_sc_no',
+        'date_return_sdc_billing',
+        'application_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     */
+    protected $casts = [
+        'sim_date' => 'date',
+        'date_on_draft_store' => 'date',
+        'date_received_lm_consumer' => 'date',
+        'date_return_sdc_billing' => 'date',
     ];
 
     /**
@@ -38,5 +53,13 @@ class ExtraSummary extends Model
     public function subdivision()
     {
         return $this->belongsTo(Subdivision::class);
+    }
+    
+    /**
+     * Get the application that owns the extra summary.
+     */
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
     }
 }
