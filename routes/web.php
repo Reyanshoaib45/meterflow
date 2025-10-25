@@ -44,6 +44,17 @@ Route::get('/file-complaint', function(){
 })->name('file-complaint');
 Route::post('/store-complaint', [ComplaintController::class, 'storePublicComplaint'])->name('store-complaint');
 
+// Static Pages
+Route::get('/terms', function(){
+    return view('static.terms');
+})->name('terms');
+Route::get('/privacy', function(){
+    return view('static.privacy');
+})->name('privacy');
+Route::get('/about', function(){
+    return view('static.about');
+})->name('about');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

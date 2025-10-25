@@ -6,7 +6,10 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('landing') }}" class="flex items-center gap-2">
                         <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-10 w-auto">
-                        <span class="text-xl font-bold text-white">Meter Flow Nation</span>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold text-white">Meter Flow Nation ( mepco )</span>
+                            <span class="text-xs text-gray-300">Supported by mepco</span>
+                        </div>
                     </a>
                 </div>
 

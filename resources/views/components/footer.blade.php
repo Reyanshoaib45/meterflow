@@ -5,7 +5,7 @@
             <div>
                 <div class="flex items-center mb-4">
                     <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-12 w-auto mr-3">
-                    <span class="text-2xl font-bold">Meter Flow Nation</span>
+                    <span class="text-2xl font-bold">Meter Flow Nation ( mepco )</span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed">
                     Your trusted partner for electricity connection management - Providing reliable electricity services to millions of customers across Pakistan.
@@ -43,21 +43,41 @@
                 </ul>
             </div>
 
-            <!-- Services -->
+            <!-- Legal & Info -->
             <div>
-                <h3 class="text-lg font-semibold mb-4">Services</h3>
+                <h3 class="text-lg font-semibold mb-4">Legal & Info</h3>
                 <ul class="space-y-2">
                     <li>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">New Connection</a>
+                        <a href="{{ route('about') }}" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            About Us
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Bill Payment</a>
+                        <a href="{{ route('terms') }}" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Terms & Conditions
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Complaint Registration</a>
+                        <a href="{{ route('privacy') }}" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            Privacy Policy
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">Load Management</a>
+                        <a href="{{ route('file-complaint') }}" class="text-gray-400 hover:text-white transition-colors flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            File Complaint
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -70,13 +90,13 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                         </svg>
-                        <span class="text-gray-400 text-sm">1800-MFN-HELP<br>Available 24/7</span>
+                        <span class="text-gray-400 text-sm">03464769301<br>Available 24/7</span>
                     </li>
                     <li class="flex items-start">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <span class="text-gray-400 text-sm">support@mepco.gov.pk</span>
+                        <span class="text-gray-400 text-sm">reyanshoaib45@gmail.com</span>
                     </li>
                     <li class="flex items-start">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -93,7 +113,7 @@
         <div class="border-t border-gray-800 mt-8 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center mb-4">
                 <p class="text-gray-400 text-sm">
-                    © {{ date('Y') }} Meter Flow Nation. All rights reserved.
+                    © {{ date('Y') }} Meter Flow Nation ( mepco ). All rights reserved.
                 </p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
                 <a href="#" class="text-gray-400 hover:text-white transition-colors">
@@ -108,7 +128,7 @@
                         <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
                     </svg>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                <a href="https://www.linkedin.com/in/reyan-shoaib-9582b3387/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
                     <span class="sr-only">LinkedIn</span>
                     <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>

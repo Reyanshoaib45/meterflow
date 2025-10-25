@@ -12,7 +12,7 @@
                 Sign in to your account
             </h2>
             <p class="mt-2 text-center text-gray-600">
-                Meter Flow Nation - Electricity Connection Management
+                Meter Flow Nation ( mepco ) - Electricity Connection Management
             </p>
         </div>
 

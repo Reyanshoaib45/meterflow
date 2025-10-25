@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Meter Flow Nation'),
+    'name' => env('APP_NAME', 'Meter Flow Nation ( mepco )'),
 
     /*
     |--------------------------------------------------------------------------

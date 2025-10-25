@@ -6,7 +6,7 @@
                     <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none">
                         <circle cx="12" cy="12" r="10" fill="#fff" opacity="0.08" />
                     </svg>
-                    <span>{{ config('app.name', 'Meter Flow Nation') }}</span>
+                    <span>{{ config('app.name', 'Meter Flow Nation ( mepco )') }}</span>
                 </a>
             </div>
 
