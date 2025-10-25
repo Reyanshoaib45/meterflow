@@ -8,7 +8,13 @@
 $(document).ready(function() {
     
     // ===================================
-    // Select2 Initialization
+    // Smooth Page Load Effect
+    // ===================================
+    
+    $('body').css('opacity', '0').animate({ opacity: 1 }, 600);
+    
+    // ===================================
+    // Select2 Initialization with Animations
     // ===================================
     
     // Initialize all select elements with select2
@@ -18,7 +24,10 @@ $(document).ready(function() {
         placeholder: function() {
             return $(this).data('placeholder') || 'Select an option';
         },
-        allowClear: true
+        allowClear: true,
+        dropdownCssClass: 'select2-dropdown-animated'
+    }).on('select2:open', function() {
+        $('.select2-dropdown').hide().fadeIn(200);
     });
     
     // Initialize multi-select with special styling
@@ -201,11 +210,11 @@ $(document).ready(function() {
     });
     
     // ===================================
-    // Number Counter Animation
+    // Number Counter Animation (Enhanced)
     // ===================================
     
     function animateCounter(element) {
-        const target = parseInt(element.dataset.count);
+        const target = parseInt(element.dataset.count) || parseInt(element.textContent.replace(/[^0-9]/g, ''));
         const duration = 2000;
         const step = target / (duration / 16);
         let current = 0;
@@ -230,12 +239,40 @@ $(document).ready(function() {
                     entry.target.classList.add('counted');
                 }
             });
+        }, {
+            threshold: 0.5
         });
         
-        document.querySelectorAll('[data-count]').forEach(counter => {
+        // Auto-detect numbers in stat sections and animate them
+        document.querySelectorAll('[data-count], .text-4xl.font-bold').forEach(counter => {
             counterObserver.observe(counter);
         });
     }
+    
+    // ===================================
+    // Button Ripple Effect
+    // ===================================
+    
+    document.querySelectorAll('button, .btn, a[class*="bg-"]').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
     
     // ===================================
     // Back to Top Button
@@ -288,6 +325,32 @@ $(document).ready(function() {
     // Expose globally
     window.showNotification = showNotification;
     
+    
+    // ===================================
+    // Smooth Scroll Reveal
+    // ===================================
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.reveal-on-scroll').forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        element.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        observer.observe(element);
+    });
+    
 });
 
 // ===================================
@@ -300,6 +363,18 @@ window.addEventListener('load', function() {
     
     // Add loaded class to body
     document.body.classList.add('page-loaded');
+    
+    // Smooth entrance for all cards
+    $('.card-hover, .hover-lift').each(function(index) {
+        $(this).css({
+            opacity: 0,
+            transform: 'translateY(20px)'
+        }).delay(index * 100).animate({
+            opacity: 1
+        }, 600, function() {
+            $(this).css('transform', 'translateY(0)');
+        });
+    });
 });
 
 // ===================================

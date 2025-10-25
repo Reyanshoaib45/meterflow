@@ -12,23 +12,23 @@
 
     <div class="relative max-w-6xl mx-auto px-4 py-12">
         <!-- Header Section -->
-        <div class="text-center mb-16 animate-fade-in-up">
-            <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mb-8 shadow-lg animate-pulse-border">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mb-8 shadow-lg animate-pulse-border" data-aos="zoom-in" data-aos-delay="100">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
             </div>
-            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
                 About Us
             </h1>
-            <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="300">
                 Empowering communities through reliable electricity connection management services
             </p>
         </div>
 
         <!-- Mission Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-            <div class="animate-slide-in-left">
+            <div data-aos="fade-right" data-aos-delay="100">
                 <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 hover-lift">
                     <div class="flex items-center mb-6">
                         <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4">
@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="animate-slide-in-right">
+            <div data-aos="fade-left" data-aos-delay="100">
                 <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 hover-lift">
                     <div class="flex items-center mb-6">
                         <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center mr-4">
@@ -67,8 +67,8 @@
         </div>
 
         <!-- Services Section -->
-        <div class="mb-16 animate-fade-in-up">
-            <div class="text-center mb-12">
+        <div class="mb-16">
+            <div class="text-center mb-12" data-aos="fade-up">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">What We Offer</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">
                     Comprehensive electricity connection services designed with you in mind
@@ -76,8 +76,8 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover" data-aos="flip-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-gentle">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -89,8 +89,8 @@
                     </p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover" data-aos="flip-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-heartbeat">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
@@ -102,8 +102,8 @@
                     </p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover">
-                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover" data-aos="flip-up" data-aos-delay="500">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-glow">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>

@@ -108,8 +108,71 @@
     <!-- Infinite Scroll Script -->
     <script src="{{ asset('js/infinite-scroll.js') }}"></script>
     
-     @section('script')
-
-    @show
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Particles.js for Background Animation -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <!-- Initialize Libraries -->
+    <script>
+        // Initialize AOS with enhanced settings
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out-cubic',
+            once: true,
+            offset: 120,
+            delay: 50,
+            anchorPlacement: 'top-bottom',
+            mirror: false,
+            disable: false
+        });
+        
+        // Enhanced smooth scroll with custom easing
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const targetPosition = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add parallax effect on scroll
+        let lastScrollTop = 0;
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollDiff = scrollTop - lastScrollTop;
+            
+            document.querySelectorAll('[data-parallax]').forEach(element => {
+                const speed = element.dataset.parallax || 0.5;
+                const yPos = -(scrollTop * speed);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+            
+            lastScrollTop = scrollTop;
+        }, { passive: true });
+        
+        // Smooth fade-in for images when loaded
+        document.querySelectorAll('img').forEach(img => {
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.6s ease-in-out';
+            
+            if (img.complete) {
+                img.style.opacity = '1';
+            } else {
+                img.addEventListener('load', () => {
+                    img.style.opacity = '1';
+                });
+            }
+        });
+    </script>
+    
 </body>
 </html>

@@ -126,6 +126,66 @@
     }
 }
 
+@keyframes bounce-gentle {
+    0%, 100% { 
+        transform: translateY(0); 
+    }
+    50% { 
+        transform: translateY(-20px); 
+    }
+}
+
+@keyframes shake {
+    0%, 100% { 
+        transform: translateX(0); 
+    }
+    10%, 30%, 50%, 70%, 90% { 
+        transform: translateX(-10px); 
+    }
+    20%, 40%, 60%, 80% { 
+        transform: translateX(10px); 
+    }
+}
+
+@keyframes heartbeat {
+    0%, 100% { 
+        transform: scale(1); 
+    }
+    25% { 
+        transform: scale(1.1); 
+    }
+    50% { 
+        transform: scale(1); 
+    }
+}
+
+@keyframes swing {
+    20% { 
+        transform: rotate(15deg); 
+    }
+    40% { 
+        transform: rotate(-10deg); 
+    }
+    60% { 
+        transform: rotate(5deg); 
+    }
+    80% { 
+        transform: rotate(-5deg); 
+    }
+    100% { 
+        transform: rotate(0deg); 
+    }
+}
+
+@keyframes flip {
+    from { 
+        transform: perspective(400px) rotateY(0); 
+    }
+    to { 
+        transform: perspective(400px) rotateY(360deg); 
+    }
+}
+
 @keyframes shimmer {
     0% { 
         background-position: -1000px 0; 
@@ -183,17 +243,50 @@
     animation: zoom-in 0.5s ease-out forwards;
 }
 
+.animate-bounce-gentle {
+    animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+.animate-shake {
+    animation: shake 0.8s ease-in-out;
+}
+
+.animate-heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.animate-swing {
+    animation: swing 1s ease-in-out;
+}
+
+.animate-flip {
+    animation: flip 0.6s ease-in-out;
+}
+
+/* ===================================
+   Smooth Transitions (Global)
+   =================================== */
+
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button, a, input, select, textarea {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 /* ===================================
    Hover Effects
    =================================== */
 
 .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                box-shadow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 /* ===================================
@@ -207,24 +300,89 @@
 }
 
 /* ===================================
-   Smooth Scrolling
+   Smooth Scrolling & Page Transitions
    =================================== */
 
 html {
     scroll-behavior: smooth;
 }
 
+body {
+    overflow-x: hidden;
+}
+
+/* Page Load Animation */
+body {
+    animation: pageLoad 0.6s ease-out;
+}
+
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth Image Loading */
+img {
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+img:hover {
+    transform: scale(1.02);
+}
+
 /* ===================================
-   Card Hover Effect
+   Card Hover Effect (Enhanced)
    =================================== */
 
 .card-hover {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease-in-out;
+}
+
+.card-hover:hover::before {
+    left: 100%;
 }
 
 .card-hover:hover {
-    transform: scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05) rotate(1deg);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* ===================================
+   Button Smooth Effects
+   =================================== */
+
+.btn, button, a[class*="bg-gradient"] {
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:hover, button:hover, a[class*="bg-gradient"]:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active, button:active, a[class*="bg-gradient"]:active {
+    transform: translateY(0) scale(0.98);
 }
 
 /* ===================================
@@ -296,6 +454,117 @@ html {
 .select2-container--default .select2-results__option[aria-selected=true] {
     background-color: #e0e7ff;
     color: #4338ca;
+}
+
+/* ===================================
+   Form Input Smooth Effects
+   =================================== */
+
+input, textarea, select {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+input:focus, textarea:focus, select:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+}
+
+input:hover, textarea:hover, select:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================================
+   Ripple Effect
+   =================================== */
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ===================================
+   Gradient Text Effect
+   =================================== */
+
+.gradient-text {
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===================================
+   Glass Morphism Effect
+   =================================== */
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-effect:hover {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    transform: translateY(-3px);
+}
+
+/* ===================================
+   Smooth Easing Variables (CSS Custom Properties)
+   =================================== */
+
+:root {
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    --transition-elastic: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ===================================
+   Link Smooth Transitions
+   =================================== */
+
+a {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+a:hover {
+    transform: translateX(2px);
+}
+
+/* ===================================
+   SVG Icon Smooth Animations
+   =================================== */
+
+svg {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+svg:hover {
+    transform: scale(1.1) rotate(5deg);
 }
 
 /* ===================================
