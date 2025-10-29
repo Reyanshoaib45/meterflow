@@ -1,5 +1,28 @@
 @extends('layouts.app')
 
+@section('title', 'About Meter Flow Nation')
+
+@section('canonical')
+    <link rel="canonical" href="{{ url('/about') }}" />
+@endsection
+
+@section('meta')
+    <meta name="description" content="Learn about Meter Flow Nation (mepco) — our mission, vision, services, and team." />
+    <meta name="keywords" content="about mepco, meter flow nation, electricity services pakistan, mission vision mepco, team, services overview" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="About Meter Flow Nation" />
+    <meta property="og:description" content="Empowering communities through reliable electricity connection management services." />
+    <meta property="og:locale" content="en_PK" />
+    <meta property="og:url" content="{{ url('/about') }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:title" content="About Meter Flow Nation" />
+    <meta name="twitter:description" content="Empowering communities through reliable electricity connection management services." />
+    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
+@endsection
+
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
     <!-- Animated Background Elements -->

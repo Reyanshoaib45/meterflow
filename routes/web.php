@@ -31,6 +31,10 @@ Route::post('/maintenance/set', [MaintenanceController::class, 'set'])->name('ma
 Route::get('/maintenance/status', [MaintenanceController::class, 'status'])->name('maintenance.status');
 
 Route::get('/track', [ApplicationController::class,'track'])->name('track');
+// Sitemap (public)
+Route::get('/sitemap.xml', function() {
+    return response()->view('sitemap')->header('Content-Type', 'application/xml');
+});
 Route::post('/check-meter', [ApplicationController::class, 'checkMeter'])->name('check.meter');
 Route::post('/check-application-number', [ApplicationController::class, 'checkApplicationNumber'])->name('check.application');
 Route::get('/application/thanks/{application_no}', [ApplicationController::class, 'thanks'])->name('application.thanks');

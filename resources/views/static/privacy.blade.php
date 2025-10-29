@@ -1,5 +1,25 @@
 @extends('layouts.app')
 
+@section('title', 'Privacy Policy')
+
+@section('canonical')
+    <link rel="canonical" href="{{ url('/privacy') }}" />
+@endsection
+
+@section('meta')
+    <meta name="description" content="Understand how Meter Flow Nation (mepco) collects, uses, and protects your personal information." />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Privacy Policy" />
+    <meta property="og:description" content="Details on data collection, usage, and protection practices." />
+    <meta property="og:url" content="{{ url('/privacy') }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Privacy Policy" />
+    <meta name="twitter:description" content="Details on data collection, usage, and protection practices." />
+    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
+@endsection
+
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50">
     <!-- Animated Background Elements -->

@@ -5,12 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Meter Flow Nation ( mepco )') }}</title>
+    @hasSection('title')
+        <title>@yield('title') - {{ config('app.name', 'Meter Flow Nation ( mepco )') }}</title>
+    @else
+        <title>{{ config('app.name', 'Meter Flow Nation ( mepco )') }}</title>
+    @endif
+
+    @hasSection('canonical')
+        @yield('canonical')
+    @endif
+    @hasSection('meta')
+        @yield('meta')
+    @endif
+    @stack('meta')
+
+    <!-- Default OG site name -->
+    <meta property="og:site_name" content="{{ config('app.name', 'Meter Flow Nation ( mepco )') }}" />
+
+    <!-- Performance hints -->
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//unpkg.com">
+    <link rel="dns-prefetch" href="//code.jquery.com">
+
+    <!-- Preload AOS CSS to reduce render blocking -->
+    <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"></noscript>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/mfn-logo.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/mfn-logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/mfn-logo.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/mfn-logo.png') }}" imagesrcset="{{ asset('images/mfn-logo.png') }} 1x" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -97,37 +124,39 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
     <!-- jQuery (required for Select2) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     
     <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
     
     <!-- Custom Scripts -->
-    <script src="{{ asset('js/custom-scripts.js') }}"></script>
+    <script src="{{ asset('js/custom-scripts.js') }}" defer></script>
     
     <!-- Infinite Scroll Script -->
-    <script src="{{ asset('js/infinite-scroll.js') }}"></script>
+    <script src="{{ asset('js/infinite-scroll.js') }}" defer></script>
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     
-    <!-- Particles.js for Background Animation -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Particles.js will be loaded conditionally below -->
     
     <!-- Initialize Libraries -->
     <script>
-        // Initialize AOS with enhanced settings
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-in-out-cubic',
+        // Initialize AOS with enhanced settings (idle for smoother main thread)
+        const initAOS = () => AOS && AOS.init({
+            duration: 800,
+            easing: 'ease-out',
             once: true,
             offset: 120,
-            delay: 50,
+            delay: 30,
             anchorPlacement: 'top-bottom',
-            mirror: false,
-            disable: false
         });
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => initAOS());
+        } else {
+            window.addEventListener('load', initAOS, { once: true });
+        }
         
         // Enhanced smooth scroll with custom easing
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -159,8 +188,9 @@
             lastScrollTop = scrollTop;
         }, { passive: true });
         
-        // Smooth fade-in for images when loaded
-        document.querySelectorAll('img').forEach(img => {
+        // Default lazy loading for images (opt-out via data-no-lazy)
+        document.querySelectorAll('img:not([data-no-lazy])').forEach(img => {
+            if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
             img.style.opacity = '0';
             img.style.transition = 'opacity 0.6s ease-in-out';
             
@@ -172,6 +202,24 @@
                 });
             }
         });
+
+        // Conditionally load particles.js only if needed
+        const needsParticles = document.getElementById('particles-js') || document.querySelector('[data-particles]');
+        if (needsParticles) {
+            const s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
+            s.defer = true;
+            s.onload = () => {
+                // Initialize with a basic config if a target exists and no config was set
+                if (window.particlesJS && document.getElementById('particles-js')) {
+                    particlesJS('particles-js', {
+                        particles: { number: { value: 40 }, color: { value: '#3b82f6' }, size: { value: 2 } },
+                        interactivity: { events: { onhover: { enable: true, mode: 'repulse' } } }
+                    });
+                }
+            };
+            document.body.appendChild(s);
+        }
     </script>
     
 </body>

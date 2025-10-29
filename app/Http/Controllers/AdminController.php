@@ -100,6 +100,12 @@ class AdminController extends Controller
             ->take(5)
             ->get();
         
+        // Recent users for dashboard (show name, email, role)
+        $recentUsers = User::select('id','name','email','role','created_at')
+            ->latest()
+            ->take(6)
+            ->get();
+        
         // Applications by status
         $applicationStats = Application::select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
@@ -123,7 +129,8 @@ class AdminController extends Controller
             'complaintTrend',
             'subdivisionStats',
             'applicationStats',
-            'billStats'
+            'billStats',
+            'recentUsers'
         ));
     }
     

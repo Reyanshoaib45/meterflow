@@ -1,2 +1,17 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /ls/
+Disallow: /user/
+Disallow: /login
+Disallow: /register
+Disallow: /password/
+Disallow: /applications
+Disallow: /user-form
+
+Allow: /
+Allow: /about
+Allow: /terms
+Allow: /privacy
+Allow: /track
+
+Sitemap: /sitemap.xml

@@ -19,6 +19,39 @@
             </div>
         </div>
 
+        <!-- Recent Users -->
+        <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900">Recent Users</h3>
+                <a href="{{ route('admin.users') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View All</a>
+            </div>
+            <div class="p-6">
+                @if(isset($recentUsers) && $recentUsers->count() > 0)
+                    <div class="divide-y divide-gray-200">
+                        @foreach($recentUsers as $user)
+                            <div class="flex items-center justify-between py-3">
+                                <div class="min-w-0 flex-1">
+                                    <p class="font-medium text-gray-900 truncate">{{ $user->name }}</p>
+                                    <p class="text-sm text-gray-600 truncate">{{ $user->email }}</p>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                        @if($user->role === 'admin') bg-blue-100 text-blue-800 
+                                        @elseif($user->role === 'ls') bg-green-100 text-green-800 
+                                        @else bg-gray-100 text-gray-800 @endif">
+                                        {{ ucfirst($user->role) }}
+                                    </span>
+                                    <span class="text-xs text-gray-500 whitespace-nowrap">{{ $user->created_at->format('Y-m-d') }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-gray-500 text-center py-4">No recent users</p>
+                @endif
+            </div>
+        </div>
+
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" data-aos="fade-up">
             <!-- Total Subdivisions -->

@@ -1,5 +1,28 @@
 @extends('layouts.app')
 
+@section('title', 'Electricity Connection Services in Pakistan')
+
+@section('canonical')
+    <link rel="canonical" href="{{ url('/') }}" />
+@endsection
+
+@section('meta')
+    <meta name="description" content="Apply for new smart meters, track application status, and file complaints. Reliable electricity connection management across Pakistan." />
+    <meta name="keywords" content="MEPCO, meter flow nation, electricity connection, smart meter, new meter request, track application, file complaint, Pakistan electricity services" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Meter Flow Nation — Electricity Connection Services" />
+    <meta property="og:description" content="Apply for smart meters, track applications, and get support 24/7." />
+    <meta property="og:locale" content="en_PK" />
+    <meta property="og:url" content="{{ url('/') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:title" content="Meter Flow Nation — Electricity Connection Services" />
+    <meta name="twitter:description" content="Apply for smart meters, track applications, and get support 24/7." />
+    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
+@endsection
+
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
     <!-- Hero Section -->
@@ -8,7 +31,7 @@
             <img src="{{ asset('images/mfn-logo.png') }}" alt="MEPCO Logo" class="h-32 w-auto">
         </div>
         <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
-            Welcome to Meter Flow Nation ( mepco )
+            Welcome to Meter Flow Nation <br> <span class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"> Supported by mepco ( mepco )</span>
         </h1>
         <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="400">
             Your trusted partner for electricity connection management

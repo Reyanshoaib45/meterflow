@@ -1,5 +1,28 @@
 @extends('layouts.app')
 
+@section('title', 'Terms and Conditions')
+
+@section('canonical')
+    <link rel="canonical" href="{{ url('/terms') }}" />
+@endsection
+
+@section('meta')
+    <meta name="description" content="Please read the terms and conditions for using Meter Flow Nation (mepco) services." />
+    <meta name="keywords" content="mepco terms, terms and conditions, service terms, electricity services pakistan, meter flow nation terms" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Terms and Conditions" />
+    <meta property="og:description" content="Terms governing the use of electricity connection services provided by Meter Flow Nation." />
+    <meta property="og:locale" content="en_PK" />
+    <meta property="og:url" content="{{ url('/terms') }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@" />
+    <meta name="twitter:title" content="Terms and Conditions" />
+    <meta name="twitter:description" content="Terms governing the use of electricity connection services provided by Meter Flow Nation." />
+    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
+@endsection
+
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
     <!-- Animated Background Elements -->

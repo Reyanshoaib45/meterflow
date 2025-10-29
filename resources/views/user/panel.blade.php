@@ -1,5 +1,25 @@
 @extends('layouts.app')
 
+@section('title', 'User Dashboard')
+
+@section('canonical')
+    <link rel="canonical" href="{{ url('/user/panel') }}" />
+@endsection
+
+@section('meta')
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Your personal dashboard for recent activities and applications on Meter Flow Nation." />
+    <meta property="og:title" content="User Dashboard - {{ config('app.name') }}" />
+    <meta property="og:description" content="View your recent activities and applications." />
+    <meta property="og:url" content="{{ url('/user/panel') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="User Dashboard - {{ config('app.name') }}" />
+    <meta name="twitter:description" content="View your recent activities and applications." />
+    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
+@endsection
+
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
     <div class="mb-8" data-aos="fade-down">

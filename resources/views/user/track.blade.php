@@ -1,5 +1,25 @@
 @extends('layouts.app')
 
+@section('title', 'Track Application Status')
+
+@section('canonical')
+    <link rel="canonical" href="{{ url('/track') }}" />
+@endsection
+
+@section('meta')
+    <meta name="description" content="Check the real-time status of your MEPCO electricity connection application using your application number." />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Track Your Application - Meter Flow Nation" />
+    <meta property="og:description" content="Real-time status updates for your electricity connection application." />
+    <meta property="og:url" content="{{ url('/track') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Track Your Application - Meter Flow Nation" />
+    <meta name="twitter:description" content="Real-time status updates for your electricity connection application." />
+    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8">
     <div class="text-center mb-10">
