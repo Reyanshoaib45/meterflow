@@ -13,36 +13,50 @@ use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ConsumerController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\SearchController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\UserPanelController;
 
 Route::get('/', function(){
-    // You can pass companies/subdivisions for selects (fetch from DB)
+    if (!Auth::check()) {
+        return view('auth.role-select');
+    }
     $companies = \App\Models\Company::orderBy('name')->get();
     $subdivisions = \App\Models\Subdivision::orderBy('name')->get();
     return view('landing', compact('companies','subdivisions'));
 })->name('landing');
 
+// Custom maintenance routes (accessible when maintenance middleware is active)
+Route::post('/maintenance/set', [MaintenanceController::class, 'set'])->name('maintenance.set');
+Route::get('/maintenance/status', [MaintenanceController::class, 'status'])->name('maintenance.status');
+
 Route::get('/track', [ApplicationController::class,'track'])->name('track');
 Route::post('/check-meter', [ApplicationController::class, 'checkMeter'])->name('check.meter');
 Route::post('/check-application-number', [ApplicationController::class, 'checkApplicationNumber'])->name('check.application');
 Route::get('/application/thanks/{application_no}', [ApplicationController::class, 'thanks'])->name('application.thanks');
-Route::post('/application/{application_no}/close', [ApplicationController::class, 'close'])->name('application.close');
-Route::get('/application/{application_no}/invoice', [ApplicationController::class, 'generateInvoice'])->name('application.invoice');
 
-// User form route
-Route::get('/user-form', function(){
-    $companies = \App\Models\Company::orderBy('name')->get();
-    $subdivisions = \App\Models\Subdivision::orderBy('name')->get();
-    return view('user-form', compact('companies','subdivisions'));
-})->name('user-form');
+// New Meter Request & Protected actions (auth required)
+Route::middleware('auth')->group(function() {
+    Route::get('/user-form', function(){
+        $companies = \App\Models\Company::orderBy('name')->get();
+        $subdivisions = \App\Models\Subdivision::orderBy('name')->get();
+        return view('user-form', compact('companies','subdivisions'));
+    })->name('user-form');
 
-// store form
-Route::post('/applications', [ApplicationController::class,'store'])->name('applications.store');
+    Route::post('/applications', [ApplicationController::class,'store'])->name('applications.store');
 
-// Complaint routes (public)
-Route::get('/file-complaint', function(){
-    return view('file-complaint');
-})->name('file-complaint');
-Route::post('/store-complaint', [ComplaintController::class, 'storePublicComplaint'])->name('store-complaint');
+    // Application actions
+    Route::post('/application/{application_no}/close', [ApplicationController::class, 'close'])->name('application.close');
+    Route::get('/application/{application_no}/invoice', [ApplicationController::class, 'generateInvoice'])->name('application.invoice');
+
+    // Complaint routes (protected)
+    Route::get('/file-complaint', function(){
+        return view('file-complaint');
+    })->name('file-complaint');
+    Route::post('/store-complaint', [ComplaintController::class, 'storePublicComplaint'])->name('store-complaint');
+});
+
+// (Removed public complaint routes; now protected above)
 
 // Static Pages
 Route::get('/terms', function(){
@@ -213,8 +227,12 @@ Route::middleware('auth')->group(function () {
             'update' => 'admin.global-summaries.update',
             'destroy' => 'admin.global-summaries.destroy',
         ])->parameters(['global-summaries' => 'globalSummary']);
+
     });
     
+    // User Panel (auth only)
+    Route::middleware('auth')->get('/user/panel', [UserPanelController::class, 'index'])->name('user.panel');
+
     // LS Routes
     Route::middleware('ls')->group(function () {
         // Dashboard

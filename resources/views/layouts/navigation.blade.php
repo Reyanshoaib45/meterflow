@@ -16,28 +16,32 @@
                 @if(Auth::check())
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
                         
                         <x-nav-link :href="route('user-form')" :active="request()->routeIs('user-form')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300">
-                            {{ __('New Application') }}
+                            {{ __('New Meter Request') }}
                         </x-nav-link>
                         
-                        <x-nav-link :href="route('track')" :active="request()->routeIs('track')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300">
+                        <x-nav-link :href="route('track')" :active="request()->routeIs('track')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300 hover:border-blue-500 hover:text-blue-600 transform hover:scale-105">
                             {{ __('Track Application') }}
                         </x-nav-link>
-                        
-                        @if(method_exists(Auth::user(), 'isAdmin') && Auth::user()->isAdmin())
-                            <x-nav-link :href="route('admin.global-summaries.index')" :active="request()->routeIs('admin.global-summaries.*')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300">
-                                {{ __('Global Summaries') }}
-                            </x-nav-link>
-                        @endif
-                        
-                        @if(method_exists(Auth::user(), 'isLS') && Auth::user()->isLS())
-                            <x-nav-link :href="route('ls.dashboard')" :active="request()->routeIs('ls.dashboard')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300">
-                                {{ __('LS Dashboard') }}
-                            </x-nav-link>
+                        @php $authUser = Auth::user(); @endphp
+                        @if($authUser)
+                            @if(method_exists($authUser, 'isAdmin') && $authUser->isAdmin())
+                                <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300 hover:border-blue-500 hover:text-blue-600 transform hover:scale-105">
+                                    {{ __('Dashboard') }}
+                                </x-nav-link>
+                                <x-nav-link :href="route('admin.global-summaries.index')" :active="request()->routeIs('admin.global-summaries.*')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300 hover:border-blue-500 hover:text-blue-600 transform hover:scale-105">
+                                    {{ __('Global Summaries') }}
+                                </x-nav-link>
+                            @elseif(method_exists($authUser, 'isLS') && $authUser->isLS())
+                                <x-nav-link :href="route('ls.dashboard')" :active="request()->routeIs('ls.dashboard')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300 hover:border-blue-500 hover:text-blue-600 transform hover:scale-105">
+                                    {{ __('Dashboard') }}
+                                </x-nav-link>
+                            @else
+                                <x-nav-link :href="route('user.panel')" :active="request()->routeIs('user.panel')" class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-300 hover:border-blue-500 hover:text-blue-600 transform hover:scale-105">
+                                    {{ __('Dashboard') }}
+                                </x-nav-link>
+                            @endif
                         @endif
                     </div>
                 @endif
@@ -65,18 +69,42 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')" class="flex items-center">
+                            <x-dropdown-link :href="route('profile.edit')" class="flex items-center hover:bg-gray-50 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
                                 {{ __('Profile') }}
                             </x-dropdown-link>
-                            
+                            @php $authUser = Auth::user(); @endphp
+                            @if($authUser)
+                                @if(method_exists($authUser, 'isAdmin') && $authUser->isAdmin())
+                                    <x-dropdown-link :href="route('admin.dashboard')" class="flex items-center hover:bg-gray-50 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v4H3zM3 9h18v12H3z" />
+                                        </svg>
+                                        {{ __('Dashboard') }}
+                                    </x-dropdown-link>
+                                @elseif(method_exists($authUser, 'isLS') && $authUser->isLS())
+                                    <x-dropdown-link :href="route('ls.dashboard')" class="flex items-center hover:bg-gray-50 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v4H3zM3 9h18v12H3z" />
+                                        </svg>
+                                        {{ __('Dashboard') }}
+                                    </x-dropdown-link>
+                                @else
+                                    <x-dropdown-link :href="route('user.panel')" class="flex items-center hover:bg-gray-50 transition-colors">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v4H3zM3 9h18v12H3z" />
+                                        </svg>
+                                        {{ __('Dashboard') }}
+                                    </x-dropdown-link>
+                                @endif
+                            @endif
                             <x-dropdown-link :href="route('user-form')" class="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
-                                {{ __('New Application') }}
+                                {{ __('New Meter Request') }}
                             </x-dropdown-link>
                             
                             <x-dropdown-link :href="route('track')" class="flex items-center">
@@ -109,13 +137,16 @@
                     </x-dropdown>
                 </div>
             @else
-                <!-- If Not Authenticated -->
-                <div class="hidden sm:flex sm:items-center sm:gap-4">
-                    <a href="{{ route('login') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition duration-300">
-                        {{ __('Admin Login') }}
+                <!-- If Not Authenticated: show static pages only -->
+                <div class="hidden sm:flex sm:items-center sm:gap-6">
+                    <a href="{{ route('about') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition duration-300">
+                        {{ __('About') }}
                     </a>
-                    <a href="{{ route('ls.select-subdivision') }}" class="text-sm font-medium text-green-600 hover:text-green-900 transition duration-300">
-                        {{ __('LS Login') }}
+                    <a href="{{ route('terms') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition duration-300">
+                        {{ __('Terms') }}
+                    </a>
+                    <a href="{{ route('privacy') }}" class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition duration-300">
+                        {{ __('Privacy') }}
                     </a>
                 </div>
             @endif
@@ -151,7 +182,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    {{ __('New Application') }}
+                    {{ __('New Meter Request') }}
                 </x-responsive-nav-link>
                 
                 <x-responsive-nav-link :href="route('track')" :active="request()->routeIs('track')" class="flex items-center">
@@ -164,7 +195,7 @@
                 @if(method_exists(Auth::user(), 'isAdmin') && Auth::user()->isAdmin())
                     <x-responsive-nav-link :href="route('admin.global-summaries.index')" :active="request()->routeIs('admin.global-summaries.*')" class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h14a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
                         {{ __('Global Summaries') }}
                     </x-responsive-nav-link>
@@ -213,17 +244,23 @@
             </div>
         @else
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('login')" class="flex items-center">
+                <x-responsive-nav-link :href="route('about')" class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    {{ __('Admin Login') }}
+                    {{ __('About') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('ls.select-subdivision')" class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                <x-responsive-nav-link :href="route('terms')" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586A1 1 0 0114 4l5 5a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    {{ __('LS Login') }}
+                    {{ __('Terms') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('privacy')" class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 1.657-1.343 3-3 3S6 12.657 6 11s1.343-3 3-3 3 1.343 3 3z" />
+                    </svg>
+                    {{ __('Privacy') }}
                 </x-responsive-nav-link>
             </div>
         @endif

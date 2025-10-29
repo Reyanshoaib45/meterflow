@@ -1,21 +1,21 @@
-<x-guest-layout>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+@extends('layouts.app')
+
+@section('content')
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div class="animate-fade-in-up">
-                <div class="mx-auto h-24 w-24 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                    </svg>
+                <div class="flex justify-center">
+                    <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-32 w-auto animate-float">
                 </div>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">
                     Create your account
                 </h2>
-                <p class="mt-2 text-center text-sm text-gray-600">
-                    MEPCO Electricity Connection Management System
+                <p class="mt-2 text-center text-gray-600">
+                    Meter Flow Nation ( mepco ) - Electricity Connection Management
                 </p>
             </div>
 
-            <div class="animate-fade-in-up animation-delay-100">
+            <div class="animate-fade-in-up" style="animation-delay: 0.2s">
                 <div class="bg-white py-8 px-6 shadow-xl rounded-2xl border border-gray-200">
                     <form method="POST" action="{{ route('register') }}" class="space-y-6">
                         @csrf
@@ -130,26 +130,4 @@
             </div>
         </div>
     </div>
-    
-    <style>
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .animate-fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-        
-        .animation-delay-100 {
-            animation-delay: 0.1s;
-            opacity: 0;
-        }
-    </style>
-</x-guest-layout>
+@endsection

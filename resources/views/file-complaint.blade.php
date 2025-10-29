@@ -96,14 +96,14 @@
                     @enderror
                 </div>
 
-                <!-- Consumer Reference (Optional) -->
+                <!-- Reference Number (Required) -->
                 <div>
                     <label for="consumer_ref" class="block text-sm font-medium text-gray-700 mb-2">
-                        Consumer Reference Number (Optional)
+                        Reference Number <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" name="consumer_ref" id="consumer_ref" value="{{ old('consumer_ref') }}"
+                    <input type="text" name="consumer_ref" id="consumer_ref" value="{{ old('consumer_ref') }}" required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
-                        placeholder="Your consumer reference number">
+                        placeholder="Enter your reference number">
                     @error('consumer_ref')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror

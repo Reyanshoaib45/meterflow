@@ -3,8 +3,8 @@
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
     <div class="text-center mb-10">
-        <h1 class="text-4xl font-bold text-gray-900 mb-3">New Connection Application</h1>
-        <p class="text-xl text-gray-600">Start your electricity connection process today</p>
+        <h1 class="text-4xl font-bold text-gray-900 mb-3">New Meter Request</h1>
+        <p class="text-xl text-gray-600">Application / NOC Form.</p>
     </div>
     
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
@@ -16,10 +16,10 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </div>
-                <h2 class="text-2xl font-bold text-gray-900">Apply for New Connection</h2>
+                <h2 class="text-2xl font-bold text-gray-900">Apply for New Meter</h2>
             </div>
             
-            <p class="text-gray-700 mb-6 leading-relaxed">Enter your application number to start — further fields unlock progressively. You don't need to login.</p>
+            <p class="text-gray-700 mb-6 leading-relaxed">Enter your application number to start — further fields unlock progressively.</p>
 
             <div class="bg-white rounded-lg p-6 mb-6 border border-blue-200">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">

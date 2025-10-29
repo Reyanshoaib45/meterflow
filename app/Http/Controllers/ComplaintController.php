@@ -366,7 +366,7 @@ class ComplaintController extends Controller
             'subdivision_id' => 'required|exists:subdivisions,id',
             'customer_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
-            'consumer_ref' => 'nullable|string|max:255',
+            'consumer_ref' => 'required|string|max:255',
             'complaint_type' => 'required|string|in:billing,power_outage,meter,service,other',
             'subject' => 'required|string|max:255',
             'description' => 'required|string',

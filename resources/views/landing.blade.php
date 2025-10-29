@@ -5,7 +5,7 @@
     <!-- Hero Section -->
     <div class="text-center mb-16 mt-8">
         <div class="flex justify-center mb-6" data-aos="zoom-in" data-aos-duration="1000">
-            <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-32 w-auto animate-float animate-glow">
+            <img src="{{ asset('images/mfn-logo.png') }}" alt="MEPCO Logo" class="h-32 w-auto">
         </div>
         <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
             Welcome to Meter Flow Nation ( mepco )
@@ -17,21 +17,21 @@
     
     <!-- Main Services Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-6xl mx-auto">
-        <!-- New Application Card -->
+        <!-- Request New Smart Meter Card -->
         <div class="bg-white rounded-2xl shadow-xl p-10 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-blue-100 hover:border-blue-300 hover-lift" data-aos="fade-up" data-aos-delay="100">
             <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-pulse-border">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
             </div>
-            <h3 class="text-3xl font-bold text-gray-900 mb-4">Submit Application</h3>
-            <p class="text-gray-600 mb-8 leading-relaxed text-lg">Apply for a new electricity connection quickly and easily. No login required!</p>
+            <h3 class="text-3xl font-bold text-gray-900 mb-4">Request a New Smart Meter</h3>
+            <p class="text-gray-600 mb-8 leading-relaxed text-lg">Apply for a new smart electricity meter quickly and easily.</p>
             <a href="{{ route('user-form') }}" class="inline-block bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                 <span class="flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
-                    Apply Now
+                    Request Now
                 </span>
             </a>
         </div>
@@ -106,13 +106,13 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span class="font-medium text-lg">1800-MFN-HELP</span>
+                <span class="font-medium text-lg">03006380386, 03009615771</span>
             </div>
             <div class="flex items-center justify-center bg-white bg-opacity-20 rounded-lg px-6 py-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span class="font-medium text-lg">support@mepco.gov</span>
+                <span class="font-medium text-lg">meterflownation@gmail.com</span>
             </div>
         </div>
     </div>

@@ -214,7 +214,11 @@ $(document).ready(function() {
     // ===================================
     
     function animateCounter(element) {
-        const target = parseInt(element.dataset.count) || parseInt(element.textContent.replace(/[^0-9]/g, ''));
+        const raw = element.dataset.count;
+        const target = Number(raw);
+        if (!Number.isFinite(target) || target < 0) {
+            return; // Do not animate non-numeric targets
+        }
         const duration = 2000;
         const step = target / (duration / 16);
         let current = 0;
@@ -222,7 +226,7 @@ $(document).ready(function() {
         const timer = setInterval(() => {
             current += step;
             if (current >= target) {
-                element.textContent = target.toLocaleString();
+                element.textContent = Number(target).toLocaleString();
                 clearInterval(timer);
             } else {
                 element.textContent = Math.floor(current).toLocaleString();
@@ -243,8 +247,8 @@ $(document).ready(function() {
             threshold: 0.5
         });
         
-        // Auto-detect numbers in stat sections and animate them
-        document.querySelectorAll('[data-count], .text-4xl.font-bold').forEach(counter => {
+        // Only animate explicit counters marked with data-count
+        document.querySelectorAll('[data-count]').forEach(counter => {
             counterObserver.observe(counter);
         });
     }

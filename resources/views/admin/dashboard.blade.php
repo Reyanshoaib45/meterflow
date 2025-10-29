@@ -20,9 +20,9 @@
         </div>
 
         <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" data-aos="fade-up">
             <!-- Total Subdivisions -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500 hover-lift animate-fade-in-up">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500 hover-lift animate-fade-in-up hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Subdivisions</p>
@@ -37,7 +37,7 @@
             </div>
 
             <!-- Total Consumers -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500 hover-lift animate-fade-in-up" style="animation-delay: 0.1s">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500 hover-lift animate-fade-in-up hover:shadow-2xl hover:-translate-y-1 transition-all duration-300" style="animation-delay: 0.1s">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Consumers</p>
@@ -52,7 +52,7 @@
             </div>
 
             <!-- Active Meters -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500 hover-lift animate-fade-in-up" style="animation-delay: 0.2s">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500 hover-lift animate-fade-in-up hover:shadow-2xl hover:-translate-y-1 transition-all duration-300" style="animation-delay: 0.2s">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Active Meters</p>
@@ -70,7 +70,7 @@
             </div>
 
             <!-- Revenue This Month -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300" data-aos="zoom-in">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Revenue (This Month)</p>
@@ -89,8 +89,8 @@
         </div>
 
         <!-- Secondary Stats Row -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-lg shadow p-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-white rounded-lg shadow p-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <p class="text-sm text-gray-600">Pending Complaints</p>
                 <p class="text-2xl font-bold text-red-600">{{ $stats['complaints']['pending'] }}</p>
             </div>
@@ -111,7 +111,7 @@
         <!-- Main Content Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <!-- Recent Applications -->
-            <div class="bg-white rounded-lg shadow">
+            <div class="bg-white rounded-lg shadow" data-aos="fade-right">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-lg font-semibold text-gray-900">Recent Applications</h3>
                 </div>
@@ -175,7 +175,7 @@
         </div>
 
         <!-- Quick Summary & Export -->
-        <div class="bg-white rounded-lg shadow mb-8">
+        <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
             <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-gray-900">Quick Summary & Data Export</h3>
                 <div class="flex gap-2">
@@ -190,19 +190,19 @@
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="bg-blue-50 p-4 rounded-lg hover:shadow-md transition-all duration-300">
                         <p class="text-sm text-blue-600 font-medium">Total Applications</p>
                         <p class="text-2xl font-bold text-blue-900">{{ \App\Models\Application::count() }}</p>
                     </div>
-                    <div class="bg-green-50 p-4 rounded-lg">
+                    <div class="bg-green-50 p-4 rounded-lg hover:shadow-md transition-all duration-300">
                         <p class="text-sm text-green-600 font-medium">Total Consumers</p>
                         <p class="text-2xl font-bold text-green-900">{{ $stats['consumers'] }}</p>
                     </div>
-                    <div class="bg-yellow-50 p-4 rounded-lg">
+                    <div class="bg-yellow-50 p-4 rounded-lg hover:shadow-md transition-all duration-300">
                         <p class="text-sm text-yellow-600 font-medium">Total Meters</p>
                         <p class="text-2xl font-bold text-yellow-900">{{ $stats['meters']['total'] }}</p>
                     </div>
-                    <div class="bg-purple-50 p-4 rounded-lg">
+                    <div class="bg-purple-50 p-4 rounded-lg hover:shadow-md transition-all duration-300">
                         <p class="text-sm text-purple-600 font-medium">Total Bills</p>
                         <p class="text-2xl font-bold text-purple-900">{{ \App\Models\Bill::count() }}</p>
                     </div>

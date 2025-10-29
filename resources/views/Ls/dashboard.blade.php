@@ -4,7 +4,7 @@
 <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header with Subdivision Selector -->
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-6" data-aos="fade-down">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">LS Dashboard</h1>
                 <p class="text-gray-600 mt-1">Welcome back, {{ Auth::user()->name }}</p>
@@ -29,7 +29,7 @@
 
         <!-- Current Subdivision Info -->
         @if($currentSubdivision)
-            <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-lg p-6 mb-8 text-white">
+            <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-lg p-6 mb-8 text-white" data-aos="fade-up">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-2xl font-bold">{{ $currentSubdivision->name }}</h2>
@@ -48,9 +48,9 @@
         @endif
 
         <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" data-aos="fade-up">
             <!-- Total Applications -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Applications</p>
@@ -65,7 +65,7 @@
             </div>
 
             <!-- Pending Applications -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Pending</p>
@@ -80,7 +80,7 @@
             </div>
 
             <!-- Approved Applications -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Approved</p>
@@ -95,7 +95,7 @@
             </div>
 
             <!-- Total Meters -->
-            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
+            <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Meters</p>
@@ -112,14 +112,14 @@
         </div>
 
         <!-- Quick Actions -->
-        <div class="bg-white rounded-lg shadow mb-8">
+        <div class="bg-white rounded-lg shadow mb-8" data-aos="fade-up">
             <div class="px-6 py-4 border-b border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-900">Quick Actions</h3>
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <a href="{{ route('ls.applications', $currentSubdivision->id ?? 0) }}" 
-                       class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
+                       class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition hover:shadow-md hover:-translate-y-1">
                         <svg class="w-8 h-8 text-blue-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
@@ -127,7 +127,7 @@
                     </a>
 
                     <a href="{{ route('ls.extra-summaries') }}" 
-                       class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition">
+                       class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition hover:shadow-md hover:-translate-y-1">
                         <svg class="w-8 h-8 text-green-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
@@ -135,7 +135,7 @@
                     </a>
 
                     <a href="{{ route('ls.meter-store') }}" 
-                       class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition">
+                       class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition hover:shadow-md hover:-translate-y-1">
                         <svg class="w-8 h-8 text-purple-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
                         </svg>
@@ -143,7 +143,7 @@
                     </a>
 
                     <a href="{{ route('admin.global-summaries.index') }}" 
-                       class="flex flex-col items-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
+                       class="flex flex-col items-center p-4 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition hover:shadow-md hover:-translate-y-1">
                         <svg class="w-8 h-8 text-indigo-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
@@ -156,7 +156,7 @@
         <!-- Main Content Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Recent Applications -->
-            <div class="bg-white rounded-lg shadow">
+            <div class="bg-white rounded-lg shadow" data-aos="fade-right">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-gray-900">Recent Applications</h3>
                     <a href="{{ route('ls.applications', $currentSubdivision->id ?? 0) }}" 
