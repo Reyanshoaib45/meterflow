@@ -55,11 +55,7 @@
     <!-- Custom Animations CSS -->
     <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom-animations.css') }}">
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
+    
     <script>
         tailwind.config = {
             theme: {
