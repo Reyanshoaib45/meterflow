@@ -1,6 +1,6 @@
 User-agent: *
+# Admin and User Protected Routes
 Disallow: /admin/
-Disallow: /ls/
 Disallow: /user/
 Disallow: /login
 Disallow: /register
@@ -8,10 +8,25 @@ Disallow: /password/
 Disallow: /applications
 Disallow: /user-form
 
+# LS Portal - Allow discovery but prevent deep indexing
+Allow: /ls/select-subdivision
+Disallow: /ls/dashboard
+Disallow: /ls/applications
+Disallow: /ls/subdivisions
+Disallow: /ls/meter-store
+Disallow: /ls/extra-summaries
+Disallow: /ls/authenticate
+
+# Public Pages
 Allow: /
 Allow: /about
 Allow: /terms
 Allow: /privacy
 Allow: /track
+Allow: /file-complaint
 
+# Sitemap
 Sitemap: /sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1

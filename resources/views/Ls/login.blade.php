@@ -1,43 +1,68 @@
 @extends('layouts.app')
 
+@section('title', 'LS Login - ' . $subdivision->name)
+
+@section('canonical')
+    <link rel="canonical" href="{{ url('/ls/login/' . $subdivision->id) }}" />
+@endsection
+
+@section('meta')
+    <meta name="description" content="Secure login portal for Line Superintendent access to {{ $subdivision->name }} subdivision management dashboard." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:title" content="LS Login - {{ $subdivision->name }}" />
+    <meta property="og:description" content="Authorized access only for Line Superintendents." />
+    <meta property="og:url" content="{{ url('/ls/login/' . $subdivision->id) }}" />
+@endsection
+
 @section('content')
-<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 to-emerald-100">
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-100">
     <div class="max-w-md w-full space-y-8">
-        <!-- Header -->
-        <div class="text-center">
-            <div class="flex justify-center mb-4">
-                <div class="bg-gradient-to-r from-green-500 to-emerald-600 w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <!-- Header with Enhanced Animation -->
+        <div class="text-center" data-aos="fade-down">
+            <div class="flex justify-center mb-6" data-aos="zoom-in" data-aos-delay="100">
+                <div class="bg-gradient-to-br from-green-500 via-emerald-600 to-teal-600 w-20 h-20 rounded-2xl flex items-center justify-center shadow-2xl transform hover:rotate-6 transition-all duration-500 relative">
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl blur-xl opacity-50 animate-pulse"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </div>
             </div>
-            <h2 class="text-3xl font-bold text-gray-900">LS Login</h2>
-            <p class="mt-2 text-sm text-gray-600">
-                Sign in to manage <span class="font-semibold text-green-600">{{ $subdivision->name }}</span>
+            <h2 class="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3" data-aos="fade-up" data-aos-delay="200">
+                LS Login Portal
+            </h2>
+            <p class="mt-2 text-lg text-gray-700" data-aos="fade-up" data-aos-delay="300">
+                Welcome to <span class="font-bold text-green-600">{{ $subdivision->name }}</span>
             </p>
         </div>
 
-        <!-- Subdivision Info Card -->
-        <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
+        <!-- Subdivision Info Card with Enhanced Design -->
+        <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-green-500 relative overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full -mr-16 -mt-16 opacity-50"></div>
+            <div class="flex items-center relative z-10">
+                <div class="flex-shrink-0 bg-gradient-to-br from-green-100 to-emerald-100 p-4 rounded-xl">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <p class="text-lg font-semibold text-gray-900">{{ $subdivision->name }}</p>
-                    <p class="text-sm text-gray-600">Code: {{ $subdivision->code }}</p>
+                    <p class="text-xl font-bold text-gray-900 mb-1">{{ $subdivision->name }}</p>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded-lg text-xs font-semibold">{{ $subdivision->code }}</span>
+                    </div>
                     @if($subdivision->company)
-                        <p class="text-xs text-gray-500">{{ $subdivision->company->name }}</p>
+                        <p class="text-sm text-gray-600 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            {{ $subdivision->company->name }}
+                        </p>
                     @endif
                 </div>
             </div>
         </div>
 
-        <!-- Login Form -->
-        <div class="bg-white rounded-lg shadow-xl p-8">
+        <!-- Login Form with Enhanced Design -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100" data-aos="fade-up" data-aos-delay="500">
             <form method="POST" action="{{ route('ls.authenticate') }}" class="space-y-6">
                 @csrf
                 <input type="hidden" name="subdivision_id" value="{{ $subdivision->id }}">
@@ -112,41 +137,42 @@
                     @endif
                 </div>
 
-                <!-- Submit Button -->
+                <!-- Submit Button with Enhanced Design -->
                 <div>
                     <button type="submit"
-                            class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            class="w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-xl shadow-lg text-base font-bold text-white bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 hover:from-green-700 hover:via-emerald-700 hover:to-teal-700 focus:outline-none focus:ring-4 focus:ring-green-300 transition-all duration-300 transform hover:scale-105 relative overflow-hidden group">
+                        <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 transform -skew-x-12 group-hover:translate-x-full transition-all duration-1000"></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                         </svg>
-                        Sign In
+                        <span class="relative z-10">Sign In to Dashboard</span>
                     </button>
                 </div>
             </form>
         </div>
 
         <!-- Back to Subdivision Selection -->
-        <div class="text-center">
-            <a href="{{ route('ls.select-subdivision') }}" class="inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="text-center" data-aos="fade-up" data-aos-delay="600">
+            <a href="{{ route('ls.select-subdivision') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-white rounded-xl font-semibold text-gray-700 hover:text-gray-900 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-2 border-gray-200 hover:border-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
-                Choose Different Subdivision
+                <span>Choose Different Subdivision</span>
             </a>
         </div>
 
-        <!-- Help Text -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <!-- Help Text with Enhanced Design -->
+        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-200 rounded-2xl p-6 shadow-md" data-aos="fade-up" data-aos-delay="700">
+            <div class="flex items-start">
+                <div class="flex-shrink-0 bg-blue-100 p-3 rounded-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="ml-3">
-                    <p class="text-sm text-blue-800">
-                        <strong>Note:</strong> Your username and password are managed by the system administrator. 
-                        Contact admin if you need assistance.
+                <div class="ml-4">
+                    <h4 class="text-sm font-bold text-blue-900 mb-2">Need Help?</h4>
+                    <p class="text-sm text-blue-800 leading-relaxed">
+                        Your login credentials are managed by the system administrator. If you've forgotten your password or need assistance, please contact the admin team.
                     </p>
                 </div>
             </div>

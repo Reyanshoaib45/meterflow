@@ -16,11 +16,10 @@
     <meta property="og:url" content="{{ url('/') }}" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@" />
-    <meta name="twitter:title" content="Meter Flow Nation — Electricity Connection Services" />
-    <meta name="twitter:description" content="Apply for smart meters, track applications, and get support 24/7." />
-    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <!-- Social Media Meta Tags -->
+    <meta property="instagram:account" content="meterflownation" />
+    <meta property="instagram:url" content="https://www.instagram.com/meterflownation/" />
+    <meta property="facebook:page" content="https://www.facebook.com/profile.php?id=61582746314888" />
 @endsection
 
 @section('content')

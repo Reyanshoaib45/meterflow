@@ -31,7 +31,7 @@ class LsController extends Controller
             ->orderBy('name')
             ->get();
         
-        return view('ls.select-subdivision', compact('subdivisions'));
+        return view('Ls.select-subdivision', compact('subdivisions'));
     }
 
     /**
@@ -44,7 +44,7 @@ class LsController extends Controller
             ->whereNotNull('ls_id')
             ->findOrFail($subdivisionId);
         
-        return view('ls.login', compact('subdivision'));
+        return view('Ls.login', compact('subdivision'));
     }
 
     /**
@@ -154,7 +154,7 @@ class LsController extends Controller
             ->take(10)
             ->get();
             
-        return view('ls.dashboard', compact(
+        return view('Ls.dashboard', compact(
             'subdivisions',
             'currentSubdivision',
             'stats',
@@ -198,7 +198,7 @@ class LsController extends Controller
         
         $applications = $query->latest()->paginate(15);
             
-        return view('ls.applications', compact('subdivision', 'applications'));
+        return view('Ls.applications', compact('subdivision', 'applications'));
     }
     
     /**
@@ -213,7 +213,7 @@ class LsController extends Controller
             abort(403, 'Unauthorized access to application');
         }
         
-        return view('ls.edit-application', compact('application'));
+        return view('Ls.edit-application', compact('application'));
     }
     
     /**
@@ -274,7 +274,7 @@ class LsController extends Controller
             ->latest()
             ->get();
         
-        return view('ls.application-history', compact('application', 'histories'));
+        return view('Ls.application-history', compact('application', 'histories'));
     }
     
     /**
@@ -289,7 +289,7 @@ class LsController extends Controller
             abort(403, 'Unauthorized access to application');
         }
         
-        return view('ls.create-global-summary', compact('application'));
+        return view('Ls.create-global-summary', compact('application'));
     }
     
     /**
@@ -341,7 +341,7 @@ class LsController extends Controller
             ->latest()
             ->paginate(15);
         
-        return view('ls.extra-summaries', compact('extraSummaries', 'subdivisions', 'currentSubdivisionId'));
+        return view('Ls.extra-summaries', compact('extraSummaries', 'subdivisions', 'currentSubdivisionId'));
     }
 
     /**
@@ -354,7 +354,7 @@ class LsController extends Controller
         $currentSubdivisionId = session('current_subdivision_id', $subdivisions->first()->id ?? null);
         $currentSubdivision = Subdivision::find($currentSubdivisionId);
         
-        return view('ls.create-extra-summary', compact('currentSubdivision'));
+        return view('Ls.create-extra-summary', compact('currentSubdivision'));
     }
 
     /**
@@ -407,7 +407,7 @@ class LsController extends Controller
             abort(403, 'Unauthorized access');
         }
         
-        return view('ls.edit-extra-summary', compact('extraSummary'));
+        return view('Ls.edit-extra-summary', compact('extraSummary'));
     }
 
     /**
@@ -499,7 +499,7 @@ class LsController extends Controller
             'disconnected' => Meter::where('subdivision_id', $currentSubdivisionId)->where('status', 'disconnected')->count(),
         ];
         
-        return view('ls.meter-store', compact('meters', 'stats', 'subdivisions', 'currentSubdivisionId'));
+        return view('Ls.meter-store', compact('meters', 'stats', 'subdivisions', 'currentSubdivisionId'));
     }
 
     /**
