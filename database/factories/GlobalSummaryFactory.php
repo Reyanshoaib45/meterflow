@@ -28,8 +28,9 @@ class GlobalSummaryFactory extends Factory
         return [
             'application_no' => $this->faker->unique()->numerify('APP-#####'),
             'customer_name' => $this->faker->name(),
+            'consumer_address' => $this->faker->address(),
             'meter_no' => $this->faker->unique()->numerify('MTR-#####'),
-            'sim_date' => $this->faker->date(),
+            'sim_number' => $this->faker->numerify('03#########'),
             'date_on_draft_store' => $this->faker->date(),
             'date_received_lm_consumer' => $this->faker->date(),
             'customer_mobile_no' => $this->faker->phoneNumber(),

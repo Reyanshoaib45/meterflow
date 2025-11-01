@@ -25,6 +25,8 @@ class ApplicationHistory extends Model
         'action_type',
         'remarks',
         'user_id',
+        'seo_number',
+        'sent_to_ro',
     ];
 
     /**

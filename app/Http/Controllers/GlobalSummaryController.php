@@ -33,7 +33,8 @@ class GlobalSummaryController extends Controller
     {
         $validated = $request->validate([
             'application_id' => 'required|exists:applications,id',
-            'sim_date' => 'nullable|date',
+            'sim_number' => 'nullable|string|max:50',
+            'consumer_address' => 'nullable|string',
             'date_on_draft_store' => 'nullable|date',
             'date_received_lm_consumer' => 'nullable|date',
             'customer_mobile_no' => 'nullable|string|max:20',
@@ -47,7 +48,8 @@ class GlobalSummaryController extends Controller
         // Set values from application
         $validated['application_no'] = $application->application_no;
         $validated['customer_name'] = $application->customer_name;
-        $validated['meter_no'] = $application->meter_no;
+        $validated['consumer_address'] = $application->address ?? $validated['consumer_address'] ?? null;
+        $validated['meter_no'] = $application->meter_number;
         
         $globalSummary = GlobalSummary::create($validated);
 
@@ -80,7 +82,8 @@ class GlobalSummaryController extends Controller
     {
         $validated = $request->validate([
             'application_id' => 'required|exists:applications,id',
-            'sim_date' => 'nullable|date',
+            'sim_number' => 'nullable|string|max:50',
+            'consumer_address' => 'nullable|string',
             'date_on_draft_store' => 'nullable|date',
             'date_received_lm_consumer' => 'nullable|date',
             'customer_mobile_no' => 'nullable|string|max:20',
@@ -94,7 +97,8 @@ class GlobalSummaryController extends Controller
         // Set values from application
         $validated['application_no'] = $application->application_no;
         $validated['customer_name'] = $application->customer_name;
-        $validated['meter_no'] = $application->meter_no;
+        $validated['consumer_address'] = $application->address ?? $validated['consumer_address'] ?? null;
+        $validated['meter_no'] = $application->meter_number;
         
         $globalSummary->update($validated);
 

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Meter extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -27,11 +28,14 @@ class Meter extends Model
         'installed_on',
         'last_reading',
         'last_reading_date',
+        'meter_image',
+        'in_store',
     ];
 
     protected $casts = [
         'installed_on' => 'date',
         'last_reading_date' => 'date',
+        'in_store' => 'boolean',
     ];
 
     /**

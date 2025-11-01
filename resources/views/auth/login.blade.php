@@ -8,10 +8,10 @@
             <div class="flex justify-center">
                 <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-32 w-auto animate-float">
             </div>
-            <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">
+            <h2 class="mt-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
                 Sign in to your account
             </h2>
-            <p class="mt-2 text-center text-gray-600">
+            <p class="mt-2 text-center text-gray-600 dark:text-gray-300">
                 Meter Flow Nation ( mepco ) - Electricity Connection Management
             </p>
         </div>
@@ -30,20 +30,20 @@
 
         <!-- Login Form -->
         <div class="animate-fade-in-up" style="animation-delay: 0.2s">
-            <div class="bg-white py-8 px-6 shadow-xl rounded-2xl border border-gray-200">
+            <div class="bg-white dark:bg-gray-800 py-8 px-6 shadow-xl rounded-2xl border border-gray-200 dark:border-gray-700">
                 <form method="POST" action="{{ route('login') }}" class="space-y-6">
                     @csrf
 
                     <!-- Email Address -->
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-envelope text-gray-400"></i>
+                                <i class="fas fa-envelope text-gray-400 dark:text-gray-500"></i>
                             </div>
                             <input 
                                 id="email" 
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition @error('email') border-red-300 @enderror" 
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition @error('email') border-red-300 dark:border-red-600 @enderror" 
                                 type="email" 
                                 name="email" 
                                 value="{{ old('email') }}" 
@@ -60,14 +60,14 @@
 
                     <!-- Password -->
                     <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-lock text-gray-400"></i>
+                                <i class="fas fa-lock text-gray-400 dark:text-gray-500"></i>
                             </div>
                             <input 
                                 id="password" 
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition @error('password') border-red-300 @enderror" 
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition @error('password') border-red-300 dark:border-red-600 @enderror" 
                                 type="password"
                                 name="password"
                                 required 
@@ -83,8 +83,8 @@
                     <!-- Remember Me & Forgot Password -->
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <input id="remember_me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" name="remember">
-                            <label for="remember_me" class="ml-2 block text-sm text-gray-700">
+                            <input id="remember_me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700" name="remember">
+                            <label for="remember_me" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                                 Remember me
                             </label>
                         </div>

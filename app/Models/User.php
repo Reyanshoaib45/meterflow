@@ -73,6 +73,26 @@ class User extends Authenticatable
     }
     
     /**
+     * Check if the user is an SDC (Smart Data Center).
+     *
+     * @return bool
+     */
+    public function isSDC()
+    {
+        return $this->role === 'sdc';
+    }
+    
+    /**
+     * Check if the user is an RO (Revenue Officer).
+     *
+     * @return bool
+     */
+    public function isRO()
+    {
+        return $this->role === 'ro';
+    }
+    
+    /**
      * Get the subdivisions assigned to this LS user.
      */
     public function subdivisions()

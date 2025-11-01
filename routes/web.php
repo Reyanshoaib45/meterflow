@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\GlobalSummaryController;
 use App\Http\Controllers\LsController;
+use App\Http\Controllers\SDCController;
+use App\Http\Controllers\ROController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MeterController;
 use App\Http\Controllers\BillingController;
@@ -132,6 +134,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/meters', [MeterController::class, 'index'])->name('admin.meters.index');
         Route::get('/admin/meters/create', [MeterController::class, 'create'])->name('admin.meters.create');
         Route::post('/admin/meters', [MeterController::class, 'store'])->name('admin.meters.store');
+        Route::get('/admin/meters/{meter}/assign', [MeterController::class, 'assign'])->name('admin.meters.assign');
+        Route::post('/admin/meters/{meter}/assign', [MeterController::class, 'storeAssignment'])->name('admin.meters.store-assignment');
+        Route::post('/admin/meters/{meter}/assign/get-application', [MeterController::class, 'getApplicationDetails'])->name('admin.meters.get-application-details');
         Route::get('/admin/meters/{meter}', [MeterController::class, 'show'])->name('admin.meters.show');
         Route::get('/admin/meters/{meter}/edit', [MeterController::class, 'edit'])->name('admin.meters.edit');
         Route::put('/admin/meters/{meter}', [MeterController::class, 'update'])->name('admin.meters.update');
@@ -247,6 +252,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/ls/applications/{applicationId}/edit', [LsController::class, 'editApplication'])->name('ls.edit-application');
         Route::put('/ls/applications/{applicationId}', [LsController::class, 'updateApplication'])->name('ls.update-application');
         Route::get('/ls/applications/{applicationId}/history', [LsController::class, 'applicationHistory'])->name('ls.application-history');
+        Route::get('/ls/applications/{applicationId}/history/create', [LsController::class, 'createApplicationHistory'])->name('ls.create-application-history');
+        Route::post('/ls/applications/{applicationId}/history', [LsController::class, 'storeApplicationHistory'])->name('ls.store-application-history');
         
         // Global Summary
         Route::get('/ls/applications/{applicationId}/global-summary/create', [LsController::class, 'createGlobalSummary'])->name('ls.create-global-summary');
@@ -272,6 +279,40 @@ Route::middleware('auth')->group(function () {
 Route::get('/ls/select-subdivision', [LsController::class, 'selectSubdivision'])->name('ls.select-subdivision');
 Route::get('/ls/login/{subdivision}', [LsController::class, 'showLogin'])->name('ls.login');
 Route::post('/ls/authenticate', [LsController::class, 'authenticate'])->name('ls.authenticate');
+
+// SDC Routes
+Route::middleware('auth')->group(function () {
+    Route::middleware('sdc')->group(function () {
+        Route::get('/sdc/dashboard', [SDCController::class, 'dashboard'])->name('sdc.dashboard');
+        Route::get('/sdc/global-summaries', [SDCController::class, 'globalSummaries'])->name('sdc.global-summaries');
+        Route::get('/sdc/global-summaries/{applicationId}/create', [SDCController::class, 'createGlobalSummary'])->name('sdc.create-global-summary');
+        Route::post('/sdc/global-summaries/{applicationId}', [SDCController::class, 'storeGlobalSummary'])->name('sdc.store-global-summary');
+        Route::get('/sdc/global-summaries/{id}/edit', [SDCController::class, 'editGlobalSummary'])->name('sdc.edit-global-summary');
+        Route::put('/sdc/global-summaries/{id}', [SDCController::class, 'updateGlobalSummary'])->name('sdc.update-global-summary');
+        Route::post('/sdc/switch-subdivision', [SDCController::class, 'switchSubdivision'])->name('sdc.switch-subdivision');
+    });
+});
+
+// SDC Login Routes (outside auth middleware)
+Route::get('/sdc/select-subdivision', [SDCController::class, 'selectSubdivision'])->name('sdc.select-subdivision');
+Route::get('/sdc/login/{subdivision}', [SDCController::class, 'showLogin'])->name('sdc.login');
+Route::post('/sdc/authenticate', [SDCController::class, 'authenticate'])->name('sdc.authenticate');
+
+// RO Routes
+Route::middleware('auth')->group(function () {
+    Route::middleware('ro')->group(function () {
+        Route::get('/ro/dashboard', [ROController::class, 'dashboard'])->name('ro.dashboard');
+        Route::get('/ro/summary/{id}', [ROController::class, 'viewSummary'])->name('ro.view-summary');
+        Route::get('/ro/billing/{summaryId}/manage', [ROController::class, 'manageBilling'])->name('ro.manage-billing');
+        Route::post('/ro/billing/{summaryId}/create', [ROController::class, 'createBill'])->name('ro.create-bill');
+        Route::post('/ro/switch-subdivision', [ROController::class, 'switchSubdivision'])->name('ro.switch-subdivision');
+    });
+});
+
+// RO Login Routes (outside auth middleware)
+Route::get('/ro/select-subdivision', [ROController::class, 'selectSubdivision'])->name('ro.select-subdivision');
+Route::get('/ro/login/{subdivision}', [ROController::class, 'showLogin'])->name('ro.login');
+Route::post('/ro/authenticate', [ROController::class, 'authenticate'])->name('ro.authenticate');
 
 // API Routes for AJAX
 Route::get('/api/check-meter/{meterNumber}', function($meterNumber) {

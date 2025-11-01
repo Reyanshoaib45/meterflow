@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $seeders = [
             'companies'       => true,   // Companies (MEPCO, LESCO, etc.)
             'subdivisions'    => true,   // Subdivisions with LS users
-            'users'           => false,  // Additional users (set false if subdivisions already creates LS users)
+            'users'           => true,   // Admin, SDC, RO, and additional LS users
             'tariffs'         => true,   // Tariff rates
             'consumers'       => true,   // Consumer accounts
             'applications'    => true,   // New meter applications
@@ -172,7 +172,9 @@ class DatabaseSeeder extends Seeder
             ['Model' => 'Subdivisions', 'Count' => \App\Models\Subdivision::count()],
             ['Model' => 'Users (Total)', 'Count' => \App\Models\User::count()],
             ['Model' => '├─ Admin Users', 'Count' => \App\Models\User::where('role', 'admin')->count()],
-            ['Model' => '└─ LS Users', 'Count' => \App\Models\User::where('role', 'ls')->count()],
+            ['Model' => '├─ LS Users', 'Count' => \App\Models\User::where('role', 'ls')->count()],
+            ['Model' => '├─ SDC Users', 'Count' => \App\Models\User::where('role', 'sdc')->count()],
+            ['Model' => '└─ RO Users', 'Count' => \App\Models\User::where('role', 'ro')->count()],
             ['Model' => 'Tariffs', 'Count' => \App\Models\Tariff::count()],
             ['Model' => 'Consumers', 'Count' => \App\Models\Consumer::count()],
             ['Model' => 'Applications', 'Count' => \App\Models\Application::count()],
@@ -222,6 +224,27 @@ class DatabaseSeeder extends Seeder
                 $remaining = \App\Models\User::where('role', 'ls')->count() - 5;
                 $this->command->info("   └─ ... and {$remaining} more LS users");
             }
+            $this->command->info('');
+        }
+
+        // SDC users
+        $sdcUsers = \App\Models\User::where('role', 'sdc')->get();
+        if ($sdcUsers->isNotEmpty()) {
+            $this->command->info("   SDC Users:");
+            foreach ($sdcUsers as $sdc) {
+                $this->command->info("   ├─ {$sdc->username} / password");
+            }
+            $this->command->info('');
+        }
+
+        // RO users
+        $roUsers = \App\Models\User::where('role', 'ro')->get();
+        if ($roUsers->isNotEmpty()) {
+            $this->command->info("   RO Users:");
+            foreach ($roUsers as $ro) {
+                $this->command->info("   ├─ {$ro->username} / password");
+            }
+            $this->command->info('');
         }
     }
 }

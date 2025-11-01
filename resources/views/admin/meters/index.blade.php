@@ -3,104 +3,94 @@
 @section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-white">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold">Meters Management</h2>
-                    <a href="{{ route('admin.meters.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Meters Management</h2>
+                    <a href="{{ route('admin.meters.create') }}" class="bg-blue-500 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition">
                         Add New Meter
                     </a>
                 </div>
 
                 @if(session('success'))
-                    <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                    <div class="mb-4 p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 rounded-lg">
                         {{ session('success') }}
+                    </div>
+                @endif
+                
+                @if(session('error'))
+                    <div class="mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 rounded-lg">
+                        {{ session('error') }}
                     </div>
                 @endif
 
                 <!-- Filters -->
-                <div class="mb-6 bg-gray-50 p-4 rounded">
+                <div class="mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                     <form method="GET" action="{{ route('admin.meters.index') }}" class="flex gap-4">
                         <div class="flex-1">
                             <input type="text" name="search" value="{{ request('search') }}" 
                                 placeholder="Search by meter no, consumer name..." 
-                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
                         <div>
-                            <select name="status" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">All Status</option>
-                                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="disconnected" {{ request('status') == 'disconnected' ? 'selected' : '' }}>Disconnected</option>
-                                <option value="faulty" {{ request('status') == 'faulty' ? 'selected' : '' }}>Faulty</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select name="subdivision" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="subdivision_id" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                                 <option value="">All Subdivisions</option>
                                 @foreach($subdivisions as $subdivision)
-                                    <option value="{{ $subdivision->id }}" {{ request('subdivision') == $subdivision->id ? 'selected' : '' }}>
+                                    <option value="{{ $subdivision->id }}" {{ request('subdivision_id') == $subdivision->id ? 'selected' : '' }}>
                                         {{ $subdivision->name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-blue-500 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition">
                             Filter
                         </button>
-                        <a href="{{ route('admin.meters.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.meters.index') }}" class="bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition">
                             Clear
                         </a>
                     </form>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meter No</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Consumer</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdivision</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meter Make</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reading</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Installed On</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Meter No</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Consumer</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Subdivision</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Meter Make</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Reading</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Installed On</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200" data-infinite-scroll data-next-page="{{ $meters->nextPageUrl() }}">
+                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" data-infinite-scroll data-next-page="{{ $meters->nextPageUrl() }}">
                             @forelse($meters as $meter)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap font-medium">{{ $meter->meter_no }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                                    <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900 dark:text-white">{{ $meter->meter_no }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
                                         {{ $meter->consumer->name ?? 'N/A' }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $meter->subdivision->name ?? 'N/A' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $meter->meter_make ?? 'N/A' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ number_format($meter->reading, 2) }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            @if($meter->status == 'active') bg-green-100 text-green-800 
-                                            @elseif($meter->status == 'disconnected') bg-red-100 text-red-800 
-                                            @else bg-yellow-100 text-yellow-800 @endif">
-                                            {{ ucfirst($meter->status) }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">{{ $meter->subdivision->name ?? 'N/A' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">{{ $meter->meter_make ?? 'N/A' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">{{ number_format($meter->reading, 2) }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">
                                         {{ $meter->installed_on ? \Carbon\Carbon::parse($meter->installed_on)->format('Y-m-d') : 'N/A' }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('admin.meters.show', $meter) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
-                                        <a href="{{ route('admin.meters.edit', $meter) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                        <a href="{{ route('admin.meters.show', $meter) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 mr-3">View</a>
+                                        <a href="{{ route('admin.meters.edit', $meter) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 mr-3">Edit</a>
+                                        <a href="{{ route('admin.meters.assign', $meter) }}" class="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300 mr-3">Assign</a>
                                         <form action="{{ route('admin.meters.destroy', $meter) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this meter?')" class="text-red-600 hover:text-red-900">Delete</button>
+                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this meter?')" class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="px-6 py-4 text-center text-gray-500">
+                                    <td colspan="7" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                                         No meters found.
                                     </td>
                                 </tr>

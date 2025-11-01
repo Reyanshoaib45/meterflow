@@ -1,17 +1,37 @@
 @extends('layouts.app')
 
-@section('title', 'LS Login - ' . $subdivision->name)
+@php
+    $routeName = request()->route()->getName();
+    $roleType = 'LS';
+    $authRoute = 'ls.authenticate';
+    $selectRoute = 'ls.select-subdivision';
+    $title = 'LS Login';
+    
+    if (str_contains($routeName, 'sdc')) {
+        $roleType = 'SDC';
+        $authRoute = 'sdc.authenticate';
+        $selectRoute = 'sdc.select-subdivision';
+        $title = 'SDC Login';
+    } elseif (str_contains($routeName, 'ro')) {
+        $roleType = 'RO';
+        $authRoute = 'ro.authenticate';
+        $selectRoute = 'ro.select-subdivision';
+        $title = 'RO Login';
+    }
+@endphp
+
+@section('title', $title . ' - ' . $subdivision->name)
 
 @section('canonical')
-    <link rel="canonical" href="{{ url('/ls/login/' . $subdivision->id) }}" />
+    <link rel="canonical" href="{{ url(request()->path()) }}" />
 @endsection
 
 @section('meta')
-    <meta name="description" content="Secure login portal for Line Superintendent access to {{ $subdivision->name }} subdivision management dashboard." />
+    <meta name="description" content="Secure login portal for {{ $roleType }} access to {{ $subdivision->name }} subdivision management dashboard." />
     <meta name="robots" content="noindex, nofollow" />
-    <meta property="og:title" content="LS Login - {{ $subdivision->name }}" />
-    <meta property="og:description" content="Authorized access only for Line Superintendents." />
-    <meta property="og:url" content="{{ url('/ls/login/' . $subdivision->id) }}" />
+    <meta property="og:title" content="{{ $title }} - {{ $subdivision->name }}" />
+    <meta property="og:description" content="Authorized access only for {{ $roleType }}." />
+    <meta property="og:url" content="{{ url(request()->path()) }}" />
 @endsection
 
 @section('content')
@@ -28,7 +48,7 @@
                 </div>
             </div>
             <h2 class="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3" data-aos="fade-up" data-aos-delay="200">
-                LS Login Portal
+                {{ $title }} Portal
             </h2>
             <p class="mt-2 text-lg text-gray-700" data-aos="fade-up" data-aos-delay="300">
                 Welcome to <span class="font-bold text-green-600">{{ $subdivision->name }}</span>
@@ -63,7 +83,7 @@
 
         <!-- Login Form with Enhanced Design -->
         <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100" data-aos="fade-up" data-aos-delay="500">
-            <form method="POST" action="{{ route('ls.authenticate') }}" class="space-y-6">
+            <form method="POST" action="{{ route($authRoute) }}" class="space-y-6">
                 @csrf
                 <input type="hidden" name="subdivision_id" value="{{ $subdivision->id }}">
 
@@ -153,7 +173,7 @@
 
         <!-- Back to Subdivision Selection -->
         <div class="text-center" data-aos="fade-up" data-aos-delay="600">
-            <a href="{{ route('ls.select-subdivision') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-white rounded-xl font-semibold text-gray-700 hover:text-gray-900 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-2 border-gray-200 hover:border-gray-300">
+            <a href="{{ route($selectRoute) }}" class="inline-flex items-center gap-2 px-5 py-3 bg-white rounded-xl font-semibold text-gray-700 hover:text-gray-900 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-2 border-gray-200 hover:border-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>

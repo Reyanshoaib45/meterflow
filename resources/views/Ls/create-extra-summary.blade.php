@@ -3,11 +3,11 @@
 @section('content')
 <div class="py-12 page-transition">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg animate-fade-in-up">
-            <div class="p-6">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg animate-fade-in-up">
+            <div class="p-6 text-gray-900 dark:text-white">
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold text-gray-900">Create Extra Summary</h2>
-                    <p class="text-gray-600 mt-1">Add a new application summary entry</p>
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Create Extra Summary</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mt-1">Add a new application summary entry</p>
                 </div>
 
                 <form action="{{ route('ls.store-extra-summary') }}" method="POST" class="space-y-6">
@@ -16,12 +16,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Application No -->
                         <div>
-                            <label for="application_no" class="block text-sm font-medium text-gray-700">
+                            <label for="application_no" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 Application No <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="application_no" id="application_no" 
                                 value="{{ old('application_no') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" 
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
                                 required>
                             @error('application_no')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -35,7 +35,7 @@
                             </label>
                             <input type="text" name="customer_name" id="customer_name" 
                                 value="{{ old('customer_name') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" 
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
                                 required>
                             @error('customer_name')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -49,7 +49,7 @@
                             </label>
                             <input type="text" name="meter_no" id="meter_no" 
                                 value="{{ old('meter_no') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                             @error('meter_no')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -62,7 +62,7 @@
                             </label>
                             <input type="text" name="customer_mobile_no" id="customer_mobile_no" 
                                 value="{{ old('customer_mobile_no') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                             @error('customer_mobile_no')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -75,7 +75,7 @@
                             </label>
                             <input type="text" name="customer_sc_no" id="customer_sc_no" 
                                 value="{{ old('customer_sc_no') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                             @error('customer_sc_no')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -88,7 +88,7 @@
                             </label>
                             <input type="date" name="sim_date" id="sim_date" 
                                 value="{{ old('sim_date') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                             @error('sim_date')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -101,7 +101,7 @@
                             </label>
                             <input type="date" name="date_on_draft_store" id="date_on_draft_store" 
                                 value="{{ old('date_on_draft_store') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                             @error('date_on_draft_store')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -114,7 +114,7 @@
                             </label>
                             <input type="date" name="date_received_lm_consumer" id="date_received_lm_consumer" 
                                 value="{{ old('date_received_lm_consumer') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                             @error('date_received_lm_consumer')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -127,7 +127,7 @@
                             </label>
                             <input type="date" name="date_return_sdc_billing" id="date_return_sdc_billing" 
                                 value="{{ old('date_return_sdc_billing') }}"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                             @error('date_return_sdc_billing')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -135,11 +135,11 @@
                     </div>
 
                     <!-- Form Actions -->
-                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
-                        <a href="{{ route('ls.extra-summaries') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <a href="{{ route('ls.extra-summaries') }}" class="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition">
                             Cancel
                         </a>
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" class="bg-blue-500 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition">
                             Create Extra Summary
                         </button>
                     </div>

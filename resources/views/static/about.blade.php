@@ -24,7 +24,7 @@
 @endsection
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+<div class="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
     <!-- Animated Background Elements -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="absolute top-20 left-20 w-24 h-24 bg-purple-200 rounded-full opacity-20 animate-float"></div>
@@ -41,10 +41,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
             </div>
-            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
                 About Us
             </h1>
-            <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="300">
+            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="300">
                 Empowering communities through reliable electricity connection management services
             </p>
         </div>
@@ -52,16 +52,16 @@
         <!-- Mission Section -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             <div data-aos="fade-right" data-aos-delay="100">
-                <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 hover-lift">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 hover-lift">
                     <div class="flex items-center mb-6">
                         <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                             </svg>
                         </div>
-                        <h2 class="text-3xl font-bold text-gray-900">Our Mission</h2>
+                        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Our Mission</h2>
                     </div>
-                    <p class="text-gray-700 leading-relaxed text-lg">
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                         To provide seamless, efficient, and transparent electricity connection services to the people of Pakistan. 
                         We strive to bridge the gap between citizens and MEPCO, making electricity connection applications 
                         accessible, trackable, and hassle-free for everyone.
@@ -70,7 +70,7 @@
             </div>
 
             <div data-aos="fade-left" data-aos-delay="100">
-                <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-200 hover-lift">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 hover-lift">
                     <div class="flex items-center mb-6">
                         <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,9 +78,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
                         </div>
-                        <h2 class="text-3xl font-bold text-gray-900">Our Vision</h2>
+                        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Our Vision</h2>
                     </div>
-                    <p class="text-gray-700 leading-relaxed text-lg">
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                         To become the leading digital platform for electricity services in Pakistan, 
                         fostering a future where every citizen has easy access to reliable electricity connections 
                         through innovative technology and exceptional customer service.
@@ -92,8 +92,8 @@
         <!-- Services Section -->
         <div class="mb-16">
             <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">What We Offer</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">What We Offer</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                     Comprehensive electricity connection services designed with you in mind
                 </p>
             </div>
@@ -105,8 +105,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Easy Applications</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Easy Applications</h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                         Submit new electricity connection applications online with our user-friendly interface. 
                         No complex paperwork or long queues required.
                     </p>
@@ -143,21 +143,21 @@
         <!-- Team Section -->
         <div class="mb-16 animate-fade-in-up">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Team</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Team</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                     Dedicated professionals working to serve you better
                 </p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-200">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12 border border-gray-200 dark:border-gray-700">
                 <div class="flex flex-col md:flex-row items-center text-center md:text-left">
                     <div class="w-32 h-32 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-6 md:mb-0 md:mr-8 animate-float">
                         <span class="text-4xl font-bold text-white">RS</span>
                     </div>
                     <div class="flex-1">
-                        <h3 class="text-3xl font-bold text-gray-900 mb-2">Reyan Shoaib</h3>
-                        <p class="text-xl text-blue-600 mb-4">Lead Developer & Project Manager</p>
-                        <p class="text-gray-700 leading-relaxed mb-4">
+                        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Reyan Shoaib</h3>
+                        <p class="text-xl text-blue-600 dark:text-blue-400 mb-4">Lead Developer & Project Manager</p>
+                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
                             Passionate about creating innovative solutions that make a real difference in people's lives. 
                             With expertise in web development and system design, Reyan leads the technical vision 
                             behind Meter Flow Nation ( mepco ).
@@ -182,8 +182,8 @@
         <!-- Values Section -->
         <div class="mb-16 animate-fade-in-up">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Values</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                     The principles that guide everything we do
                 </p>
             </div>
@@ -195,8 +195,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Reliability</h3>
-                    <p class="text-gray-600 text-sm">Consistent, dependable service you can trust</p>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Reliability</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Consistent, dependable service you can trust</p>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-lg p-6 text-center border border-gray-200 hover-lift">

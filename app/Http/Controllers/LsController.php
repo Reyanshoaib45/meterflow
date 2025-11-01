@@ -12,6 +12,7 @@ use App\Models\ApplicationHistory;
 use App\Models\GlobalSummary;
 use App\Models\ExtraSummary;
 use App\Models\Meter;
+use App\Models\Bill;
 use App\Models\User;
 use App\Traits\LogsActivity;
 
@@ -130,11 +131,25 @@ class LsController extends Controller
                 ->where('status', 'faulty')
                 ->count(),
             'extra_summaries' => ExtraSummary::where('subdivision_id', $currentSubdivisionId)->count(),
+            'total_bills' => Bill::where('subdivision_id', $currentSubdivisionId)->count(),
+            'pending_bills' => Bill::where('subdivision_id', $currentSubdivisionId)
+                ->where('payment_status', 'pending')
+                ->count(),
+            'paid_bills' => Bill::where('subdivision_id', $currentSubdivisionId)
+                ->where('payment_status', 'paid')
+                ->count(),
         ];
         
         // Recent applications
         $recentApplications = Application::where('subdivision_id', $currentSubdivisionId)
             ->with(['company'])
+            ->latest()
+            ->take(10)
+            ->get();
+        
+        // Recent bills/invoices for LS (SDO)
+        $recentBills = Bill::where('subdivision_id', $currentSubdivisionId)
+            ->with(['consumer', 'meter.application'])
             ->latest()
             ->take(10)
             ->get();
@@ -159,6 +174,7 @@ class LsController extends Controller
             'currentSubdivision',
             'stats',
             'recentApplications',
+            'recentBills',
             'statusChart',
             'recentActivity'
         ));
@@ -233,6 +249,8 @@ class LsController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:pending,approved,rejected',
             'remarks' => 'nullable|string|max:500',
+            'seo_number' => 'nullable|string|max:255',
+            'sent_to_ro' => 'nullable|boolean',
         ]);
         
         $application->update([
@@ -244,8 +262,11 @@ class LsController extends Controller
             'application_id' => $application->id,
             'subdivision_id' => $application->subdivision_id,
             'company_id' => $application->company_id,
+            'user_id' => Auth::id(),
             'action_type' => 'status_changed',
             'remarks' => $validated['remarks'] ?? "Status changed from {$oldStatus} to {$validated['status']}",
+            'seo_number' => $request->input('seo_number'),
+            'sent_to_ro' => $request->has('sent_to_ro'),
         ]);
         
         // Log activity
@@ -271,10 +292,62 @@ class LsController extends Controller
         }
         
         $histories = ApplicationHistory::where('application_id', $applicationId)
+            ->with('user')
             ->latest()
             ->get();
         
         return view('Ls.application-history', compact('application', 'histories'));
+    }
+
+    /**
+     * Show form to create application history.
+     */
+    public function createApplicationHistory($applicationId)
+    {
+        $application = Application::with(['subdivision', 'company'])->findOrFail($applicationId);
+        
+        // Check if this application belongs to a subdivision of the LS user
+        if ($application->subdivision->ls_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized access to application');
+        }
+        
+        return view('Ls.create-application-history', compact('application'));
+    }
+
+    /**
+     * Store application history.
+     */
+    public function storeApplicationHistory(Request $request, $applicationId)
+    {
+        $application = Application::findOrFail($applicationId);
+        
+        // Check if this application belongs to a subdivision of the LS user
+        if ($application->subdivision->ls_id !== Auth::user()->id) {
+            abort(403, 'Unauthorized access to application');
+        }
+        
+        $validated = $request->validate([
+            'action_type' => 'required|string|max:255',
+            'remarks' => 'required|string',
+            'seo_number' => 'nullable|string|max:255',
+            'sent_to_ro' => 'nullable|boolean',
+        ]);
+        
+        ApplicationHistory::create([
+            'application_id' => $application->id,
+            'subdivision_id' => $application->subdivision_id,
+            'company_id' => $application->company_id,
+            'user_id' => Auth::id(),
+            'action_type' => $validated['action_type'],
+            'remarks' => $validated['remarks'],
+            'seo_number' => $validated['seo_number'] ?? null,
+            'sent_to_ro' => $request->has('sent_to_ro') ? true : false,
+        ]);
+        
+        self::logActivity('Application History', 'Created', 'ApplicationHistory', $application->id, null, $validated);
+        
+        return redirect()->route('ls.application-history', $application->id)
+            ->with('success', 'Application history created successfully.');
     }
     
     /**
@@ -305,7 +378,8 @@ class LsController extends Controller
         }
         
         $validated = $request->validate([
-            'sim_date' => 'nullable|date',
+            'sim_number' => 'nullable|string|max:50',
+            'consumer_address' => 'nullable|string',
             'date_on_draft_store' => 'nullable|date',
             'date_received_lm_consumer' => 'nullable|date',
             'customer_mobile_no' => 'nullable|string|max:20',
@@ -317,7 +391,8 @@ class LsController extends Controller
         $validated['application_id'] = $application->id;
         $validated['application_no'] = $application->application_no;
         $validated['customer_name'] = $application->customer_name;
-        $validated['meter_no'] = $application->meter_no;
+        $validated['consumer_address'] = $application->address ?? $validated['consumer_address'] ?? null;
+        $validated['meter_no'] = $application->meter_number;
         
         GlobalSummary::create($validated);
         

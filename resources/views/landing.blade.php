@@ -29,25 +29,25 @@
         <div class="flex justify-center mb-6" data-aos="zoom-in" data-aos-duration="1000">
             <img src="{{ asset('images/mfn-logo.png') }}" alt="MEPCO Logo" class="h-32 w-auto">
         </div>
-        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
-            Welcome to Meter Flow Nation <br> <span class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"> Supported by mepco ( mepco )</span>
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
+            Welcome to Meter Flow Nation <br> <span class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"> Supported by mepco ( mepco )</span>
         </h1>
-        <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="400">
+        <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="400">
             Your trusted partner for electricity connection management
         </p>
     </div>
     
     <!-- Main Services Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 max-w-7xl mx-auto px-4">
         <!-- Request New Smart Meter Card -->
-        <div class="bg-white rounded-2xl shadow-xl p-10 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-blue-100 hover:border-blue-300 hover-lift" data-aos="fade-up" data-aos-delay="100">
-            <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-pulse-border">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-blue-100 dark:border-blue-900 hover:border-blue-300 dark:hover:border-blue-700 hover-lift" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg animate-pulse-border">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
             </div>
-            <h3 class="text-3xl font-bold text-gray-900 mb-4">Request a New Smart Meter</h3>
-            <p class="text-gray-600 mb-8 leading-relaxed text-lg">Apply for a new smart electricity meter quickly and easily.</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Request a New Smart Meter</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Apply for a new smart electricity meter quickly and easily.</p>
             <a href="{{ route('user-form') }}" class="inline-block bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                 <span class="flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,14 +59,14 @@
         </div>
         
         <!-- Track Application Card -->
-        <div class="bg-white rounded-2xl shadow-xl p-10 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-green-100 hover:border-green-300 hover-lift" data-aos="fade-up" data-aos-delay="300">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-green-100 dark:border-green-900 hover:border-green-300 dark:hover:border-green-700 hover-lift" data-aos="fade-up" data-aos-delay="300">
             <div class="bg-gradient-to-br from-green-500 to-green-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-glow">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </div>
-            <h3 class="text-3xl font-bold text-gray-900 mb-4">Track Application</h3>
-            <p class="text-gray-600 mb-8 leading-relaxed text-lg">Check the status of your application in real-time using your application number</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Track Application</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Check the status of your application in real-time using your application number</p>
             <a href="{{ route('track') }}" class="inline-block bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                 <span class="flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -78,14 +78,14 @@
         </div>
         
         <!-- File Complaint Card -->
-        <div class="bg-white rounded-2xl shadow-xl p-10 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-red-100 hover:border-red-300 hover-lift" data-aos="fade-up" data-aos-delay="500">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-red-100 dark:border-red-900 hover:border-red-300 dark:hover:border-red-700 hover-lift" data-aos="fade-up" data-aos-delay="500">
             <div class="bg-gradient-to-br from-red-500 to-red-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-pulse-border">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
-            <h3 class="text-3xl font-bold text-gray-900 mb-4">File Complaint</h3>
-            <p class="text-gray-600 mb-8 leading-relaxed text-lg">Report any issue or complaint about electricity service or billing</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">File Complaint</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Report any issue or complaint about electricity service or billing</p>
             <a href="{{ route('file-complaint') }}" class="inline-block bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                 <span class="flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -95,26 +95,64 @@
                 </span>
             </a>
         </div>
+        
+        <!-- SDC Login Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-purple-100 dark:border-purple-900 hover:border-purple-300 dark:hover:border-purple-700 hover-lift" data-aos="fade-up" data-aos-delay="700">
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-pulse-border">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">SDC Portal</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Smart Data Center - Manage global summaries and data</p>
+            <a href="{{ route('sdc.select-subdivision') }}" class="inline-block bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                <span class="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    SDC Login
+                </span>
+            </a>
+        </div>
+        
+        <!-- RO Login Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl border-2 border-orange-100 dark:border-orange-900 hover:border-orange-300 dark:hover:border-orange-700 hover-lift" data-aos="fade-up" data-aos-delay="900">
+            <div class="bg-gradient-to-br from-orange-500 to-orange-600 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg animate-pulse-border">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">RO Portal</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">Revenue Officer - View summaries and manage billing</p>
+            <a href="{{ route('ro.select-subdivision') }}" class="inline-block bg-gradient-to-r from-orange-600 to-orange-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-orange-700 hover:to-orange-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                <span class="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    RO Login
+                </span>
+            </a>
+        </div>
     </div>
     
     <!-- Stats Section -->
-    <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 mb-16 border border-gray-200" data-aos="fade-up" data-aos-delay="200">
-        <h2 class="text-3xl font-bold text-center text-gray-900 mb-12" data-aos="fade-down" data-aos-delay="300">Why Choose Meter Flow Nation ( mepco )?</h2>
+    <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl p-8 mb-16 border border-gray-200 dark:border-gray-700" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12" data-aos="fade-down" data-aos-delay="300">Why Choose Meter Flow Nation ( mepco )?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div class="text-center" data-aos="flip-left" data-aos-delay="400">
                 <div class="text-4xl font-bold text-blue-600 mb-2 animate-pulse">24/7</div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Support</h3>
-                <p class="text-gray-600">Round-the-clock customer service</p>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Support</h3>
+                <p class="text-gray-600 dark:text-gray-300">Round-the-clock customer service</p>
             </div>
             <div class="text-center" data-aos="flip-left" data-aos-delay="600">
-                <div class="text-4xl font-bold text-green-600 mb-2 animate-pulse">99%</div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Reliability</h3>
-                <p class="text-gray-600">Consistent service delivery</p>
+                <div class="text-4xl font-bold text-green-600 dark:text-green-400 mb-2 animate-pulse">99%</div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Reliability</h3>
+                <p class="text-gray-600 dark:text-gray-300">Consistent service delivery</p>
             </div>
             <div class="text-center" data-aos="flip-left" data-aos-delay="800">
-                <div class="text-4xl font-bold text-purple-600 mb-2 animate-pulse">10K+</div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Customers</h3>
-                <p class="text-gray-600">Satisfied users nationwide</p>
+                <div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2 animate-pulse">10K+</div>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Customers</h3>
+                <p class="text-gray-600 dark:text-gray-300">Satisfied users nationwide</p>
             </div>
         </div>
     </div>

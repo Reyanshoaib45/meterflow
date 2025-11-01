@@ -1,18 +1,38 @@
 @extends('layouts.app')
 
-@section('title', 'LS Login Portal - Select Your Subdivision')
+@php
+    $routeName = request()->route()->getName();
+    $roleType = 'LS';
+    $loginRoute = 'ls.login';
+    $title = 'LS Login Portal';
+    $roleName = 'Line Superintendent';
+    
+    if (str_contains($routeName, 'sdc')) {
+        $roleType = 'SDC';
+        $loginRoute = 'sdc.login';
+        $title = 'SDC Login Portal';
+        $roleName = 'Smart Data Center';
+    } elseif (str_contains($routeName, 'ro')) {
+        $roleType = 'RO';
+        $loginRoute = 'ro.login';
+        $title = 'RO Login Portal';
+        $roleName = 'Revenue Officer';
+    }
+@endphp
+
+@section('title', $title . ' - Select Your Subdivision')
 
 @section('canonical')
-    <link rel="canonical" href="{{ url('/ls/select-subdivision') }}" />
+    <link rel="canonical" href="{{ url(request()->path()) }}" />
 @endsection
 
 @section('meta')
-    <meta name="description" content="LS (Line Superintendent) login portal for MEPCO subdivisions. Secure access for authorized personnel to manage applications, meters, and subdivision data." />
-    <meta name="keywords" content="MEPCO LS login, line superintendent portal, subdivision management, MEPCO admin, electricity subdivision, meter management" />
+    <meta name="description" content="{{ $roleType }} ({{ $roleName }}) login portal for MEPCO subdivisions. Secure access for authorized personnel." />
+    <meta name="keywords" content="MEPCO {{ $roleType }} login, {{ $roleName }} portal, subdivision management, MEPCO admin" />
     <meta name="robots" content="noindex, nofollow" />
-    <meta property="og:title" content="LS Login Portal - MEPCO Subdivision Management" />
-    <meta property="og:description" content="Secure login portal for Line Superintendents to manage subdivision operations and applications." />
-    <meta property="og:url" content="{{ url('/ls/select-subdivision') }}" />
+    <meta property="og:title" content="{{ $title }} - MEPCO Subdivision Management" />
+    <meta property="og:description" content="Secure login portal for {{ $roleName }}s to manage subdivision operations." />
+    <meta property="og:url" content="{{ url(request()->path()) }}" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
 @endsection
@@ -31,10 +51,10 @@
                 </div>
             </div>
             <h1 class="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="300">
-                LS Login Portal
+                {{ $title }}
             </h1>
             <p class="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="400">
-                Welcome, Line Superintendent! Select your subdivision to access the management dashboard
+                Welcome, {{ $roleName }}! Select your subdivision to access the management dashboard
             </p>
             <div class="mt-6 flex justify-center gap-4 text-sm text-gray-500" data-aos="fade-up" data-aos-delay="500">
                 <div class="flex items-center gap-2">
@@ -68,7 +88,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="subdivisionsGrid">
                 @foreach($subdivisions as $index => $subdivision)
-                    <a href="{{ route('ls.login', ['subdivision' => $subdivision->id]) }}" 
+                    <a href="{{ route($loginRoute, ['subdivision' => $subdivision->id]) }}" 
                        data-subdivision-name="{{ strtolower($subdivision->name) }}"
                        data-subdivision-code="{{ strtolower($subdivision->code) }}"
                        class="subdivision-card group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden border-2 border-transparent hover:border-green-500 relative"

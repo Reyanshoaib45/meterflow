@@ -3,11 +3,11 @@
 @section('content')
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-white">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold">Create Global Summary</h2>
-                    <a href="{{ route('ls.applications', $application->subdivision_id) }}" class="text-blue-600 hover:text-blue-800">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Create Global Summary</h2>
+                    <a href="{{ route('ls.applications', $application->subdivision_id) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
                         ← Back to Applications
                     </a>
                 </div>
@@ -15,16 +15,16 @@
                 <div class="mb-6 p-4 bg-gray-50 rounded-lg">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-500">Application No</label>
-                            <div class="mt-1 text-lg font-medium">{{ $application->application_no }}</div>
+                            <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Application No</label>
+                            <div class="mt-1 text-lg font-medium text-gray-900 dark:text-white">{{ $application->application_no }}</div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-500">Customer Name</label>
-                            <div class="mt-1 text-lg font-medium">{{ $application->customer_name }}</div>
+                            <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Customer Name</label>
+                            <div class="mt-1 text-lg font-medium text-gray-900 dark:text-white">{{ $application->customer_name }}</div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-500">Meter No</label>
-                            <div class="mt-1 text-lg font-medium">{{ $application->meter_no ?? 'N/A' }}</div>
+                            <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Meter No</label>
+                            <div class="mt-1 text-lg font-medium text-gray-900 dark:text-white">{{ $application->meter_number ?? 'N/A' }}</div>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-500">Status</label>
@@ -67,40 +67,47 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="sim_date" class="block text-sm font-medium text-gray-700">SIM Date</label>
-                            <input type="date" name="sim_date" id="sim_date" value="{{ old('sim_date') }}" 
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="sim_number" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SIM Number</label>
+                            <input type="text" name="sim_number" id="sim_number" value="{{ old('sim_number') }}" 
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                   placeholder="Enter SIM number">
                         </div>
 
                         <div>
-                            <label for="date_on_draft_store" class="block text-sm font-medium text-gray-700">Date on Draft on Store</label>
+                            <label for="consumer_address" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Consumer Address</label>
+                            <textarea name="consumer_address" id="consumer_address" rows="3"
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">{{ old('consumer_address', $application->address) }}</textarea>
+                        </div>
+
+                        <div>
+                            <label for="date_on_draft_store" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date on Draft on Store</label>
                             <input type="date" name="date_on_draft_store" id="date_on_draft_store" value="{{ old('date_on_draft_store') }}" 
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
 
                         <div>
-                            <label for="date_received_lm_consumer" class="block text-sm font-medium text-gray-700">Date of Received by LM/Consumer</label>
+                            <label for="date_received_lm_consumer" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Received by LM/Consumer</label>
                             <input type="date" name="date_received_lm_consumer" id="date_received_lm_consumer" value="{{ old('date_received_lm_consumer') }}" 
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
 
                         <div>
-                            <label for="customer_mobile_no" class="block text-sm font-medium text-gray-700">Customer Mobile No</label>
+                            <label for="customer_mobile_no" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer Mobile No</label>
                             <input type="text" name="customer_mobile_no" id="customer_mobile_no" value="{{ old('customer_mobile_no') }}" 
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
                                    placeholder="e.g., 03001234567">
                         </div>
 
                         <div>
-                            <label for="customer_sc_no" class="block text-sm font-medium text-gray-700">Customer SC No</label>
+                            <label for="customer_sc_no" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Customer SC No</label>
                             <input type="text" name="customer_sc_no" id="customer_sc_no" value="{{ old('customer_sc_no') }}" 
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
 
                         <div>
-                            <label for="date_return_sdc_billing" class="block text-sm font-medium text-gray-700">Date of Return to SDC for Billing</label>
+                            <label for="date_return_sdc_billing" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Return to SDC for Billing</label>
                             <input type="date" name="date_return_sdc_billing" id="date_return_sdc_billing" value="{{ old('date_return_sdc_billing') }}" 
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                   class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
                     </div>
 

@@ -58,6 +58,7 @@
     
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -77,12 +78,61 @@
             }
         }
     </script>
+    
+    <!-- Dark Mode Script -->
+    <script>
+        (function() {
+            // Check for saved theme preference or default to light mode
+            const getTheme = () => {
+                if (localStorage.getItem('theme')) {
+                    return localStorage.getItem('theme');
+                }
+                // Check system preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    return 'dark';
+                }
+                return 'light';
+            };
+
+            // Apply theme on page load
+            const theme = getTheme();
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            // Toggle function
+            const toggleDarkMode = () => {
+                const html = document.documentElement;
+                const isDark = html.classList.contains('dark');
+                
+                if (isDark) {
+                    html.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            };
+
+            // Attach event listeners when DOM is ready
+            document.addEventListener('DOMContentLoaded', function() {
+                const toggleButtons = document.querySelectorAll('#darkModeToggle, #darkModeToggleMobile, #darkModeToggleMobileMenu');
+                toggleButtons.forEach(button => {
+                    if (button) {
+                        button.addEventListener('click', toggleDarkMode);
+                    }
+                });
+            });
+        })();
+    </script>
 </head>
 <body class="font-sans antialiased">
      @include('layouts.navigation')
     <!-- Background Pattern -->
-    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC40Ij48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC40Ij48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-20 dark:opacity-10"></div>
     </div>
 
     <!-- Page Content -->
@@ -93,9 +143,9 @@
     <!-- Flash Messages -->
     @if (session('status'))
         <div class="fixed top-4 right-4 z-50 animate-fade-in-up">
-            <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg shadow-lg max-w-sm">
+            <div class="bg-green-50 dark:bg-green-900 border border-green-200 dark:border-green-700 text-green-800 dark:text-green-200 px-4 py-3 rounded-lg shadow-lg max-w-sm">
                 <div class="flex items-center">
-                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    <i class="fas fa-check-circle text-green-500 dark:text-green-400 mr-2"></i>
                     <span class="font-medium">{{ session('status') }}</span>
                 </div>
             </div>
@@ -104,9 +154,9 @@
 
     @if (session('error'))
         <div class="fixed top-4 right-4 z-50 animate-fade-in-up">
-            <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg shadow-lg max-w-sm">
+            <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg shadow-lg max-w-sm">
                 <div class="flex items-center">
-                    <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
+                    <i class="fas fa-exclamation-circle text-red-500 dark:text-red-400 mr-2"></i>
                     <span class="font-medium">{{ session('error') }}</span>
                 </div>
             </div>

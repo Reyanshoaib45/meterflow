@@ -18,8 +18,9 @@ class GlobalSummary extends Model
     protected $fillable = [
         'application_no',
         'customer_name',
+        'consumer_address',
         'meter_no',
-        'sim_date',
+        'sim_number',
         'date_on_draft_store',
         'date_received_lm_consumer',
         'customer_mobile_no',
@@ -34,7 +35,6 @@ class GlobalSummary extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'sim_date' => 'date',
         'date_on_draft_store' => 'date',
         'date_received_lm_consumer' => 'date',
         'date_return_sdc_billing' => 'date',

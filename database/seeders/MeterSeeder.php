@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Meter;
 use App\Models\Application;
+use App\Models\Consumer;
 
 class MeterSeeder extends Seeder
 {
@@ -38,9 +39,8 @@ class MeterSeeder extends Seeder
             Meter::create([
                 'meter_no' => $meterNo,
                 'meter_make' => fake()->randomElement(['ABB', 'Siemens', 'Schneider', 'GE', 'Landis+Gyr']),
-                'meter_type' => fake()->randomElement(['Single Phase', 'Three Phase']),
                 'reading' => fake()->numberBetween(0, 1000),
-                'status' => fake()->randomElement(['active', 'faulty', 'disconnected', 'inactive']),
+                'status' => fake()->randomElement(['active', 'faulty', 'disconnected']),
                 'application_id' => $application->id,
                 'consumer_id' => Consumer::where('cnic', $application->cnic)->first()?->id,
                 'subdivision_id' => $application->subdivision_id,

@@ -1,38 +1,40 @@
 @extends('layouts.app')
 
+@php
+    use Illuminate\Support\Facades\Storage;
+@endphp
+
 @section('content')
 <div class="py-12">
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-white">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold">Meter Details</h2>
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Meter Details</h2>
                     <div class="flex gap-2">
-                        <a href="{{ route('admin.meters.edit', $meter) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.meters.assign', $meter) }}" class="bg-green-500 dark:bg-green-600 hover:bg-green-700 dark:hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg transition">
+                            Assign to Customer
+                        </a>
+                        <a href="{{ route('admin.meters.edit', $meter) }}" class="bg-blue-500 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition">
                             Edit
                         </a>
-                        <a href="{{ route('admin.meters.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.meters.index') }}" class="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition">
                             Back
                         </a>
                     </div>
                 </div>
 
+                @if($meter->meter_image)
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Meter Image</label>
+                        <img src="{{ Storage::url($meter->meter_image) }}" alt="Meter Image" class="max-w-md rounded-lg shadow-lg">
+                    </div>
+                @endif
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Meter Number</label>
+                        <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Meter Number</label>
                         <p class="mt-1 text-lg font-semibold">{{ $meter->meter_no }}</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-500">Status</label>
-                        <p class="mt-1">
-                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full 
-                                @if($meter->status == 'active') bg-green-100 text-green-800 
-                                @elseif($meter->status == 'disconnected') bg-red-100 text-red-800 
-                                @else bg-yellow-100 text-yellow-800 @endif">
-                                {{ ucfirst($meter->status) }}
-                            </span>
-                        </p>
                     </div>
 
                     <div>
@@ -81,8 +83,28 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-500">Application ID</label>
-                        <p class="mt-1 text-lg">{{ $meter->application_id ?? 'N/A' }}</p>
+                        <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">Application No</label>
+                        <p class="mt-1 text-lg text-gray-900 dark:text-white">
+                            @if($meter->application)
+                                <a href="{{ route('admin.applications.edit', $meter->application) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
+                                    {{ $meter->application->application_no }}
+                                </a>
+                            @else
+                                N/A
+                            @endif
+                        </p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500 dark:text-gray-400">In Store</label>
+                        <p class="mt-1">
+                            <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full
+                                @if($meter->in_store) bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200
+                                @else bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200
+                                @endif">
+                                {{ $meter->in_store ? 'Yes (In Store)' : 'No (Assigned)' }}
+                            </span>
+                        </p>
                     </div>
 
                     <div class="md:col-span-2">

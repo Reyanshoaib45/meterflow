@@ -39,8 +39,9 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $application->created_at->format('Y-m-d') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('ls.edit-application', $application->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit Status</a>
-                                            <a href="{{ route('ls.create-global-summary', $application->id) }}" class="text-blue-600 hover:text-blue-900">Global Summary</a>
+                                            <a href="{{ route('ls.edit-application', $application->id) }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 mr-3">Edit Status</a>
+                                            <a href="{{ route('ls.application-history', $application->id) }}" class="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300 mr-3">History</a>
+                                            <a href="{{ route('ls.create-global-summary', $application->id) }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300">Global Summary</a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 py-12">
+<div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-8 animate-fade-in-down">
@@ -10,13 +10,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
             </div>
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">File a Complaint</h1>
-            <p class="text-lg text-gray-600">Report your electricity service issue or concern</p>
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">File a Complaint</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-300">Report your electricity service issue or concern</p>
         </div>
 
         <!-- Success Message -->
         @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 alert animate-slide-in-right">
+            <div class="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-200 px-4 py-3 rounded-lg mb-6 alert animate-slide-in-right">
                 <div class="flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
@@ -30,17 +30,17 @@
         @endif
 
         <!-- Complaint Form -->
-        <div class="bg-white rounded-2xl shadow-xl p-8 animate-fade-in-up">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 animate-fade-in-up">
             <form action="{{ route('store-complaint') }}" method="POST" class="space-y-6">
                 @csrf
 
                 <!-- Company Selection -->
                 <div>
-                    <label for="company_id" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="company_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Select Company <span class="text-red-500">*</span>
                     </label>
                     <select name="company_id" id="company_id" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
                         <option value="">-- Select Company --</option>
                         @foreach(\App\Models\Company::all() as $company)
                             <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>
@@ -55,11 +55,11 @@
 
                 <!-- Subdivision Selection -->
                 <div>
-                    <label for="subdivision_id" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="subdivision_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Select Subdivision <span class="text-red-500">*</span>
                     </label>
                     <select name="subdivision_id" id="subdivision_id" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent transition">
                         <option value="">-- Select Subdivision --</option>
                     </select>
                     @error('subdivision_id')
@@ -68,15 +68,15 @@
                 </div>
 
                 <!-- Subdivision Message (if exists) -->
-                <div id="subdivision-message" class="hidden bg-blue-50 border-l-4 border-blue-500 p-4 rounded"></div>
+                <div id="subdivision-message" class="hidden bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-500 dark:border-blue-700 p-4 rounded text-gray-900 dark:text-white"></div>
 
                 <!-- Customer Name -->
                 <div>
-                    <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="customer_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Your Name <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="customer_name" id="customer_name" value="{{ old('customer_name') }}" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                         placeholder="Enter your full name">
                     @error('customer_name')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -130,11 +130,11 @@
 
                 <!-- Subject -->
                 <div>
-                    <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Subject <span class="text-red-500">*</span>
                     </label>
                     <input type="text" name="subject" id="subject" value="{{ old('subject') }}" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                         placeholder="Brief description of your complaint">
                     @error('subject')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -143,11 +143,11 @@
 
                 <!-- Description -->
                 <div>
-                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Detailed Description <span class="text-red-500">*</span>
                     </label>
                     <textarea name="description" id="description" rows="5" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
                         placeholder="Provide detailed information about your complaint">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
