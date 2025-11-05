@@ -1,21 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Electricity Connection Services in Pakistan')
+@section('title', 'Meter Flow Nation (MEPCO) - Electricity Connection Management Services in Pakistan')
 
 @section('canonical')
     <link rel="canonical" href="{{ url('/') }}" />
 @endsection
 
 @section('meta')
-    <meta name="description" content="Apply for new smart meters, track application status, and file complaints. Reliable electricity connection management across Pakistan." />
-    <meta name="keywords" content="MEPCO, meter flow nation, electricity connection, smart meter, new meter request, track application, file complaint, Pakistan electricity services" />
+    <meta name="description" content="Meter Flow Nation (MEPCO) - Your trusted partner for electricity connection management. Apply for new smart meters, track application status, and file complaints. Providing reliable electricity services to millions of customers across Pakistan." />
+    <meta name="keywords" content="MEPCO, meter flow nation, electricity connection, smart meter, new meter request, track application, file complaint, Pakistan electricity services, Multan Electric Power Company" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Meter Flow Nation — Electricity Connection Services" />
-    <meta property="og:description" content="Apply for smart meters, track applications, and get support 24/7." />
+    <meta name="author" content="Meter Flow Nation (MEPCO)" />
+    <meta property="og:title" content="Meter Flow Nation (MEPCO) - Electricity Connection Management Services" />
+    <meta property="og:description" content="Apply for smart meters, track applications, and get support 24/7. Providing reliable electricity services to millions of customers across Pakistan." />
     <meta property="og:locale" content="en_PK" />
     <meta property="og:url" content="{{ url('/') }}" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="{{ asset('images/mfn-logo.png') }}" />
+    <meta property="og:site_name" content="Meter Flow Nation (MEPCO)" />
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Meter Flow Nation (MEPCO) - Electricity Connection Management" />
+    <meta name="twitter:description" content="Apply for smart meters, track applications, and get support 24/7." />
+    <meta name="twitter:image" content="{{ asset('images/mfn-logo.png') }}" />
     <!-- Social Media Meta Tags -->
     <meta property="instagram:account" content="meterflownation" />
     <meta property="instagram:url" content="https://www.instagram.com/meterflownation/" />
@@ -27,7 +34,7 @@
     <!-- Hero Section -->
     <div class="text-center mb-16 mt-8">
         <div class="flex justify-center mb-6" data-aos="zoom-in" data-aos-duration="1000">
-            <img src="{{ asset('images/mfn-logo.png') }}" alt="MEPCO Logo" class="h-32 w-auto">
+            <img src="{{ asset('images/mfn-logo.png') }}" alt="Meter Flow Nation (MEPCO) logo - Electricity connection management services" class="h-32 w-auto">
         </div>
         <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-aos="fade-up" data-aos-delay="200">
             Welcome to Meter Flow Nation <br> <span class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"> Supported by mepco ( mepco )</span>
@@ -166,13 +173,16 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span class="font-medium text-lg">03006380386, 03009615771</span>
+                <span class="font-medium text-lg">
+                    <a href="tel:+923006380386" class="hover:underline">03006380386</a>, 
+                    <a href="tel:+923009615771" class="hover:underline">03009615771</a>
+                </span>
             </div>
             <div class="flex items-center justify-center bg-white bg-opacity-20 rounded-lg px-6 py-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <span class="font-medium text-lg">meterflownation@gmail.com</span>
+                <a href="mailto:meterflownation@gmail.com" class="font-medium text-lg hover:underline">meterflownation@gmail.com</a>
             </div>
         </div>
     </div>

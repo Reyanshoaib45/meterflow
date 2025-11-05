@@ -33,6 +33,14 @@ class Application extends Model
         'connection_type',
         'status',
         'fee_amount',
+        'user_id',
+        'assigned_ro_id',
+        'assigned_ls_id',
+        'assigned_sdc_id',
+        'installation_date',
+        'gps_latitude',
+        'gps_longitude',
+        'installation_remarks',
     ];
 
     /**
@@ -73,5 +81,45 @@ class Application extends Model
     public function summary()
     {
         return $this->hasOne(ApplicationSummary::class);
+    }
+
+    /**
+     * Get the assigned RO user.
+     */
+    public function assignedRO()
+    {
+        return $this->belongsTo(User::class, 'assigned_ro_id');
+    }
+
+    /**
+     * Get the assigned LS user.
+     */
+    public function assignedLS()
+    {
+        return $this->belongsTo(User::class, 'assigned_ls_id');
+    }
+
+    /**
+     * Get the assigned SDC user.
+     */
+    public function assignedSDC()
+    {
+        return $this->belongsTo(User::class, 'assigned_sdc_id');
+    }
+
+    /**
+     * Get the GlobalSummary for the application.
+     */
+    public function globalSummary()
+    {
+        return $this->hasOne(GlobalSummary::class);
+    }
+
+    /**
+     * Get the user who created the application.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

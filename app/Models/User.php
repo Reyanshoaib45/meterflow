@@ -92,19 +92,28 @@ class User extends Authenticatable
         return $this->role === 'ro';
     }
     
-    /**
-     * Get the subdivisions assigned to this LS user.
+        /**
+     * Get the subdivisions assigned to this LS user (via ls_id).
      */
-    public function subdivisions()
+    public function lsSubdivisions()
     {
         return $this->hasMany(Subdivision::class, 'ls_id');
     }
-    
+
     /**
      * Get the single subdivision assigned to this LS user.
      */
     public function assignedSubdivision()
     {
         return $this->belongsTo(Subdivision::class, 'subdivision_id');
+    }
+
+    /**
+     * Get subdivisions for SDC/RO users (many-to-many relationship).
+     */
+    public function subdivisions()
+    {
+        return $this->belongsToMany(Subdivision::class, 'subdivision_user')
+                    ->withTimestamps();
     }
 }

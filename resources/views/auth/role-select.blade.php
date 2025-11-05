@@ -1,84 +1,75 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center py-16 px-4">
-    <div class="max-w-3xl w-full">
-        <div class="text-center mb-10">
-            <img src="{{ asset('images/mfn-logo.png') }}" alt="MEPCO Logo" class="h-24 w-auto mx-auto mb-4">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome to MEPCO System</h1>
-            <p class="text-gray-600 dark:text-gray-300 mt-2">Select your portal to continue</p>
+<div class="min-h-screen flex items-center justify-center py-16 px-4" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); background-image: radial-gradient(circle, rgba(148, 163, 184, 0.1) 1px, transparent 1px); background-size: 30px 30px;">
+    <div class="max-w-6xl w-full">
+        <div class="text-center mb-12">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">Welcome to MEPCO System</h1>
+            <p class="text-xl text-white/90 mt-2">Select your portal to continue</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <a href="{{ route('login') }}" class="group block rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Admin Login</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Access admin dashboard and controls</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="{{ route('login') }}" class="group block rounded-xl p-6 bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:border-gray-600 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-gray-700 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-user-shield text-2xl text-black"></i>
                     </div>
-                    <div class="bg-gradient-to-br from-gray-700 to-black text-white rounded-full h-12 w-12 flex items-center justify-center group-hover:scale-105 transition">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Admin Login</h3>
+                    <p class="text-white/80 text-sm">Access admin dashboard and controls</p>
                 </div>
             </a>
 
-            <a href="{{ route('ls.select-subdivision') }}" class="group block rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">LS Login</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Company/Subdivision Line Superintendent</p>
+            <a href="{{ route('ls.select-subdivision') }}" class="group block rounded-xl p-6 bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:border-gray-600 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-gray-700 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-hard-hat text-2xl text-green-500"></i>
                     </div>
-                    <div class="bg-gradient-to-br from-green-500 to-emerald-600 text-white rounded-full h-12 w-12 flex items-center justify-center group-hover:scale-105 transition">
-                        <i class="fas fa-hard-hat"></i>
-                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Line Superintendent Login</h3>
+                    <p class="text-white/80 text-sm">Company/Subdivision Line Superintendent Portal</p>
                 </div>
             </a>
 
-            <a href="{{ route('login') }}" class="group block rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">User Login</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Sign in to your user account</p>
+            <a href="{{ route('login') }}" class="group block rounded-xl p-6 bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:border-gray-600 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-gray-700 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-user text-2xl text-blue-500"></i>
                     </div>
-                    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-full h-12 w-12 flex items-center justify-center group-hover:scale-105 transition">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">User Login</h3>
+                    <p class="text-white/80 text-sm">Sign in to your user account</p>
                 </div>
             </a>
 
-            <a href="{{ route('register') }}" class="group block rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">User Signup</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Create a new user account</p>
+            <a href="{{ route('register') }}" class="group block rounded-xl p-6 bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:border-gray-600 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-gray-700 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-user-plus text-2xl text-purple-500"></i>
                     </div>
-                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-full h-12 w-12 flex items-center justify-center group-hover:scale-105 transition">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">User Signup</h3>
+                    <p class="text-white/80 text-sm">Create a new user account</p>
                 </div>
             </a>
 
-            <a href="{{ route('sdc.select-subdivision') }}" class="group block rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">SDC Login</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Smart Data Center Portal</p>
+            <a href="{{ route('sdc.select-subdivision') }}" class="group block rounded-xl p-6 bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:border-gray-600 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-gray-700 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-8 h-8 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                            <rect x="4" y="6" width="16" height="2" rx="0.5"/>
+                            <rect x="4" y="11" width="16" height="2" rx="0.5"/>
+                            <rect x="4" y="16" width="16" height="2" rx="0.5"/>
+                        </svg>
                     </div>
-                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-full h-12 w-12 flex items-center justify-center group-hover:scale-105 transition">
-                        <i class="fas fa-database"></i>
-                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">SDC Login</h3>
+                    <p class="text-white/80 text-sm">Smart Data Center Portal</p>
                 </div>
             </a>
 
-            <a href="{{ route('ro.select-subdivision') }}" class="group block rounded-2xl border border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-800 hover:shadow-xl transition">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">RO Login</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm mt-1">Revenue Officer Portal</p>
+            <a href="{{ route('ro.select-subdivision') }}" class="group block rounded-xl p-6 bg-gray-800/80 backdrop-blur-sm border border-gray-700 hover:border-gray-600 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex flex-col items-center text-center">
+                    <div class="bg-gray-700 rounded-full h-16 w-16 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-dollar-sign text-2xl text-orange-500"></i>
                     </div>
-                    <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-full h-12 w-12 flex items-center justify-center group-hover:scale-105 transition">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">RO Login</h3>
+                    <p class="text-white/80 text-sm">Revenue Officer Portal</p>
                 </div>
             </a>
         </div>

@@ -66,8 +66,28 @@
                         @foreach($applications as $app)
                             <li class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:shadow-lg" data-aos="zoom-in" data-aos-delay="150">
                                 <p class="font-medium text-gray-900 dark:text-white">{{ $app->application_no }}</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-300">Status: <span class="font-medium">{{ ucfirst($app->status) }}</span></p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $app->company->name ?? '—' }} • {{ $app->subdivision->name ?? '—' }}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                                    Status: 
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                                        @if($app->status == 'approved') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                        @elseif($app->status == 'rejected') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                        @else bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 @endif">
+                                        {{ ucfirst($app->status) }}
+                                    </span>
+                                </p>
+                                @if($app->fee_amount)
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Fee: <span class="font-semibold text-green-600 dark:text-green-400">Rs. {{ number_format($app->fee_amount, 2) }}</span></p>
+                                @endif
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">{{ $app->company->name ?? '—' }} • {{ $app->subdivision->name ?? '—' }}</p>
+                                @if($app->status == 'approved' && $app->fee_amount)
+                                <a href="{{ route('application.invoice', $app->application_no) }}" 
+                                   class="inline-flex items-center text-xs px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Generate Invoice
+                                </a>
+                                @endif
                             </li>
                         @endforeach
                     </ul>

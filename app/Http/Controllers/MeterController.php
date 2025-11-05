@@ -235,7 +235,7 @@ class MeterController extends Controller
             $billNumber = 'BILL-' . date('Ym') . '-' . str_pad(Bill::count() + 1, 6, '0', STR_PAD_LEFT);
             
             $bill = Bill::create([
-                'bill_number' => $billNumber,
+                'bill_no' => $billNumber,
                 'consumer_id' => $consumer->id,
                 'meter_id' => $meter->id,
                 'subdivision_id' => $meter->subdivision_id,

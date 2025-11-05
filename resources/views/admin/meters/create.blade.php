@@ -50,7 +50,7 @@
                         </div>
 
                         <div>
-                            <label for="reading" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Initial Reading</label>
+                            <label for="reading" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Reading</label>
                             <input type="number" name="reading" id="reading" value="{{ old('reading', 0) }}" step="0.01"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>

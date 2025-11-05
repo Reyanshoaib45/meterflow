@@ -81,4 +81,13 @@ class Subdivision extends Model
     {
         return $this->hasMany(Complaint::class);
     }
+
+    /**
+     * Get SDC/RO users assigned to this subdivision (many-to-many relationship).
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'subdivision_user')
+                    ->withTimestamps();
+    }
 }

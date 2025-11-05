@@ -25,7 +25,7 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Application No</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meter No</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SIM Date</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SIM Number</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -35,7 +35,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $summary->application_no }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $summary->customer_name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $summary->meter_no ?? 'N/A' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $summary->sim_date ? $summary->sim_date->format('Y-m-d') : 'N/A' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $summary->sim_number ?? 'N/A' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('admin.global-summaries.show', $summary) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
                                         <a href="{{ route('admin.global-summaries.edit', $summary) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>

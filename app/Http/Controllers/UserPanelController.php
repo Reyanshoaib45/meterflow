@@ -12,17 +12,22 @@ class UserPanelController extends Controller
     {
         $user = Auth::user();
 
-        $activities = ApplicationHistory::with(['application'])
+        // Get applications directly by user_id
+        $applications = Application::with(['company', 'subdivision'])
             ->where('user_id', $user->id)
             ->latest()
-            ->paginate(10);
-
-        $applicationIds = $activities->pluck('application_id')->filter()->unique()->values();
-
-        $applications = Application::with(['company', 'subdivision'])
-            ->whereIn('id', $applicationIds)
-            ->orderByDesc('id')
             ->get();
+
+        // Get activities for this user's applications
+        $applicationIds = $applications->pluck('id');
+        
+        $activities = ApplicationHistory::with(['application'])
+            ->where(function($query) use ($applicationIds, $user) {
+                $query->whereIn('application_id', $applicationIds)
+                      ->orWhere('user_id', $user->id);
+            })
+            ->latest()
+            ->paginate(10);
 
         return view('user.panel', compact('user', 'activities', 'applications'));
     }

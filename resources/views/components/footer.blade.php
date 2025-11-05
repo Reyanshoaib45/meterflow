@@ -4,7 +4,7 @@
             <!-- About Section -->
             <div data-aos="fade-up">
                 <div class="flex items-center mb-4">
-                    <img src="{{ asset('images/mfn-logo.png') }}" alt="MFN Logo" class="h-12 w-auto mr-3 hover:scale-105 transition-transform duration-300">
+                    <img src="{{ asset('images/mfn-logo.png') }}" alt="Meter Flow Nation (MEPCO) logo - Electricity connection management services" class="h-12 w-auto mr-3 hover:scale-105 transition-transform duration-300">
                     <span class="text-2xl font-bold">Meter Flow Nation ( mepco )</span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed">
@@ -94,13 +94,16 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                         </svg>
-                        <span class="text-gray-400 text-sm">03006380386, 03009615771<br>Available 24/7</span>
+                        <span class="text-gray-400 text-sm">
+                            <a href="tel:+923006380386" class="hover:text-white transition-colors">03006380386</a>, 
+                            <a href="tel:+923009615771" class="hover:text-white transition-colors">03009615771</a><br>Available 24/7
+                        </span>
                     </li>
                     <li class="flex items-start">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <span class="text-gray-400 text-sm">meterflownation@gmail.com</span>
+                        <a href="mailto:meterflownation@gmail.com" class="text-gray-400 hover:text-white transition-colors text-sm">meterflownation@gmail.com</a>
                     </li>
                     <li class="flex items-start">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

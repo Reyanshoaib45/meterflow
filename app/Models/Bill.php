@@ -10,7 +10,7 @@ class Bill extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bill_number',
+        'bill_no',  // Changed from 'bill_number' to match migration
         'consumer_id',
         'meter_id',
         'subdivision_id',
@@ -36,6 +36,22 @@ class Bill extends Model
         'verified_by',
         'remarks',
     ];
+    
+    /**
+     * Get the bill number (backward compatibility accessor).
+     */
+    public function getBillNumberAttribute()
+    {
+        return $this->bill_no;
+    }
+    
+    /**
+     * Set the bill number (backward compatibility mutator).
+     */
+    public function setBillNumberAttribute($value)
+    {
+        $this->attributes['bill_no'] = $value;
+    }
 
     protected $casts = [
         'due_date' => 'date',

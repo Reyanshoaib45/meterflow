@@ -71,7 +71,7 @@ class ConsumerController extends Controller
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email',
             'subdivision_id' => 'required|exists:subdivisions,id',
-            'connection_type' => 'required|in:residential,commercial,industrial',
+            'connection_type' => 'required|in:Domestic,Commercial,Industrial',
             'status' => 'required|in:active,disconnected,suspended',
         ]);
 
@@ -121,7 +121,7 @@ class ConsumerController extends Controller
             'phone' => 'required|string|max:20',
             'email' => 'nullable|email',
             'subdivision_id' => 'required|exists:subdivisions,id',
-            'connection_type' => 'required|in:residential,commercial,industrial',
+            'connection_type' => 'required|in:Domestic,Commercial,Industrial',
             'status' => 'required|in:active,disconnected,suspended',
         ]);
 

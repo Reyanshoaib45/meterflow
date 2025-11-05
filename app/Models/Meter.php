@@ -21,6 +21,7 @@ class Meter extends Model
         'reading',
         'remarks',
         'sim_number',
+        'seo_number',
         'application_id',
         'consumer_id',
         'subdivision_id',

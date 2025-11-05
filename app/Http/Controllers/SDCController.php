@@ -6,22 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Subdivision;
-use App\Models\Application;
-use App\Models\GlobalSummary;
 use App\Models\User;
+use App\Models\Application;
+use App\Models\Meter;
+use App\Models\ApplicationHistory;
+use App\Models\GlobalSummary;
 use App\Traits\LogsActivity;
 
 class SDCController extends Controller
 {
     use LogsActivity;
 
-    /**
+        /**
      * Show subdivision selection page for SDC login.
      */
     public function selectSubdivision()
     {
-        // Show all subdivisions for SDC access
+        // Show all subdivisions that have SDC users assigned via pivot table   
         $subdivisions = Subdivision::with(['company'])
+            ->whereHas('users', function($query) {
+                $query->where('users.role', 'sdc');
+            })
             ->withCount(['applications', 'meters'])
             ->orderBy('name')
             ->get();
@@ -34,7 +39,11 @@ class SDCController extends Controller
      */
     public function showLogin($subdivisionId)
     {
+        // Check if subdivision has SDC users assigned
         $subdivision = Subdivision::with('company')
+            ->whereHas('users', function($query) {
+                $query->where('users.role', 'sdc');
+            })
             ->findOrFail($subdivisionId);
         
         return view('Ls.login', compact('subdivision'));
@@ -62,158 +71,221 @@ class SDCController extends Controller
             ])->onlyInput('username');
         }
 
+        // Check if user is assigned to this subdivision via pivot table
+        $subdivision = Subdivision::where('id', $credentials['subdivision_id'])
+            ->whereHas('users', function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->first();
+
+        if (!$subdivision) {
+            return back()->withErrors([
+                'username' => 'You are not authorized to access this subdivision.',
+            ])->onlyInput('username');
+        }
+
         // Login the user
         Auth::login($user, $request->filled('remember'));
 
         // Store subdivision in session
-        session(['current_subdivision_id' => $credentials['subdivision_id']]);
+        session(['current_subdivision_id' => $subdivision->id]);
 
         // Log activity
-        self::logActivity('SDC Login', 'Logged In', 'Subdivision', $credentials['subdivision_id'], null, [
-            'subdivision' => Subdivision::find($credentials['subdivision_id'])->name,
+        self::logActivity('SDC Login', 'Logged In', 'Subdivision', $subdivision->id, null, [
+            'subdivision' => $subdivision->name,
         ]);
 
         return redirect()->route('sdc.dashboard');
     }
-    
+
     /**
-     * Display the SDC dashboard.
+     * Display SDC dashboard with assigned applications.
      */
     public function dashboard()
     {
         $user = Auth::user();
-        $subdivisions = Subdivision::orderBy('name')->get();
-        $currentSubdivisionId = session('current_subdivision_id', $subdivisions->first()->id ?? null);
-        $currentSubdivision = $currentSubdivisionId ? Subdivision::with('company')->find($currentSubdivisionId) : null;
+        
+        if ($user->role !== 'sdc') {
+            abort(403, 'Unauthorized access. SDC role required.');
+        }
 
-        // Get statistics for current subdivision
-        $stats = [
-            'total_applications' => Application::where('subdivision_id', $currentSubdivisionId)->count(),
-            'pending_applications' => Application::where('subdivision_id', $currentSubdivisionId)->where('status', 'pending')->count(),
-            'approved_applications' => Application::where('subdivision_id', $currentSubdivisionId)->where('status', 'approved')->count(),
-            'total_summaries' => GlobalSummary::whereHas('application', function($q) use ($currentSubdivisionId) {
-                $q->where('subdivision_id', $currentSubdivisionId);
-            })->count(),
-        ];
+        // Get applications assigned to this SDC user
+        $applications = Application::where('assigned_sdc_id', $user->id)
+            ->with(['company', 'subdivision', 'meter'])
+            ->latest()
+            ->paginate(15);
 
-        // Get global summaries for current subdivision
-        $globalSummaries = GlobalSummary::whereHas('application', function($q) use ($currentSubdivisionId) {
-            $q->where('subdivision_id', $currentSubdivisionId);
-        })
-        ->with('application')
-        ->latest()
-        ->paginate(15);
+        // Get current subdivision from session
+        $currentSubdivisionId = session('current_subdivision_id');
+        $currentSubdivision = $currentSubdivisionId ? Subdivision::find($currentSubdivisionId) : null;
 
-        return view('sdc.dashboard', compact('subdivisions', 'currentSubdivision', 'stats', 'globalSummaries'));
+        return view('sdc.dashboard', compact('applications', 'currentSubdivision'));
     }
 
     /**
-     * Switch subdivision for SDC user.
+     * Show form to update meter details for an application.
      */
-    public function switchSubdivision(Request $request)
+    public function editMeter($applicationId)
     {
+        $user = Auth::user();
+        
+        if ($user->role !== 'sdc') {
+            abort(403, 'Unauthorized access. SDC role required.');
+        }
+
+        $application = Application::with(['company', 'subdivision', 'meter'])
+            ->where('assigned_sdc_id', $user->id)
+            ->findOrFail($applicationId);
+
+        // Check if 24 hours have passed since assignment
+        // Get the latest history record when assigned_sdc_id was set
+        $assignmentHistory = ApplicationHistory::where('application_id', $application->id)
+            ->where('action_type', 'status_changed')
+            ->where('remarks', 'like', '%assigned_sdc_id%')
+            ->latest()
+            ->first();
+        
+        $assignmentTime = $assignmentHistory ? $assignmentHistory->created_at : $application->updated_at;
+        $hoursSinceAssignment = now()->diffInHours($assignmentTime);
+        
+        if ($hoursSinceAssignment > 24) {
+            return redirect()->route('sdc.dashboard')
+                ->with('error', 'You can only edit meter details within 24 hours of assignment. Please contact admin for changes.');
+        }
+
+        return view('sdc.edit-meter', compact('application'));
+    }
+
+    /**
+     * Update meter details for an application.
+     */
+    public function updateMeter(Request $request, $applicationId)
+    {
+        $user = Auth::user();
+        
+        if ($user->role !== 'sdc') {
+            abort(403, 'Unauthorized access. SDC role required.');
+        }
+
+        $application = Application::where('assigned_sdc_id', $user->id)
+            ->findOrFail($applicationId);
+
+        // Check if 24 hours have passed since assignment
+        // Get the latest history record when assigned_sdc_id was set
+        $assignmentHistory = ApplicationHistory::where('application_id', $application->id)
+            ->where('action_type', 'status_changed')
+            ->where('remarks', 'like', '%assigned_sdc_id%')
+            ->latest()
+            ->first();
+        
+        $assignmentTime = $assignmentHistory ? $assignmentHistory->created_at : $application->updated_at;
+        $hoursSinceAssignment = now()->diffInHours($assignmentTime);
+        
+        if ($hoursSinceAssignment > 24) {
+            return back()->with('error', 'You can only edit meter details within 24 hours of assignment. Please contact admin for changes.');
+        }
+
         $validated = $request->validate([
-            'subdivision_id' => 'required|exists:subdivisions,id',
+            'sim_number' => 'required|string|max:50',
+            'seo_number' => 'required|string|max:50',
+            'installed_on' => 'required|date',
         ]);
 
-        session(['current_subdivision_id' => $validated['subdivision_id']]);
+        // Find or create meter for this application
+        $meter = Meter::firstOrNew(['application_id' => $application->id]);
+        
+        // Update meter details
+        $meter->meter_no = $application->meter_number;
+        $meter->subdivision_id = $application->subdivision_id;
+        $meter->sim_number = $validated['sim_number'];
+        $meter->seo_number = $validated['seo_number'];
+        $meter->installed_on = $validated['installed_on'];
+        $meter->status = 'active';
+        $meter->save();
+
+        // Create history record
+        ApplicationHistory::create([
+            'application_id' => $application->id,
+            'subdivision_id' => $application->subdivision_id,
+            'company_id' => $application->company_id,
+            'action_type' => 'meter_details_updated',
+            'remarks' => "Meter details updated by SDC: SIM Number: {$validated['sim_number']}, SEO Number: {$validated['seo_number']}, Installation Date: {$validated['installed_on']}",
+            'user_id' => $user->id,
+        ]);
+
+        // Save to GlobalSummary
+        $globalSummary = GlobalSummary::firstOrNew(['application_id' => $application->id]);
+        $globalSummary->application_no = $application->application_no;
+        $globalSummary->customer_name = $application->customer_name;
+        $globalSummary->meter_no = $application->meter_number;
+        $globalSummary->sim_date = $validated['installed_on'];
+        $globalSummary->customer_mobile_no = $application->phone;
+        $globalSummary->date_on_draft_store = now();
+        $globalSummary->save();
 
         return redirect()->route('sdc.dashboard')
-            ->with('success', 'Subdivision switched successfully.');
+            ->with('success', 'Meter details updated successfully.');
     }
 
     /**
-     * Display global summaries list.
+     * Request application deletion from admin.
      */
-    public function globalSummaries()
+    public function requestDeletion($applicationId)
     {
-        $currentSubdivisionId = session('current_subdivision_id');
-        $subdivisions = Subdivision::orderBy('name')->get();
-
-        $globalSummaries = GlobalSummary::whereHas('application', function($q) use ($currentSubdivisionId) {
-            if ($currentSubdivisionId) {
-                $q->where('subdivision_id', $currentSubdivisionId);
-            }
-        })
-        ->with('application')
-        ->latest()
-        ->paginate(15);
-
-        return view('sdc.global-summaries.index', compact('globalSummaries', 'subdivisions', 'currentSubdivisionId'));
-    }
-
-    /**
-     * Show the form for creating a global summary.
-     */
-    public function createGlobalSummary($applicationId)
-    {
-        $application = Application::with(['subdivision', 'company'])->findOrFail($applicationId);
-        return view('sdc.global-summaries.create', compact('application'));
-    }
-    
-    /**
-     * Store a newly created global summary.
-     */
-    public function storeGlobalSummary(Request $request, $applicationId)
-    {
-        $application = Application::findOrFail($applicationId);
+        $user = Auth::user();
         
-        $validated = $request->validate([
-            'sim_number' => 'nullable|string|max:50',
-            'consumer_address' => 'nullable|string',
-            'date_on_draft_store' => 'nullable|date',
-            'date_received_lm_consumer' => 'nullable|date',
-            'customer_mobile_no' => 'nullable|string|max:20',
-            'customer_sc_no' => 'nullable|string|max:50',
-            'date_return_sdc_billing' => 'nullable|date',
+        if ($user->role !== 'sdc') {
+            abort(403, 'Unauthorized access. SDC role required.');
+        }
+
+        $application = Application::where('assigned_sdc_id', $user->id)
+            ->findOrFail($applicationId);
+
+        // Create history record for deletion request
+        ApplicationHistory::create([
+            'application_id' => $application->id,
+            'subdivision_id' => $application->subdivision_id,
+            'company_id' => $application->company_id,
+            'action_type' => 'deletion_requested',
+            'remarks' => "SDC user {$user->name} has requested deletion of this application. Please contact admin.",
+            'user_id' => $user->id,
         ]);
-        
-        // Add application data to validated data
-        $validated['application_id'] = $application->id;
-        $validated['application_no'] = $application->application_no;
-        $validated['customer_name'] = $application->customer_name;
-        $validated['consumer_address'] = $application->address ?? $validated['consumer_address'] ?? null;
-        $validated['meter_no'] = $application->meter_number;
-        
-        GlobalSummary::create($validated);
-        
-        self::logActivity('Global Summary', 'Created', 'GlobalSummary', null, null, $validated);
-        
-        return redirect()->route('sdc.global-summaries')
-            ->with('success', 'Global summary created successfully.');
+
+        return redirect()->route('sdc.dashboard')
+            ->with('success', 'Deletion request has been sent to admin. Please contact admin for further action.');
     }
 
     /**
-     * Show the form for editing a global summary.
+     * Show global summary for an assigned application.
      */
-    public function editGlobalSummary($id)
+    public function showGlobalSummary($applicationId)
     {
-        $globalSummary = GlobalSummary::with('application')->findOrFail($id);
-        return view('sdc.global-summaries.edit', compact('globalSummary'));
-    }
+        $user = Auth::user();
+        
+        if ($user->role !== 'sdc') {
+            abort(403, 'Unauthorized access. SDC role required.');
+        }
 
-    /**
-     * Update the specified global summary.
-     */
-    public function updateGlobalSummary(Request $request, $id)
-    {
-        $globalSummary = GlobalSummary::findOrFail($id);
+        $application = Application::with(['company', 'subdivision', 'meter'])
+            ->where('assigned_sdc_id', $user->id)
+            ->findOrFail($applicationId);
+
+        // Get or create global summary for this application
+        $globalSummary = GlobalSummary::firstOrNew(['application_id' => $application->id]);
         
-        $validated = $request->validate([
-            'sim_number' => 'nullable|string|max:50',
-            'consumer_address' => 'nullable|string',
-            'date_on_draft_store' => 'nullable|date',
-            'date_received_lm_consumer' => 'nullable|date',
-            'customer_mobile_no' => 'nullable|string|max:20',
-            'customer_sc_no' => 'nullable|string|max:50',
-            'date_return_sdc_billing' => 'nullable|date',
-        ]);
+        // If global summary doesn't exist, populate it with application data
+        if (!$globalSummary->exists) {
+            $globalSummary->application_no = $application->application_no;
+            $globalSummary->customer_name = $application->customer_name;
+            $globalSummary->meter_no = $application->meter_number;
+            $globalSummary->customer_mobile_no = $application->phone;
+        }
         
-        $globalSummary->update($validated);
-        
-        self::logActivity('Global Summary', 'Updated', 'GlobalSummary', $id, null, $validated);
-        
-        return redirect()->route('sdc.global-summaries')
-            ->with('success', 'Global summary updated successfully.');
+        // Load meter details if available
+        if ($application->meter) {
+            $globalSummary->sim_date = $application->meter->installed_on;
+        }
+
+        return view('sdc.show-global-summary', compact('application', 'globalSummary'));
     }
 }

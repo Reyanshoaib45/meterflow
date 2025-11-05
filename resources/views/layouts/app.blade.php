@@ -56,6 +56,9 @@
     <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom-animations.css') }}">
     
+    <!-- Global Form Input Styles -->
+    <link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
+    
     <script>
         tailwind.config = {
             darkMode: 'class',

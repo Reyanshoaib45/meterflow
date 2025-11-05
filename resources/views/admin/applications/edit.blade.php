@@ -84,6 +84,23 @@
                             <p id="meter-status" class="mt-1 text-sm"></p>
                         </div>
 
+                        <div>
+                            <label for="assigned_sdc_id" class="block text-sm font-medium text-gray-700">Assign to SDC</label>
+                            <select name="assigned_sdc_id" id="assigned_sdc_id"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200">
+                                <option value="">-- Select SDC User --</option>
+                                @php
+                                    $sdcUsers = \App\Models\User::where('role', 'sdc')->orderBy('name')->get();
+                                @endphp
+                                @foreach($sdcUsers as $sdc)
+                                    <option value="{{ $sdc->id }}" {{ old('assigned_sdc_id', $application->assigned_sdc_id) == $sdc->id ? 'selected' : '' }}>
+                                        {{ $sdc->name }} ({{ $sdc->username }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            <p class="mt-1 text-sm text-gray-500">Assign this application to an SDC user for meter installation details</p>
+                        </div>
+
                         <div class="md:col-span-2">
                             <label for="remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
                             <textarea name="remarks" id="remarks" rows="3"

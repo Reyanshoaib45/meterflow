@@ -46,7 +46,15 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $application->created_at->format('Y-m-d') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('admin.applications.edit', $application) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                        <a href="{{ route('admin.applications.history', $application) }}" class="text-blue-600 hover:text-blue-900">History</a>
+                                        <a href="{{ route('admin.applications.history', $application) }}" class="text-blue-600 hover:text-blue-900 mr-3">History</a>
+                                        <form action="{{ route('admin.applications.destroy', $application) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this application? This action cannot be undone.')" 
+                                                    class="text-red-600 hover:text-red-900">
+                                                Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty

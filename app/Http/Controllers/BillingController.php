@@ -27,7 +27,7 @@ class BillingController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
-                $q->where('bill_number', 'like', "%{$search}%")
+                $q->where('bill_no', 'like', "%{$search}%")
                   ->orWhereHas('consumer', function($q) use ($search) {
                       $q->where('name', 'like', "%{$search}%")
                         ->orWhere('cnic', 'like', "%{$search}%");
@@ -124,7 +124,7 @@ class BillingController extends Controller
         $billNumber = 'BILL-' . date('Ym') . '-' . str_pad(Bill::count() + 1, 6, '0', STR_PAD_LEFT);
 
         $billData = array_merge($validated, [
-            'bill_number' => $billNumber,
+            'bill_no' => $billNumber,
             'units_consumed' => $unitsConsumed,
             'rate_per_unit' => $tariff->rate_per_unit,
             'energy_charges' => $energyCharges,
@@ -330,7 +330,7 @@ class BillingController extends Controller
                 $billNumber = 'BILL-' . $validated['billing_year'] . $validated['billing_month'] . '-' . str_pad(Bill::count() + 1, 6, '0', STR_PAD_LEFT);
 
                 Bill::create([
-                    'bill_number' => $billNumber,
+                    'bill_no' => $billNumber,
                     'consumer_id' => $meter->consumer_id,
                     'meter_id' => $meter->id,
                     'subdivision_id' => $meter->subdivision_id,
@@ -423,7 +423,7 @@ class BillingController extends Controller
 
             foreach ($bills as $bill) {
                 fputcsv($file, [
-                    $bill->bill_number,
+                    $bill->bill_no,
                     $bill->consumer->name ?? 'N/A',
                     $bill->consumer->cnic ?? 'N/A',
                     $bill->billing_month,

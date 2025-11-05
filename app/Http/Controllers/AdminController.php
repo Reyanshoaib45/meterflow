@@ -403,9 +403,12 @@ class AdminController extends Controller
             abort(403, 'Unauthorized access. Admin role required.');
         }
         
-        $subdivisions = Subdivision::orderBy('name')->get();
+        $subdivisions = Subdivision::with('company')->orderBy('name')->get();
         
-        return view('admin.users.create', compact('subdivisions'));
+        return response()->view('admin.users.create', compact('subdivisions'))
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
     
     /**
@@ -417,14 +420,38 @@ class AdminController extends Controller
             abort(403, 'Unauthorized access. Admin role required.');
         }
         
+        // Email validation - optional for SDC and RO roles, but ALWAYS unique when provided
+        if (in_array($request->role, ['sdc', 'ro'])) {
+            // For SDC/RO, email can be optional but if provided, must be valid email format and unique
+            if (!empty($request->email)) {
+                // Email provided: validate format and uniqueness
+                $emailRules = 'nullable|string|email:rfc,dns|max:255|unique:users,email';
+            } else {
+                // Email empty: allow NULL
+                $emailRules = 'nullable|string|max:255';
+            }
+        } else {
+            // For LS and other roles, email is required and must be unique
+            $emailRules = 'required|string|email:rfc,dns|max:255|unique:users,email';   
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => $emailRules,
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,user,ls',
-            'subdivision_ids' => 'required_if:role,ls|array',
+            'role' => 'required|in:admin,user,ls,sdc,ro',
+            'subdivision_ids' => 'required_if:role,ls|required_if:role,sdc|required_if:role,ro|array',
             'subdivision_ids.*' => 'exists:subdivisions,id',
+        ], [
+            'email.email' => 'Please enter a valid email address (e.g., user@example.com).',
+            'email.required' => 'The email field is required.',
+            'email.unique' => 'This email is already registered. Please use a different email address.',
         ]);
+
+        // If email is empty for SDC/RO, set it to NULL
+        if (in_array($request->role, ['sdc', 'ro']) && empty($validated['email'])) {
+            $validated['email'] = null;
+        }
         
         $validated['password'] = bcrypt($validated['password']);
         
@@ -432,20 +459,27 @@ class AdminController extends Controller
         $subdivisionIds = $validated['subdivision_ids'] ?? [];
         unset($validated['subdivision_ids']);
         
-        // Set the first subdivision as primary subdivision_id
-        if ($request->role === 'ls' && !empty($subdivisionIds)) {
+        // Set the first subdivision as primary subdivision_id for all roles that have subdivisions
+        if (!empty($subdivisionIds) && in_array($request->role, ['ls', 'sdc', 'ro'])) {
             $validated['subdivision_id'] = $subdivisionIds[0];
         }
         
         $user = User::create($validated);
         
-        // Update all selected subdivisions with this LS user's ID
-        if ($request->role === 'ls' && !empty($subdivisionIds)) {
-            Subdivision::whereIn('id', $subdivisionIds)->update(['ls_id' => $user->id]);
+        // Handle subdivision assignments based on role
+        if (!empty($subdivisionIds)) {
+            if ($request->role === 'ls') {
+                // For LS: Update subdivisions with ls_id
+                Subdivision::whereIn('id', $subdivisionIds)->update(['ls_id' => $user->id]);
+            } elseif (in_array($request->role, ['sdc', 'ro'])) {
+                // For SDC/RO: Use many-to-many pivot table
+                $user->subdivisions()->attach($subdivisionIds);
+            }
         }
         
-        return redirect()->route('admin.users')
-            ->with('success', 'User created successfully and assigned to ' . count($subdivisionIds) . ' subdivision(s).');
+        // Redirect to create page with success message
+        return redirect()->route('admin.users.create')
+            ->with('success', 'User created successfully' . (!empty($subdivisionIds) ? ' and assigned to ' . count($subdivisionIds) . ' subdivision(s).' : '.'));
     }
     
     /**
@@ -471,14 +505,38 @@ class AdminController extends Controller
             abort(403, 'Unauthorized access. Admin role required.');
         }
         
+        // Email validation - optional for SDC and RO roles, but ALWAYS unique when provided
+        if (in_array($request->role, ['sdc', 'ro'])) {
+            // For SDC/RO, email can be optional but if provided, must be valid email format and unique
+            if (!empty($request->email)) {
+                // Email provided: validate format and uniqueness (ignore current user)
+                $emailRules = 'nullable|string|email:rfc,dns|max:255|unique:users,email,' . $user->id;
+            } else {
+                // Email empty: allow NULL
+                $emailRules = 'nullable|string|max:255';
+            }
+        } else {
+            // For LS and other roles, email is required and must be unique (ignore current user)
+            $emailRules = 'required|string|email:rfc,dns|max:255|unique:users,email,' . $user->id;   
+        }
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'role' => 'required|in:admin,user,ls',
+            'email' => $emailRules,
+            'role' => 'required|in:admin,user,ls,sdc,ro',
             'password' => 'nullable|string|min:8|confirmed',
-            'subdivision_ids' => 'required_if:role,ls|array',
+            'subdivision_ids' => 'required_if:role,ls|required_if:role,sdc|required_if:role,ro|array',
             'subdivision_ids.*' => 'exists:subdivisions,id',
+        ], [
+            'email.email' => 'Please enter a valid email address (e.g., user@example.com).',
+            'email.required' => 'The email field is required.',
+            'email.unique' => 'This email is already registered. Please use a different email address.',
         ]);
+        
+        // If email is empty for SDC/RO, set it to NULL
+        if (in_array($request->role, ['sdc', 'ro']) && empty($validated['email'])) {
+            $validated['email'] = null;
+        }
         
         if (!empty($validated['password'])) {
             $validated['password'] = bcrypt($validated['password']);
@@ -595,6 +653,7 @@ class AdminController extends Controller
             'status' => 'required|in:pending,approved,rejected,closed',
             'fee_amount' => 'nullable|numeric|min:0',
             'meter_number' => 'nullable|string|max:255',
+            'assigned_sdc_id' => 'nullable|exists:users,id',
             'remarks' => 'nullable|string',
         ]);
         
@@ -603,17 +662,33 @@ class AdminController extends Controller
             'status' => $validated['status'],
             'fee_amount' => $validated['fee_amount'],
             'meter_number' => $validated['meter_number'],
+            'assigned_sdc_id' => $validated['assigned_sdc_id'] ?? null,
         ]);
         
         // Create history record
+        $remarks = $validated['remarks'] ?? "Status changed from {$oldStatus} to {$validated['status']} by admin";
+        if (!empty($validated['assigned_sdc_id'])) {
+            $sdcUser = \App\Models\User::find($validated['assigned_sdc_id']);
+            $remarks .= " | Assigned to SDC: {$sdcUser->name} (assigned_sdc_id: {$validated['assigned_sdc_id']})";
+        }
+        
         ApplicationHistory::create([
             'application_id' => $application->id,
             'subdivision_id' => $application->subdivision_id,
             'company_id' => $application->company_id,
             'action_type' => 'status_changed',
-            'remarks' => $validated['remarks'] ?? "Status changed from {$oldStatus} to {$validated['status']} by admin",
+            'remarks' => $remarks,
             'user_id' => Auth::id(),
         ]);
+        
+        // Save to GlobalSummary (create or update)
+        $globalSummary = \App\Models\GlobalSummary::firstOrNew(['application_id' => $application->id]);
+        $globalSummary->application_no = $application->application_no;
+        $globalSummary->customer_name = $application->customer_name;
+        $globalSummary->meter_no = $application->meter_number;
+        $globalSummary->customer_mobile_no = $application->phone;
+        $globalSummary->date_on_draft_store = now();
+        $globalSummary->save();
         
         return redirect()->route('admin.applications')
             ->with('success', 'Application updated successfully.');
@@ -634,6 +709,42 @@ class AdminController extends Controller
             ->get();
         
         return view('admin.applications.history', compact('application', 'history'));
+    }
+
+    /**
+     * Delete the specified application.
+     */
+    public function destroyApplication(Application $application)
+    {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized access. Admin role required.');
+        }
+
+        // Save to GlobalSummary before deletion
+        $globalSummary = \App\Models\GlobalSummary::firstOrNew(['application_id' => $application->id]);
+        $globalSummary->application_no = $application->application_no;
+        $globalSummary->customer_name = $application->customer_name;
+        $globalSummary->meter_no = $application->meter_number;
+        $globalSummary->customer_mobile_no = $application->phone;
+        $globalSummary->date_on_draft_store = now();
+        $globalSummary->save();
+
+        // Create history record
+        ApplicationHistory::create([
+            'application_id' => $application->id,
+            'subdivision_id' => $application->subdivision_id,
+            'company_id' => $application->company_id,
+            'action_type' => 'deleted',
+            'remarks' => "Application deleted by admin: {$application->application_no}. Deletion saved to GlobalSummary.",
+            'user_id' => Auth::id(),
+        ]);
+
+        // Delete the application
+        $applicationNo = $application->application_no;
+        $application->delete();
+
+        return redirect()->route('admin.applications')
+            ->with('success', "Application {$applicationNo} has been deleted successfully. Deletion record saved to GlobalSummary.");
     }
     
     /**

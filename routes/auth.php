@@ -57,7 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
 });
+
+// Logout route - accessible even if session expires (no auth middleware)
+Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');

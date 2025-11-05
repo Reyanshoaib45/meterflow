@@ -390,21 +390,27 @@ img:hover {
    =================================== */
 
 .select2-container--default .select2-selection--single {
-    height: 44px;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
+    height: auto !important;
+    min-height: 48px !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.5rem !important;
+    padding: 0.75rem 1rem !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 28px;
-    padding-left: 0;
-    color: #374151;
+    line-height: 1.5rem !important;
+    padding: 0 !important;
+    color: #111827 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 42px;
-    right: 8px;
+    height: auto !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    right: 8px !important;
 }
 
 .select2-container--default .select2-selection--multiple {

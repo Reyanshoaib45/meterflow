@@ -44,8 +44,12 @@
                         
                         <div class="space-y-3">
                             <div>
-                                <label class="block text-sm font-medium text-gray-500">SIM Date</label>
-                                <div class="mt-1 text-sm text-gray-900">{{ $globalSummary->sim_date ? $globalSummary->sim_date->format('Y-m-d') : 'N/A' }}</div>
+                                <label class="block text-sm font-medium text-gray-500">SIM Number</label>
+                                <div class="mt-1 text-sm text-gray-900">{{ $globalSummary->sim_number ?? 'N/A' }}</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-500">Consumer Address</label>
+                                <div class="mt-1 text-sm text-gray-900">{{ $globalSummary->consumer_address ?? 'N/A' }}</div>
                             </div>
                             
                             <div>

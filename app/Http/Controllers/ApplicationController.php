@@ -8,6 +8,7 @@ use App\Models\Meter;
 use App\Models\Company;
 use App\Models\Subdivision;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ApplicationController extends Controller
@@ -68,7 +69,7 @@ class ApplicationController extends Controller
         
         $application = Application::where('application_no', $applicationNo)->first();
         
-        // If no application exists, it's available
+        // If no application exists, it's available (new application number)
         if (!$application) {
             return response()->json([
                 'available' => true,
@@ -76,18 +77,10 @@ class ApplicationController extends Controller
             ]);
         }
         
-        // If application exists and is rejected, show error
-        if ($application->status === 'rejected') {
-            return response()->json([
-                'available' => false,
-                'message' => 'This application number was rejected. Please use a different number.'
-            ]);
-        }
-        
-        // If application exists but not rejected, allow it
+        // If application already exists, it's not available for new submission
         return response()->json([
-            'available' => true,
-            'message' => 'Application number is available (existing application is ' . $application->status . ')'
+            'available' => false,
+            'message' => 'This application number already exists. Please use a different number.'
         ]);
     }
     public function track(Request $request)
@@ -132,6 +125,11 @@ class ApplicationController extends Controller
         $validated['cnic'] = $validated['customer_cnic'] ?? null;
         unset($validated['customer_cnic']);
         
+        // Set user_id if user is authenticated
+        if (Auth::check()) {
+            $validated['user_id'] = Auth::id();
+        }
+        
         // Create application
         $app = Application::create($validated);
 
@@ -142,6 +140,7 @@ class ApplicationController extends Controller
             'company_id' => $app->company_id,
             'action_type' => 'submitted',
             'remarks' => 'Application submitted by customer',
+            'user_id' => Auth::check() ? Auth::id() : null,
         ]);
 
         return redirect()->route('application.thanks', ['application_no' => $app->application_no]);
