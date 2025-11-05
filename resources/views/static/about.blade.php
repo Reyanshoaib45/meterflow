@@ -99,7 +99,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover" data-aos="flip-up" data-aos-delay="100">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center border border-gray-200 dark:border-gray-700 hover-lift card-hover" data-aos="flip-up" data-aos-delay="100">
                     <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce-gentle">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -112,27 +112,27 @@
                     </p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover" data-aos="flip-up" data-aos-delay="300">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center border border-gray-200 dark:border-gray-700 hover-lift card-hover" data-aos="flip-up" data-aos-delay="300">
                     <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-heartbeat">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Real-time Tracking</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Real-time Tracking</h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                         Track your application status in real-time with our advanced tracking system. 
                         Stay informed at every step of the process.
                     </p>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-200 hover-lift card-hover" data-aos="flip-up" data-aos-delay="500">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 text-center border border-gray-200 dark:border-gray-700 hover-lift card-hover" data-aos="flip-up" data-aos-delay="500">
                     <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-glow">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">24/7 Support</h3>
-                    <p class="text-gray-600 leading-relaxed">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">24/7 Support</h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                         Get help whenever you need it with our round-the-clock customer support. 
                         We're here to assist you at every step.
                     </p>
@@ -189,7 +189,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center border border-gray-200 hover-lift">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center border border-gray-200 dark:border-gray-700 hover-lift">
                     <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -199,34 +199,34 @@
                     <p class="text-gray-600 dark:text-gray-300 text-sm">Consistent, dependable service you can trust</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center border border-gray-200 hover-lift">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center border border-gray-200 dark:border-gray-700 hover-lift">
                     <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Innovation</h3>
-                    <p class="text-gray-600 text-sm">Cutting-edge solutions for modern challenges</p>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Innovation</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Cutting-edge solutions for modern challenges</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center border border-gray-200 hover-lift">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center border border-gray-200 dark:border-gray-700 hover-lift">
                     <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Community</h3>
-                    <p class="text-gray-600 text-sm">Serving the people of Pakistan with dedication</p>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Community</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Serving the people of Pakistan with dedication</p>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-lg p-6 text-center border border-gray-200 hover-lift">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center border border-gray-200 dark:border-gray-700 hover-lift">
                     <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">Excellence</h3>
-                    <p class="text-gray-600 text-sm">Striving for the highest quality in everything</p>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Excellence</h3>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm">Striving for the highest quality in everything</p>
                 </div>
             </div>
         </div>

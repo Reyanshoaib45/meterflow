@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function() {
     // Application actions
     Route::post('/application/{application_no}/close', [ApplicationController::class, 'close'])->name('application.close');
     Route::get('/application/{application_no}/invoice', [ApplicationController::class, 'generateInvoice'])->name('application.invoice');
+    Route::get('/application/{application_no}/invoice/download', [ApplicationController::class, 'downloadInvoice'])->name('application.invoice.download');
 
     // Complaint routes (protected)
     Route::get('/file-complaint', function(){

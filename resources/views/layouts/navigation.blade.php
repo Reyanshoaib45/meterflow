@@ -48,6 +48,19 @@
             </div>
 
             @if(Auth::check())
+                <!-- Dark Mode Toggle -->
+                <div class="hidden sm:flex sm:items-center sm:me-4">
+                    <button id="darkModeToggle" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none transition duration-150 ease-in-out">
+                        <!-- Sun icon (shown in dark mode) -->
+                        <svg id="sunIcon" class="h-5 w-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <!-- Moon icon (shown in light mode) -->
+                        <svg id="moonIcon" class="h-5 w-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                </div>
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -69,21 +82,6 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <!-- Dark Mode Toggle in Dropdown -->
-                            <button id="darkModeToggle" type="button" class="w-full flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                <!-- Sun icon (shown in dark mode) -->
-                                <svg id="sunIcon" class="h-5 w-5 mr-2 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                                <!-- Moon icon (shown in light mode) -->
-                                <svg id="moonIcon" class="h-5 w-5 mr-2 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                </svg>
-                                <span id="darkModeToggleText">Toggle Dark Mode</span>
-                            </button>
-                            
-                            <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                            
                             <x-dropdown-link :href="route('profile.edit')" class="flex items-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />

@@ -102,12 +102,16 @@ class ApplicationController extends Controller
             'application_no' => 'required|string|max:50|unique:applications,application_no',
             'customer_name'  => 'required|string|max:200',
             'customer_cnic'  => 'nullable|string|max:30',
-            'phone'          => 'nullable|string|max:30',
+            'phone'          => 'required|string|regex:/^[0-9]{12}$/|max:12',
             'address'        => 'nullable|string',
             'company_id'     => 'nullable|exists:companies,id',
             'subdivision_id' => 'nullable|exists:subdivisions,id',
             'meter_number'   => 'nullable|string|max:100',
             'connection_type'=> 'nullable|string|max:50',
+        ], [
+            'phone.required' => 'The phone number is required.',
+            'phone.regex' => 'The phone number must be exactly 12 numeric digits.',
+            'phone.max' => 'The phone number must be exactly 12 digits.',
         ]);
 
         // Check if meter number already exists
@@ -197,5 +201,33 @@ class ApplicationController extends Controller
         }
         
         return view('user.invoice', compact('application'));
+    }
+
+    /**
+     * Download invoice as PDF.
+     */
+    public function downloadInvoice($application_no)
+    {
+        $application = Application::where('application_no', $application_no)
+            ->with(['company', 'subdivision'])
+            ->firstOrFail();
+        
+        // Check if application is approved and has fee
+        if ($application->status !== 'approved' || empty($application->fee_amount)) {
+            return back()->with('error', 'Invoice can only be downloaded for approved applications with fee.');
+        }
+        
+        // Generate PDF using browser print or return HTML for download
+        // For now, we'll return a view optimized for PDF generation
+        $pdfView = view('user.invoice-pdf', compact('application'));
+        
+        // Generate filename
+        $filename = 'Invoice_' . $application->application_no . '_' . date('Y-m-d') . '.html';
+        
+        // Return as downloadable HTML (can be converted to PDF by browser)
+        return response()->make($pdfView, 200, [
+            'Content-Type' => 'text/html',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
     }
 }
