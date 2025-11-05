@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('code');
+            $table->foreignId('ls_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->boolean('is_active')->default(true);
+            $table->text('subdivision_message')->nullable();
             $table->timestamps();
         });
     }
@@ -28,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('subdivisions');
     }
 };
+

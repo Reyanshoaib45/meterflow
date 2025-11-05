@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('action_type'); // submitted, verified, approved, rejected, status_changed, closed
             $table->text('remarks')->nullable();
+            $table->string('seo_number')->nullable();
+            $table->boolean('sent_to_ro')->default(false);
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
@@ -31,3 +33,4 @@ return new class extends Migration
         Schema::dropIfExists('application_histories');
     }
 };
+

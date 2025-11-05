@@ -20,7 +20,6 @@ class ExtraSummary extends Model
         'application_no',
         'customer_name',
         'meter_no',
-        'sim_date',
         'date_on_draft_store',
         'date_received_lm_consumer',
         'customer_mobile_no',
@@ -33,7 +32,6 @@ class ExtraSummary extends Model
      * The attributes that should be cast.
      */
     protected $casts = [
-        'sim_date' => 'date',
         'date_on_draft_store' => 'date',
         'date_received_lm_consumer' => 'date',
         'date_return_sdc_billing' => 'date',

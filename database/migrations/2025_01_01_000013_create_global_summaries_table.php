@@ -15,14 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('application_no');
             $table->string('customer_name');
+            $table->text('consumer_address')->nullable();
             $table->string('meter_no')->nullable();
-            $table->date('sim_date')->nullable();
+            $table->string('sim_number')->nullable();
             $table->date('date_on_draft_store')->nullable();
             $table->date('date_received_lm_consumer')->nullable();
             $table->string('customer_mobile_no')->nullable();
             $table->string('customer_sc_no')->nullable();
             $table->date('date_return_sdc_billing')->nullable();
-            $table->foreignId('application_id')->constrained()->onDelete('cascade');
+            $table->foreignId('application_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -35,3 +36,4 @@ return new class extends Migration
         Schema::dropIfExists('global_summaries');
     }
 };
+

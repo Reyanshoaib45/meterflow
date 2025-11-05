@@ -25,9 +25,10 @@ class DatabaseSeeder extends Seeder
         // ===================================================================
         
         $seeders = [
+            'admin_user'      => true,   // Admin user (separate seeder)
             'companies'       => true,   // Companies (MEPCO, LESCO, etc.)
             'subdivisions'    => true,   // Subdivisions with LS users
-            'users'           => true,   // Admin, SDC, RO, and additional LS users
+            'users'           => true,   // SDC, RO, and additional LS users
             'tariffs'         => true,   // Tariff rates
             'consumers'       => true,   // Consumer accounts
             'applications'    => true,   // New meter applications
@@ -44,6 +45,11 @@ class DatabaseSeeder extends Seeder
         // ===================================================================
         
         $executionOrder = [
+            'admin_user' => [
+                'enabled' => $seeders['admin_user'],
+                'class' => AdminUserSeeder::class,
+                'name' => 'Admin User',
+            ],
             'companies' => [
                 'enabled' => $seeders['companies'],
                 'class' => CompanySeeder::class,
@@ -57,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'users' => [
                 'enabled' => $seeders['users'],
                 'class' => UserSeeder::class,
-                'name' => 'Additional Users',
+                'name' => 'Additional Users (SDC, RO, LS)',
             ],
             'tariffs' => [
                 'enabled' => $seeders['tariffs'],

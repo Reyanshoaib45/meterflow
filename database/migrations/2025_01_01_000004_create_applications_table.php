@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('application_no')->unique();
             $table->string('customer_name');
             $table->text('address')->nullable();
@@ -26,6 +27,15 @@ return new class extends Migration
             $table->string('connection_type')->nullable();
             $table->string('status')->default('pending');
             $table->decimal('fee_amount', 10, 2)->nullable();
+            // Assignment fields
+            $table->foreignId('assigned_ro_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('assigned_ls_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('assigned_sdc_id')->nullable()->constrained('users')->onDelete('set null');
+            // Installation tracking fields
+            $table->date('installation_date')->nullable();
+            $table->decimal('gps_latitude', 10, 8)->nullable();
+            $table->decimal('gps_longitude', 10, 8)->nullable();
+            $table->text('installation_remarks')->nullable();
             $table->timestamps();
         });
     }
@@ -38,3 +48,4 @@ return new class extends Migration
         Schema::dropIfExists('applications');
     }
 };
+

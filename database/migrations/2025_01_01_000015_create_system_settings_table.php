@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('application_summaries', function (Blueprint $table) {
+        Schema::create('system_settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('application_id')->constrained()->onDelete('cascade');
-            $table->integer('total_meters');
-            $table->decimal('total_load', 10, 2);
-            $table->decimal('avg_reading', 10, 2);
-            $table->text('remarks')->nullable();
+            $table->string('key')->unique();
+            $table->text('value')->nullable();
+            $table->string('type')->default('string');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('application_summaries');
+        Schema::dropIfExists('system_settings');
     }
 };
+

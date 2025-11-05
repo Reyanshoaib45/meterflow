@@ -16,17 +16,22 @@ class ApplicationHistory extends Model
      */
     protected $fillable = [
         'application_id',
-        'meter_number',
-        'name',
-        'email',
-        'phone_number',
         'subdivision_id',
         'company_id',
         'action_type',
         'remarks',
-        'user_id',
         'seo_number',
         'sent_to_ro',
+        'user_id',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'sent_to_ro' => 'boolean',
     ];
 
     /**

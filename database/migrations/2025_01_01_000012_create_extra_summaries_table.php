@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('application_no');
             $table->string('customer_name');
             $table->string('meter_no')->nullable();
-            $table->date('sim_date')->nullable();
             $table->date('date_on_draft_store')->nullable();
             $table->date('date_received_lm_consumer')->nullable();
             $table->string('customer_mobile_no', 20)->nullable();
@@ -37,3 +36,4 @@ return new class extends Migration
         Schema::dropIfExists('extra_summaries');
     }
 };
+

@@ -13,7 +13,7 @@ class ComplaintHistory extends Model
         'complaint_id',
         'user_id',
         'action',
-        'comment',
+        'remarks',
         'old_status',
         'new_status',
     ];

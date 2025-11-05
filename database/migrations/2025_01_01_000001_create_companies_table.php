@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('meters', function (Blueprint $table) {
-            $table->string('seo_number')->nullable()->after('sim_number');
+        Schema::create('companies', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('code')->unique();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('meters', function (Blueprint $table) {
-            $table->dropColumn('seo_number');
-        });
+        Schema::dropIfExists('companies');
     }
 };
+

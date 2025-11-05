@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('complaint_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('action');
-            $table->text('remarks')->nullable(); // Changed from comment to remarks
+            $table->text('remarks')->nullable();
             $table->string('old_status')->nullable();
             $table->string('new_status')->nullable();
             $table->timestamps();
@@ -31,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('complaint_histories');
     }
 };
+

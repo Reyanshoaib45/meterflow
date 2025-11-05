@@ -17,21 +17,6 @@ class UserSeeder extends Seeder
     {
         $this->command->info('👤 Creating users...');
 
-        // Create Admin User
-        $existingAdmin = User::where('username', 'admin')->orWhere('role', 'admin')->first();
-        if (!$existingAdmin) {
-            $admin = User::create([
-                'name' => 'Admin User',
-                'email' => 'admin@mepco.gov.pk',
-                'username' => 'admin',
-                'password' => Hash::make('password@123'),
-                'role' => 'admin',
-            ]);
-            $this->command->info('   ✓ Admin user created: admin / password@123');
-        } else {
-            $this->command->warn('   ⚠ Admin user already exists');
-        }
-
         // Create LS Users for existing subdivisions
         $subdivisions = Subdivision::with('company')->get();
         
