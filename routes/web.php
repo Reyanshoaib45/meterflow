@@ -315,7 +315,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/ro/dashboard', [ROController::class, 'dashboard'])->name('ro.dashboard');
         Route::get('/ro/summary/{id}', [ROController::class, 'viewSummary'])->name('ro.view-summary');
         Route::get('/ro/billing/{summaryId}/manage', [ROController::class, 'manageBilling'])->name('ro.manage-billing');
-        Route::post('/ro/billing/{summaryId}/create', [ROController::class, 'createBill'])->name('ro.create-bill');
+        Route::get('/ro/invoice/{billId}', [ROController::class, 'invoice'])->name('ro.invoice');
         Route::post('/ro/switch-subdivision', [ROController::class, 'switchSubdivision'])->name('ro.switch-subdivision');
     });
 });

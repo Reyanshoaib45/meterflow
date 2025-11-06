@@ -57,7 +57,13 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Installation Date</label>
-                            <div class="text-lg font-semibold text-gray-900 dark:text-white">{{ $application->meter->installed_on ? $application->meter->installed_on->format('Y-m-d') : 'N/A' }}</div>
+                            <div class="text-lg font-semibold text-gray-900 dark:text-white">
+                                @if($application->meter->installed_on)
+                                    {{ $application->meter->installed_on->format('Y-m-d') }}
+                                @else
+                                    N/A
+                                @endif
+                            </div>
                         </div>
                         @else
                         <div class="text-center py-4">

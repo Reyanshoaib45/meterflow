@@ -107,6 +107,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Customer Name</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Consumer Address</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">SEO Number</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Assigned RO</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date Received</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                             </tr>
@@ -115,6 +116,10 @@
                             @foreach($summariesForRO as $summary)
                                 @php
                                     $latestHistory = $summary->application->histories->where('sent_to_ro', true)->first();
+                                    // If no sent_to_ro history, get latest history with seo_number
+                                    if (!$latestHistory && $summary->application->meter) {
+                                        $latestHistory = $summary->application->histories->whereNotNull('seo_number')->latest()->first();
+                                    }
                                 @endphp
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
@@ -128,6 +133,15 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                         {{ $latestHistory->seo_number ?? 'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                        @if($summary->application->assignedRO)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                                                {{ $summary->application->assignedRO->name }}
+                                            </span>
+                                        @else
+                                            <span class="text-gray-400">Not Assigned</span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                         {{ $latestHistory ? $latestHistory->created_at->format('d M Y') : 'N/A' }}

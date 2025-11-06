@@ -161,12 +161,12 @@
                         <label for="phone_field" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone <span class="text-red-500">*</span></label>
                         <input x-model="form.phone" @input="validatePhone(); checkStep(3)" name="phone" value="{{ old('phone') }}" :disabled="step < 3"
                             class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition disabled:bg-gray-100 dark:disabled:bg-gray-800" 
-                            placeholder="923001234567 (12 digits)" id="phone_field" required
-                            pattern="[0-9]{12}" maxlength="12" title="Phone must be 12 digits">
+                            placeholder="03001234567 (11 digits)" id="phone_field" required
+                            pattern="[0-9]{11}" maxlength="11" title="Phone must be 11 digits">
                         <p x-show="phoneError" class="text-xs text-red-600 mt-1">
-                            <i class="fas fa-exclamation-circle"></i> Phone must be exactly 12 numeric digits
+                            <i class="fas fa-exclamation-circle"></i> Phone must be exactly 11 numeric digits
                         </p>
-                        <p x-show="!phoneError && form.phone && form.phone.length === 12" class="text-xs text-green-600 mt-1">
+                        <p x-show="!phoneError && form.phone && form.phone.length === 11" class="text-xs text-green-600 mt-1">
                             <i class="fas fa-check-circle"></i> Valid phone number
                         </p>
                     </div>
@@ -369,9 +369,9 @@
                 // Remove any non-numeric characters
                 this.form.phone = this.form.phone.replace(/[^0-9]/g, '');
                 const phone = this.form.phone;
-                // Check if phone is exactly 12 digits
+                // Check if phone is exactly 11 digits
                 if (phone && phone.length > 0) {
-                    const isValid = /^[0-9]{12}$/.test(phone);
+                    const isValid = /^[0-9]{11}$/.test(phone);
                     this.phoneError = !isValid;
                 } else {
                     this.phoneError = false;
@@ -392,8 +392,8 @@
                         break;
                     case 3: 
                         value = this.form.phone;
-                        // Check phone is valid (12 digits)
-                        isValid = /^[0-9]{12}$/.test(value);
+                        // Check phone is valid (11 digits)
+                        isValid = /^[0-9]{11}$/.test(value);
                         if (!isValid) this.phoneError = true;
                         break;
                     case 4: value = this.form.address; break;
@@ -474,7 +474,7 @@
                                 /^[0-9]{13}$/.test(this.form.customer_cnic) &&
                                 this.form.phone &&
                                 !this.phoneError &&
-                                /^[0-9]{12}$/.test(this.form.phone) &&
+                                /^[0-9]{11}$/.test(this.form.phone) &&
                                 this.form.address &&
                                 this.form.company_id &&
                                 this.form.subdivision_id &&

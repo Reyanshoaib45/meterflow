@@ -70,7 +70,45 @@
                                     <div class="bg-gradient-to-r from-blue-500 to-indigo-500 w-8 h-8 rounded-full flex items-center justify-center mr-2">
                                         <span class="text-white font-medium text-sm">{{ substr(Auth::user()->name ?? 'U', 0, 1) }}</span>
                                     </div>
-                                    <div>{{ Auth::user()->name ?? 'User' }}</div>
+                                    <div class="text-left">
+                                        <div class="font-medium">{{ Auth::user()->name ?? 'User' }}</div>
+                                        @php
+                                            $user = Auth::user();
+                                            $roleNames = [
+                                                'ls' => 'LS',
+                                                'sdc' => 'SDC',
+                                                'ro' => 'RO',
+                                                'admin' => 'Admin',
+                                            ];
+                                            $roleName = $roleNames[$user->role] ?? strtoupper($user->role ?? '');
+                                            
+                                            // Get current subdivision for LS/SDC/RO
+                                            $currentSubdivision = null;
+                                            if ($user->role === 'ls') {
+                                                $currentSubdivisionId = session('current_subdivision_id');
+                                                if ($currentSubdivisionId) {
+                                                    $currentSubdivision = \App\Models\Subdivision::find($currentSubdivisionId);
+                                                } elseif ($user->lsSubdivisions->count() > 0) {
+                                                    $currentSubdivision = $user->lsSubdivisions->first();
+                                                }
+                                            } elseif (in_array($user->role, ['sdc', 'ro'])) {
+                                                $currentSubdivisionId = session('current_subdivision_id');
+                                                if ($currentSubdivisionId) {
+                                                    $currentSubdivision = $user->subdivisions()->find($currentSubdivisionId);
+                                                } elseif ($user->subdivisions->count() > 0) {
+                                                    $currentSubdivision = $user->subdivisions->first();
+                                                }
+                                            }
+                                        @endphp
+                                        @if($roleName)
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                                {{ $roleName }}
+                                                @if($currentSubdivision)
+                                                    | {{ $currentSubdivision->name }}
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
 
                                 <div class="ms-1">
@@ -262,8 +300,45 @@
                         <span class="text-white font-medium">{{ substr(Auth::user()->name ?? 'U', 0, 1) }}</span>
                     </div>
                     <div>
+                        @php
+                            $user = Auth::user();
+                            $roleNames = [
+                                'ls' => 'LS',
+                                'sdc' => 'SDC',
+                                'ro' => 'RO',
+                                'admin' => 'Admin',
+                            ];
+                            $roleName = $roleNames[$user->role] ?? strtoupper($user->role ?? '');
+                            
+                            // Get current subdivision for LS/SDC/RO
+                            $currentSubdivision = null;
+                            if ($user->role === 'ls') {
+                                $currentSubdivisionId = session('current_subdivision_id');
+                                if ($currentSubdivisionId) {
+                                    $currentSubdivision = \App\Models\Subdivision::find($currentSubdivisionId);
+                                } elseif ($user->lsSubdivisions->count() > 0) {
+                                    $currentSubdivision = $user->lsSubdivisions->first();
+                                }
+                            } elseif (in_array($user->role, ['sdc', 'ro'])) {
+                                $currentSubdivisionId = session('current_subdivision_id');
+                                if ($currentSubdivisionId) {
+                                    $currentSubdivision = $user->subdivisions()->find($currentSubdivisionId);
+                                } elseif ($user->subdivisions->count() > 0) {
+                                    $currentSubdivision = $user->subdivisions->first();
+                                }
+                            }
+                        @endphp
                         <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name ?? 'User' }}</div>
-                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email ?? '' }}</div>
+                        <div class="font-medium text-sm text-gray-500">
+                            @if($roleName)
+                                {{ $roleName }}
+                                @if($currentSubdivision)
+                                    | {{ $currentSubdivision->name }}
+                                @endif
+                            @else
+                                {{ Auth::user()->email ?? '' }}
+                            @endif
+                        </div>
                     </div>
                 </div>
 

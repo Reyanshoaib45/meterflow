@@ -102,7 +102,7 @@ class ApplicationController extends Controller
             'application_no' => 'required|string|max:50|unique:applications,application_no',
             'customer_name'  => 'required|string|max:200',
             'customer_cnic'  => 'nullable|string|max:30',
-            'phone'          => 'required|string|regex:/^[0-9]{12}$/|max:12',
+            'phone'          => 'required|string|regex:/^[0-9]{11}$/|max:11',
             'address'        => 'nullable|string',
             'company_id'     => 'nullable|exists:companies,id',
             'subdivision_id' => 'nullable|exists:subdivisions,id',
@@ -110,8 +110,8 @@ class ApplicationController extends Controller
             'connection_type'=> 'nullable|string|max:50',
         ], [
             'phone.required' => 'The phone number is required.',
-            'phone.regex' => 'The phone number must be exactly 12 numeric digits.',
-            'phone.max' => 'The phone number must be exactly 12 digits.',
+            'phone.regex' => 'The phone number must be exactly 11 numeric digits.',
+            'phone.max' => 'The phone number must be exactly 11 digits.',
         ]);
 
         // Check if meter number already exists

@@ -137,10 +137,10 @@
                     </div>
                 @endif
 
-                <!-- Username -->
+                <!-- Username or Email -->
                 <div>
                     <label for="username" class="block text-sm font-medium {{ $labelText }} mb-2">
-                        Username
+                        Username or Email
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -150,7 +150,7 @@
                         </div>
                         <input id="username" name="username" type="text" required autofocus
                                class="block w-full pl-10 pr-3 py-3 {{ $inputBg }} border rounded-lg focus:ring-2 {{ $isDarkTheme ? 'focus:ring-purple-500 focus:border-purple-500' : 'focus:ring-green-500 focus:border-transparent' }} transition"
-                               placeholder="Enter your username"
+                               placeholder="Enter your username or email"
                                value="{{ old('username') }}">
                     </div>
                 </div>

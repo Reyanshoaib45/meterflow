@@ -16,8 +16,23 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        
+        // Load subdivisions based on user role
+        $subdivisions = collect();
+        if ($user->role === 'ls') {
+            // LS users: subdivisions assigned via ls_id
+            $subdivisions = \App\Models\Subdivision::where('ls_id', $user->id)
+                ->with('company')
+                ->get();
+        } elseif (in_array($user->role, ['sdc', 'ro'])) {
+            // SDC/RO users: subdivisions assigned via pivot table
+            $subdivisions = $user->subdivisions()->with('company')->get();
+        }
+        
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'subdivisions' => $subdivisions,
         ]);
     }
 

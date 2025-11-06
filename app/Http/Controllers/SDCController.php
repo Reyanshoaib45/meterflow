@@ -22,12 +22,14 @@ class SDCController extends Controller
      */
     public function selectSubdivision()
     {
-        // Show all subdivisions that have SDC users assigned via pivot table   
-        $subdivisions = Subdivision::with(['company'])
+        // Show subdivisions that have SDC users assigned
+        // Prefer subdivisions that have both SDC and LS, but show all with SDC
+        $subdivisions = Subdivision::with(['company', 'lsUser'])
             ->whereHas('users', function($query) {
                 $query->where('users.role', 'sdc');
             })
             ->withCount(['applications', 'meters'])
+            ->orderByRaw('CASE WHEN ls_id IS NOT NULL THEN 0 ELSE 1 END') // Prioritize those with LS
             ->orderBy('name')
             ->get();
         
@@ -60,14 +62,27 @@ class SDCController extends Controller
             'subdivision_id' => 'required|exists:subdivisions,id',
         ]);
 
-        // Find user by username
-        $user = User::where('username', $credentials['username'])
+        $loginValue = trim($credentials['username']);
+        
+        // Try to find user by username or email (case-insensitive)
+        $user = User::where(function($query) use ($loginValue) {
+                $query->whereRaw('LOWER(username) = ?', [strtolower($loginValue)])
+                      ->orWhereRaw('LOWER(email) = ?', [strtolower($loginValue)]);
+            })
             ->where('role', 'sdc')
             ->first();
 
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+        // Check if user exists
+        if (!$user) {
             return back()->withErrors([
-                'username' => 'The provided credentials do not match our records.',
+                'username' => 'No SDC user found with this username/email. Please check your credentials and try again.',
+            ])->onlyInput('username');
+        }
+
+        // Check password
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors([
+                'password' => 'The password you entered is incorrect. Please try again.',
             ])->onlyInput('username');
         }
 
@@ -80,7 +95,7 @@ class SDCController extends Controller
 
         if (!$subdivision) {
             return back()->withErrors([
-                'username' => 'You are not authorized to access this subdivision.',
+                'username' => 'You are not authorized to access this subdivision. Please contact admin to assign you to this subdivision.',
             ])->onlyInput('username');
         }
 
@@ -153,7 +168,12 @@ class SDCController extends Controller
                 ->with('error', 'You can only edit meter details within 24 hours of assignment. Please contact admin for changes.');
         }
 
-        return view('sdc.edit-meter', compact('application'));
+        // Get RO users assigned to this subdivision
+        $roUsers = User::where('role', 'ro')
+            ->orderBy('name')
+            ->get();
+
+        return view('sdc.edit-meter', compact('application', 'roUsers'));
     }
 
     /**
@@ -189,13 +209,42 @@ class SDCController extends Controller
             'sim_number' => 'required|string|max:50',
             'seo_number' => 'required|string|max:50',
             'installed_on' => 'required|date',
+            'assigned_ro_id' => 'nullable|exists:users,id',
         ]);
 
+        // NOTE: Allow assigning any RO user (not limited to subdivision)
+        if (!empty($validated['assigned_ro_id'])) {
+            $roUser = User::where('id', $validated['assigned_ro_id'])
+                ->where('role', 'ro')
+                ->first();
+            
+            if (!$roUser) {
+                return back()->withErrors([
+                    'assigned_ro_id' => 'The selected RO user is invalid.',
+                ])->withInput();
+            }
+        }
+
         // Find or create meter for this application
-        $meter = Meter::firstOrNew(['application_id' => $application->id]);
+        // First check if meter exists for this application
+        $meter = Meter::where('application_id', $application->id)->first();
         
-        // Update meter details
-        $meter->meter_no = $application->meter_number;
+        // If meter doesn't exist for this application, check if meter_no already exists
+        if (!$meter) {
+            $meter = Meter::where('meter_no', $application->meter_number)->first();
+        }
+        
+        // If still no meter found, create new one
+        if (!$meter) {
+            $meter = new Meter();
+            $meter->meter_no = $application->meter_number;
+        }
+        
+        // Update meter details (only update meter_no if it's a new meter)
+        if (!$meter->exists) {
+            $meter->meter_no = $application->meter_number;
+        }
+        $meter->application_id = $application->id;
         $meter->subdivision_id = $application->subdivision_id;
         $meter->sim_number = $validated['sim_number'];
         $meter->seo_number = $validated['seo_number'];
@@ -203,13 +252,35 @@ class SDCController extends Controller
         $meter->status = 'active';
         $meter->save();
 
+        // Update assigned RO if provided
+        if (!empty($validated['assigned_ro_id'])) {
+            $application->assigned_ro_id = $validated['assigned_ro_id'];
+            $application->save();
+
+            // Ensure the selected RO has access to this subdivision
+            $roUser = User::find($validated['assigned_ro_id']);
+            if ($roUser) {
+                $roUser->subdivisions()->syncWithoutDetaching([$application->subdivision_id]);
+            }
+        }
+
         // Create history record
+        $remarks = "Meter details updated by SDC: SIM Number: {$validated['sim_number']}, SEO Number: {$validated['seo_number']}, Installation Date: {$validated['installed_on']}";
+        $sentToRO = false;
+        if (!empty($validated['assigned_ro_id'])) {
+            $roUser = User::find($validated['assigned_ro_id']);
+            $remarks .= " | Assigned to RO: {$roUser->name}";
+            $sentToRO = true;
+        }
+        
         ApplicationHistory::create([
             'application_id' => $application->id,
             'subdivision_id' => $application->subdivision_id,
             'company_id' => $application->company_id,
             'action_type' => 'meter_details_updated',
-            'remarks' => "Meter details updated by SDC: SIM Number: {$validated['sim_number']}, SEO Number: {$validated['seo_number']}, Installation Date: {$validated['installed_on']}",
+            'remarks' => $remarks,
+            'sent_to_ro' => $sentToRO,
+            'seo_number' => $validated['seo_number'],
             'user_id' => $user->id,
         ]);
 
@@ -218,7 +289,7 @@ class SDCController extends Controller
         $globalSummary->application_no = $application->application_no;
         $globalSummary->customer_name = $application->customer_name;
         $globalSummary->meter_no = $application->meter_number;
-        $globalSummary->sim_date = $validated['installed_on'];
+        $globalSummary->sim_number = $validated['sim_number'];
         $globalSummary->customer_mobile_no = $application->phone;
         $globalSummary->date_on_draft_store = now();
         $globalSummary->save();
@@ -283,7 +354,9 @@ class SDCController extends Controller
         
         // Load meter details if available
         if ($application->meter) {
-            $globalSummary->sim_date = $application->meter->installed_on;
+            // sim_date column doesn't exist in global_summaries table
+            // Storing sim_number instead
+            $globalSummary->sim_number = $application->meter->sim_number;
         }
 
         return view('sdc.show-global-summary', compact('application', 'globalSummary'));

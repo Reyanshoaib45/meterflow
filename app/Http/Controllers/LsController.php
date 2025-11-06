@@ -25,12 +25,21 @@ class LsController extends Controller
      */
     public function selectSubdivision()
     {
-        // Only show subdivisions that have an LS user assigned
-        $subdivisions = Subdivision::with(['company', 'lsUser'])
+        // Show subdivisions that have LS user assigned
+        // Prefer subdivisions that have both LS and SDC, but show all with LS
+        $subdivisions = Subdivision::with(['company', 'lsUser', 'users'])
             ->whereNotNull('ls_id')
             ->withCount(['applications', 'meters'])
-            ->orderBy('name')
-            ->get();
+            ->get()
+            ->sortBy(function($subdivision) {
+                // Sort: subdivisions with both LS and SDC first, then others
+                $hasSDC = $subdivision->users->contains(function($user) {
+                    return $user->role === 'sdc';
+                });
+                return $hasSDC ? 0 : 1;
+            })
+            ->values()
+            ->sortBy('name');
         
         return view('Ls.select-subdivision', compact('subdivisions'));
     }
@@ -40,7 +49,7 @@ class LsController extends Controller
      */
     public function showLogin($subdivisionId)
     {
-        // Only allow login if subdivision has an LS user assigned
+        // Only allow login if subdivision has LS user assigned
         $subdivision = Subdivision::with('company')
             ->whereNotNull('ls_id')
             ->findOrFail($subdivisionId);

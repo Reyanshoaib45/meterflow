@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
 
         $this->command->info("   ✓ Created {$lsCount} LS users (password: password)");
 
-        // Create SDC Users
+        // Create SDC Users and assign them to subdivisions
         $sdcCount = 0;
         $sdcUsers = [
             ['name' => 'SDC User 1', 'username' => 'sdc1', 'email' => 'sdc1@mepco.gov.pk'],
@@ -53,8 +53,10 @@ class UserSeeder extends Seeder
 
         foreach ($sdcUsers as $sdcData) {
             $existingSdc = User::where('username', $sdcData['username'])->first();
+            $sdcUser = null;
+            
             if (!$existingSdc) {
-                User::create([
+                $sdcUser = User::create([
                     'name' => $sdcData['name'],
                     'email' => $sdcData['email'],
                     'username' => $sdcData['username'],
@@ -62,14 +64,46 @@ class UserSeeder extends Seeder
                     'role' => 'sdc',
                 ]);
                 $sdcCount++;
+            } else {
+                $sdcUser = $existingSdc;
+            }
+
+            // Assign SDC user to all subdivisions that have LS users
+            if ($sdcUser) {
+                $subdivisionsToAssign = Subdivision::whereNotNull('ls_id')->get();
+                $alreadyAssigned = $sdcUser->subdivisions->pluck('id')->toArray();
+                
+                foreach ($subdivisionsToAssign as $subdivision) {
+                    if (!in_array($subdivision->id, $alreadyAssigned)) {
+                        $sdcUser->subdivisions()->attach($subdivision->id);
+                    }
+                }
             }
         }
 
         if ($sdcCount > 0) {
             $this->command->info("   ✓ Created {$sdcCount} SDC users (password: password)");
         }
+        
+        // Assign existing SDC users to subdivisions if not already assigned
+        $existingSdcUsers = User::where('role', 'sdc')->get();
+        foreach ($existingSdcUsers as $sdcUser) {
+            $subdivisionsToAssign = Subdivision::whereNotNull('ls_id')->get();
+            $alreadyAssigned = $sdcUser->subdivisions->pluck('id')->toArray();
+            
+            foreach ($subdivisionsToAssign as $subdivision) {
+                if (!in_array($subdivision->id, $alreadyAssigned)) {
+                    $sdcUser->subdivisions()->attach($subdivision->id);
+                }
+            }
+        }
+        
+        if ($existingSdcUsers->count() > 0) {
+            $totalSubdivisions = Subdivision::whereNotNull('ls_id')->count();
+            $this->command->info("   ✓ Assigned SDC users to {$totalSubdivisions} subdivisions");
+        }
 
-        // Create RO Users
+        // Create RO Users and assign them to subdivisions
         $roCount = 0;
         $roUsers = [
             ['name' => 'RO User 1', 'username' => 'ro1', 'email' => 'ro1@mepco.gov.pk'],
@@ -78,8 +112,10 @@ class UserSeeder extends Seeder
 
         foreach ($roUsers as $roData) {
             $existingRo = User::where('username', $roData['username'])->first();
+            $roUser = null;
+            
             if (!$existingRo) {
-                User::create([
+                $roUser = User::create([
                     'name' => $roData['name'],
                     'email' => $roData['email'],
                     'username' => $roData['username'],
@@ -87,11 +123,43 @@ class UserSeeder extends Seeder
                     'role' => 'ro',
                 ]);
                 $roCount++;
+            } else {
+                $roUser = $existingRo;
+            }
+
+            // Assign RO user to all subdivisions that have LS users
+            if ($roUser) {
+                $subdivisionsToAssign = Subdivision::whereNotNull('ls_id')->get();
+                $alreadyAssigned = $roUser->subdivisions->pluck('id')->toArray();
+                
+                foreach ($subdivisionsToAssign as $subdivision) {
+                    if (!in_array($subdivision->id, $alreadyAssigned)) {
+                        $roUser->subdivisions()->attach($subdivision->id);
+                    }
+                }
             }
         }
 
         if ($roCount > 0) {
             $this->command->info("   ✓ Created {$roCount} RO users (password: password)");
+        }
+        
+        // Assign existing RO users to subdivisions if not already assigned
+        $existingRoUsers = User::where('role', 'ro')->get();
+        foreach ($existingRoUsers as $roUser) {
+            $subdivisionsToAssign = Subdivision::whereNotNull('ls_id')->get();
+            $alreadyAssigned = $roUser->subdivisions->pluck('id')->toArray();
+            
+            foreach ($subdivisionsToAssign as $subdivision) {
+                if (!in_array($subdivision->id, $alreadyAssigned)) {
+                    $roUser->subdivisions()->attach($subdivision->id);
+                }
+            }
+        }
+        
+        if ($existingRoUsers->count() > 0) {
+            $totalSubdivisions = Subdivision::whereNotNull('ls_id')->count();
+            $this->command->info("   ✓ Assigned RO users to {$totalSubdivisions} subdivisions");
         }
     }
 }
