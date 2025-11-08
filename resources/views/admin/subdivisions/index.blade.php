@@ -3,8 +3,13 @@
 @section('content')
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
+        <x-breadcrumbs :items="[
+            ['name' => 'Admin', 'url' => route('admin.dashboard')],
+            ['name' => 'Subdivisions', 'url' => '']
+        ]" />
+        
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-white">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-semibold">Subdivisions Management</h2>
                     <a href="{{ route('admin.subdivisions.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

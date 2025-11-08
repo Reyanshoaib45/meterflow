@@ -1,0 +1,283 @@
+/* ========================================
+   CUSTOM TABLE STYLES - MEPCO
+   Light & Dark Theme Support
+   ======================================== */
+
+/* Base Table Container */
+.custom-table-container {
+    overflow-x: auto !important;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Base Table */
+.custom-table {
+    min-width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+/* Table Header - Light Theme */
+.custom-table thead {
+    background: linear-gradient(to bottom, #f9fafb, #f3f4f6) !important;
+}
+
+.custom-table thead th {
+    padding: 1rem 1.5rem !important;
+    text-align: left !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: #374151 !important;
+    border-bottom: 2px solid #e5e7eb !important;
+}
+
+/* Table Body - Light Theme */
+.custom-table tbody {
+    background-color: #ffffff !important;
+}
+
+.custom-table tbody tr {
+    border-bottom: 1px solid #e5e7eb !important;
+    transition: all 0.2s ease !important;
+    background-color: #ffffff !important;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f3f4f6 !important;
+    transform: scale(1.001) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+.custom-table tbody td {
+    padding: 1rem 1.5rem !important;
+    color: #111827 !important;
+    font-size: 0.875rem !important;
+    white-space: nowrap !important;
+}
+
+/* Alternating Row Colors - Light Theme */
+.custom-table tbody tr:nth-child(even) {
+    background-color: #f9fafb !important;
+}
+
+.custom-table tbody tr:nth-child(even):hover {
+    background-color: #e5e7eb !important;
+}
+
+/* ========================================
+   DARK THEME STYLES
+   ======================================== */
+
+/* Dark Class Based (Tailwind CSS) */
+.dark .custom-table thead {
+    background: linear-gradient(to bottom, #374151, #1f2937) !important;
+}
+
+.dark .custom-table thead th {
+    color: #9ca3af !important;
+    border-bottom-color: #4b5563 !important;
+}
+
+.dark .custom-table tbody {
+    background-color: #1f2937 !important;
+}
+
+.dark .custom-table tbody tr {
+    border-bottom-color: #374151 !important;
+    background-color: #1f2937 !important;
+}
+
+.dark .custom-table tbody tr:hover {
+    background-color: #374151 !important;
+}
+
+.dark .custom-table tbody td {
+    color: #f3f4f6 !important;
+}
+
+.dark .custom-table tbody tr:nth-child(even) {
+    background-color: #111827 !important;
+}
+
+.dark .custom-table tbody tr:nth-child(even):hover {
+    background-color: #374151 !important;
+}
+
+/* ========================================
+   BADGE STYLES
+   ======================================== */
+
+.table-badge {
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 9999px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+}
+
+/* Status Badges - Light Theme */
+.badge-success {
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
+}
+
+.badge-warning {
+    background-color: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+.badge-danger {
+    background-color: #fee2e2 !important;
+    color: #991b1b !important;
+}
+
+.badge-info {
+    background-color: #dbeafe !important;
+    color: #1e40af !important;
+}
+
+.badge-secondary {
+    background-color: #f3f4f6 !important;
+    color: #374151 !important;
+}
+
+/* Status Badges - Dark Theme */
+.dark .badge-success {
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    color: #34d399 !important;
+}
+
+.dark .badge-warning {
+    background-color: rgba(245, 158, 11, 0.2) !important;
+    color: #fbbf24 !important;
+}
+
+.dark .badge-danger {
+    background-color: rgba(239, 68, 68, 0.2) !important;
+    color: #f87171 !important;
+}
+
+.dark .badge-info {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    color: #60a5fa !important;
+}
+
+.dark .badge-secondary {
+    background-color: rgba(156, 163, 175, 0.2) !important;
+    color: #9ca3af !important;
+}
+
+/* ========================================
+   ACTION BUTTONS
+   ======================================== */
+
+.table-action-btn {
+    padding: 0.25rem 0.75rem !important;
+    margin-right: 0.5rem !important;
+    border-radius: 0.375rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+}
+
+/* Edit Button */
+.btn-edit {
+    color: #7c3aed !important;
+    background-color: rgba(124, 58, 237, 0.1) !important;
+}
+
+.btn-edit:hover {
+    background-color: rgba(124, 58, 237, 0.2) !important;
+    transform: translateY(-1px) !important;
+}
+
+.dark .btn-edit {
+    color: #a78bfa !important;
+    background-color: rgba(167, 139, 250, 0.1) !important;
+}
+
+.dark .btn-edit:hover {
+    background-color: rgba(167, 139, 250, 0.2) !important;
+}
+
+/* Delete Button */
+.btn-delete {
+    color: #dc2626 !important;
+    background-color: rgba(220, 38, 38, 0.1) !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.btn-delete:hover {
+    background-color: rgba(220, 38, 38, 0.2) !important;
+    transform: translateY(-1px) !important;
+}
+
+.dark .btn-delete {
+    color: #f87171 !important;
+    background-color: rgba(248, 113, 113, 0.1) !important;
+}
+
+.dark .btn-delete:hover {
+    background-color: rgba(248, 113, 113, 0.2) !important;
+}
+
+/* ========================================
+   RESPONSIVE TABLE
+   ======================================== */
+
+@media (max-width: 640px) {
+    .custom-table thead th {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.65rem !important;
+    }
+
+    .custom-table tbody td {
+        padding: 0.75rem 1rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    .table-action-btn {
+        padding: 0.2rem 0.5rem !important;
+        font-size: 0.75rem !important;
+        margin-right: 0.25rem !important;
+    }
+}
+
+/* ========================================
+   COMPACT MODE
+   ======================================== */
+
+.custom-table.compact thead th {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.7rem !important;
+}
+
+.custom-table.compact tbody td {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8rem !important;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.table-empty-state {
+    padding: 3rem 1rem !important;
+    text-align: center !important;
+    color: #9ca3af !important;
+}
+
+.dark .table-empty-state {
+    color: #6b7280 !important;
+}
+
+.table-empty-icon {
+    font-size: 3rem !important;
+    margin-bottom: 1rem !important;
+    opacity: 0.5 !important;
+}

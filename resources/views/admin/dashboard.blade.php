@@ -3,6 +3,12 @@
 @section('content')
 <div class="py-6">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumbs -->
+        <x-breadcrumbs :items="[
+            ['name' => 'Admin', 'url' => route('admin.dashboard')],
+            ['name' => 'Dashboard', 'url' => '']
+        ]" />
+
         <!-- Header with Search -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
@@ -23,28 +29,40 @@
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8" data-aos="fade-up">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Users</h3>
-                <a href="{{ route('admin.users') }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View All</a>
+                <a href="{{ route('admin.users') }}" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">View All</a>
             </div>
             <div class="p-6">
                 @if(isset($recentUsers) && $recentUsers->count() > 0)
-                    <div class="divide-y divide-gray-200 dark:divide-gray-700">
-                        @foreach($recentUsers as $user)
-                            <div class="flex items-center justify-between py-3">
-                                <div class="min-w-0 flex-1">
-                                    <p class="font-medium text-gray-900 dark:text-white truncate">{{ $user->name }}</p>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300 truncate">{{ $user->email }}</p>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                        @if($user->role === 'admin') bg-blue-100 text-blue-800 
-                                        @elseif($user->role === 'ls') bg-green-100 text-green-800 
-                                        @else bg-gray-100 text-gray-800 @endif">
-                                        {{ ucfirst($user->role) }}
-                                    </span>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">{{ $user->created_at->format('Y-m-d') }}</span>
-                                </div>
-                            </div>
-                        @endforeach
+                    <div class="custom-table-container">
+                        <table class="custom-table compact">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Created</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recentUsers as $user)
+                                    <tr>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>
+                                            <span class="table-badge 
+                                                @if($user->role === 'admin') badge-info
+                                                @elseif($user->role === 'ls') badge-success
+                                                @elseif($user->role === 'sdc') badge-warning
+                                                @elseif($user->role === 'ro') badge-info
+                                                @else badge-secondary @endif">
+                                                {{ ucfirst($user->role) }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 @else
                     <p class="text-gray-500 dark:text-gray-400 text-center py-4">No recent users</p>

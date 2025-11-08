@@ -22,6 +22,10 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Breadcrumbs -->
+    <x-breadcrumbs :items="[
+        ['name' => 'Track Application', 'url' => '']
+    ]" />
     <div class="text-center mb-10">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-3">Track Your Application</h1>
         <p class="text-xl text-gray-600 dark:text-gray-300">Check the status of your electricity connection application</p>

@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Breadcrumbs -->
+    <x-breadcrumbs :items="[
+        ['name' => 'Request New Meter', 'url' => '']
+    ]" />
+
     <div class="text-center mb-10">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-3">New Meter Request</h1>
         <p class="text-xl text-gray-600 dark:text-gray-300">Application / NOC Form.</p>

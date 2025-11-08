@@ -3,6 +3,11 @@
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumbs -->
+        <x-breadcrumbs :items="[
+            ['name' => 'File Complaint', 'url' => '']
+        ]" />
+
         <!-- Header -->
         <div class="text-center mb-8 animate-fade-in-down">
             <div class="bg-gradient-to-br from-red-500 to-red-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">

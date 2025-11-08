@@ -59,6 +59,9 @@
     <!-- Global Form Input Styles -->
     <link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
     
+    <!-- Custom Table Styles -->
+    <link rel="stylesheet" href="{{ asset('css/table-styles.css') }}">
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
