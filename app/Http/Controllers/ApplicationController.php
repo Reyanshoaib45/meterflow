@@ -35,7 +35,8 @@ class ApplicationController extends Controller
             return response()->json(['available' => false, 'message' => 'Enter meter number']);
         }
         
-        $meter = Meter::where('meter_no', $meterNo)->first();
+        // Eager load consumer to avoid N+1 query
+        $meter = Meter::with('consumer:id,name')->where('meter_no', $meterNo)->first();
         
         if ($meter) {
             return response()->json([

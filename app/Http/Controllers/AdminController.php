@@ -3,123 +3,50 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Subdivision;
 use App\Models\Application;
 use App\Models\ApplicationHistory;
-use App\Models\GlobalSummary;
-use App\Models\Consumer;
-use App\Models\Meter;
-use App\Models\Bill;
-use App\Models\Complaint;
 use App\Models\AuditLog;
-use Illuminate\Support\Facades\DB;
+use App\Services\AdminDashboardService;
+use App\Services\CompanyService;
+use App\Services\SubdivisionService;
+use App\Services\UserManagementService;
 
 class AdminController extends Controller
 {
+    protected $dashboardService;
+    protected $companyService;
+    protected $subdivisionService;
+    protected $userService;
+
+    public function __construct(
+        AdminDashboardService $dashboardService,
+        CompanyService $companyService,
+        SubdivisionService $subdivisionService,
+        UserManagementService $userService
+    ) {
+        $this->dashboardService = $dashboardService;
+        $this->companyService = $companyService;
+        $this->subdivisionService = $subdivisionService;
+        $this->userService = $userService;
+    }
+
     /**
      * Display the admin panel dashboard.
      */
     public function index()
     {
-        // Check if user is admin
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
-        // Enhanced statistics
-        $stats = [
-            'subdivisions' => Subdivision::count(),
-            'consumers' => Consumer::count(),
-            'meters' => [
-                'total' => Meter::count(),
-                'active' => Meter::where('status', 'active')->count(),
-                'faulty' => Meter::where('status', 'faulty')->count(),
-                'disconnected' => Meter::where('status', 'disconnected')->count(),
-            ],
-            'revenue' => [
-                'this_month' => Bill::where('billing_month', date('F'))
-                    ->where('billing_year', date('Y'))
-                    ->sum('amount_paid'),
-                'total' => Bill::where('payment_status', 'paid')->sum('amount_paid'),
-                'pending' => Bill::whereIn('payment_status', ['unpaid', 'overdue'])->sum('total_amount'),
-            ],
-            'power_loss' => [
-                'total_supplied' => Bill::sum('units_consumed'),
-                'total_billed' => Bill::sum('units_consumed'),
-                'loss_percentage' => 0, // Calculate based on your logic
-            ],
-            'complaints' => [
-                'total' => Complaint::count(),
-                'pending' => Complaint::where('status', 'pending')->count(),
-                'in_progress' => Complaint::where('status', 'in_progress')->count(),
-                'resolved' => Complaint::where('status', 'resolved')->count(),
-            ],
-            'users' => User::count(),
-            'sdo_users' => User::where('role', 'ls')->count(),
-        ];
-        
-        // Revenue trend (last 6 months)
-        $revenueTrend = Bill::select(
-                DB::raw('DATE_FORMAT(issue_date, "%Y-%m") as month'),
-                DB::raw('SUM(amount_paid) as revenue')
-            )
-            ->where('issue_date', '>=', now()->subMonths(6))
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
-        
-        // Complaint trend (last 30 days)
-        $complaintTrend = Complaint::select(
-                DB::raw('DATE(created_at) as date'),
-                DB::raw('COUNT(*) as count')
-            )
-            ->where('created_at', '>=', now()->subDays(30))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-        
-        // Area-wise comparison
-        $subdivisionStats = Subdivision::withCount(['consumers', 'meters', 'bills', 'complaints'])
-            ->with(['bills' => function($q) {
-                $q->select('subdivision_id', DB::raw('SUM(amount_paid) as total_revenue'))
-                  ->groupBy('subdivision_id');
-            }])
-            ->limit(10)
-            ->get();
-        
-        $recentApplications = Application::with(['company', 'subdivision'])
-            ->latest()
-            ->take(5)
-            ->get();
-            
-        $recentComplaints = Complaint::with(['consumer', 'subdivision'])
-            ->latest()
-            ->take(5)
-            ->get();
-        
-        // Recent users for dashboard (show name, email, role)
-        $recentUsers = User::select('id','name','email','role','created_at')
-            ->latest()
-            ->take(6)
-            ->get();
-        
-        // Applications by status
-        $applicationStats = Application::select('status', DB::raw('count(*) as count'))
-            ->groupBy('status')
-            ->get()
-            ->pluck('count', 'status')
-            ->toArray();
-            
-        // Bills summary
-        $billStats = [
-            'total_bills' => Bill::count(),
-            'paid' => Bill::where('payment_status', 'paid')->count(),
-            'unpaid' => Bill::where('payment_status', 'unpaid')->count(),
-            'overdue' => Bill::where('payment_status', 'overdue')->count(),
-        ];
+        $stats = $this->dashboardService->getDashboardStats();
+        $revenueTrend = $this->dashboardService->getRevenueTrend();
+        $complaintTrend = $this->dashboardService->getComplaintTrend();
+        $subdivisionStats = $this->dashboardService->getSubdivisionStats();
+        $recentApplications = $this->dashboardService->getRecentApplications();
+        $recentComplaints = $this->dashboardService->getRecentComplaints();
+        $recentUsers = $this->dashboardService->getRecentUsers();
+        $applicationStats = $this->dashboardService->getApplicationStats();
+        $billStats = $this->dashboardService->getBillStats();
         
         return view('admin.dashboard', compact(
             'stats', 
@@ -139,11 +66,7 @@ class AdminController extends Controller
      */
     public function companies()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
-        $companies = Company::latest()->paginate(15);
+        $companies = $this->companyService->getPaginatedCompanies();
         return view('admin.companies.index', compact('companies'));
     }
     
@@ -152,10 +75,6 @@ class AdminController extends Controller
      */
     public function createCompany()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         return view('admin.companies.create');
     }
     
@@ -164,10 +83,6 @@ class AdminController extends Controller
      */
     public function storeCompany(Request $request)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:companies',
             'code' => 'required|string|max:50|unique:companies',
@@ -175,7 +90,7 @@ class AdminController extends Controller
             'phone' => 'nullable|string|max:20',
         ]);
         
-        Company::create($validated);
+        $this->companyService->create($validated);
         
         return redirect()->route('admin.companies')
             ->with('success', 'Company created successfully.');
@@ -186,10 +101,6 @@ class AdminController extends Controller
      */
     public function editCompany(Company $company)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         return view('admin.companies.edit', compact('company'));
     }
     
@@ -198,10 +109,6 @@ class AdminController extends Controller
      */
     public function updateCompany(Request $request, Company $company)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:companies,name,' . $company->id,
             'code' => 'required|string|max:50|unique:companies,code,' . $company->id,
@@ -209,7 +116,7 @@ class AdminController extends Controller
             'phone' => 'nullable|string|max:20',
         ]);
         
-        $company->update($validated);
+        $this->companyService->update($company, $validated);
         
         return redirect()->route('admin.companies')
             ->with('success', 'Company updated successfully.');
@@ -220,17 +127,13 @@ class AdminController extends Controller
      */
     public function destroyCompany(Company $company)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
-        // Check if company has subdivisions or applications
+        // Check if company has subdivisions
         if ($company->subdivisions()->count() > 0) {
             return redirect()->route('admin.companies')
                 ->with('error', 'Cannot delete company with existing subdivisions.');
         }
         
-        $company->delete();
+        $this->companyService->delete($company);
         
         return redirect()->route('admin.companies')
             ->with('success', 'Company deleted successfully.');
@@ -241,14 +144,7 @@ class AdminController extends Controller
      */
     public function subdivisions()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
-        $subdivisions = Subdivision::with(['company', 'lsUser'])
-            ->latest()
-            ->paginate(15);
-            
+        $subdivisions = $this->subdivisionService->getPaginatedSubdivisions();
         $companies = Company::all();
         $lsUsers = User::where('role', 'ls')->get();
         
@@ -260,10 +156,6 @@ class AdminController extends Controller
      */
     public function createSubdivision()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         $companies = Company::all();
         $lsUsers = User::where('role', 'ls')->get();
         
@@ -275,10 +167,6 @@ class AdminController extends Controller
      */
     public function storeSubdivision(Request $request)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         $validated = $request->validate([
             'company_id' => 'required|exists:companies,id',
             'name' => 'required|string|max:255',
@@ -286,7 +174,7 @@ class AdminController extends Controller
             'ls_id' => 'nullable|exists:users,id',
         ]);
         
-        Subdivision::create($validated);
+        $this->subdivisionService->create($validated);
         
         return redirect()->route('admin.subdivisions')
             ->with('success', 'Subdivision created successfully.');
@@ -297,10 +185,6 @@ class AdminController extends Controller
      */
     public function editSubdivision(Subdivision $subdivision)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         $companies = Company::all();
         $lsUsers = User::where('role', 'ls')->get();
         
@@ -312,10 +196,6 @@ class AdminController extends Controller
      */
     public function updateSubdivision(Request $request, Subdivision $subdivision)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
         $validated = $request->validate([
             'company_id' => 'required|exists:companies,id',
             'name' => 'required|string|max:255',
@@ -323,7 +203,7 @@ class AdminController extends Controller
             'ls_id' => 'nullable|exists:users,id',
         ]);
         
-        $subdivision->update($validated);
+        $this->subdivisionService->update($subdivision, $validated);
         
         return redirect()->route('admin.subdivisions')
             ->with('success', 'Subdivision updated successfully.');
@@ -334,9 +214,6 @@ class AdminController extends Controller
      */
     public function destroySubdivision(Subdivision $subdivision)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
         
         // Check if subdivision has applications
         if ($subdivision->applications()->count() > 0) {
