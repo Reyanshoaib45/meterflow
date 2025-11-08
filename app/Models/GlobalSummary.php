@@ -27,6 +27,8 @@ class GlobalSummary extends Model
         'customer_sc_no',
         'date_return_sdc_billing',
         'application_id',
+        'noc_file',
+        'demand_notice_file',
     ];
 
     /**

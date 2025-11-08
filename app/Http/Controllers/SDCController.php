@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Subdivision;
 use App\Models\User;
 use App\Models\Application;
@@ -148,11 +149,11 @@ class SDCController extends Controller
             abort(403, 'Unauthorized access. SDC role required.');
         }
 
-        $application = Application::with(['company', 'subdivision', 'meter'])
+        $application = Application::with(['company', 'subdivision', 'meter', 'globalSummary'])
             ->where('assigned_sdc_id', $user->id)
             ->findOrFail($applicationId);
 
-        // Check if 24 hours have passed since assignment
+        // Calculate timer based on 72 hours from assignment
         // Get the latest history record when assigned_sdc_id was set
         $assignmentHistory = ApplicationHistory::where('application_id', $application->id)
             ->where('action_type', 'status_changed')
@@ -161,19 +162,21 @@ class SDCController extends Controller
             ->first();
         
         $assignmentTime = $assignmentHistory ? $assignmentHistory->created_at : $application->updated_at;
+        $totalHoursAllowed = 72; // 72 hours total
         $hoursSinceAssignment = now()->diffInHours($assignmentTime);
+        $hoursRemaining = max(0, $totalHoursAllowed - $hoursSinceAssignment);
+        $canEdit = $hoursSinceAssignment < 24; // Can only edit within 24 hours
         
-        if ($hoursSinceAssignment > 24) {
-            return redirect()->route('sdc.dashboard')
-                ->with('error', 'You can only edit meter details within 24 hours of assignment. Please contact admin for changes.');
-        }
+        // Get remaining time in seconds for JavaScript countdown
+        $endTime = $assignmentTime->copy()->addHours($totalHoursAllowed);
+        $remainingSeconds = max(0, $endTime->timestamp - now()->timestamp);
 
         // Get RO users assigned to this subdivision
         $roUsers = User::where('role', 'ro')
             ->orderBy('name')
             ->get();
 
-        return view('sdc.edit-meter', compact('application', 'roUsers'));
+        return view('sdc.edit-meter', compact('application', 'roUsers', 'assignmentTime', 'hoursRemaining', 'canEdit', 'remainingSeconds'));
     }
 
     /**
@@ -210,6 +213,8 @@ class SDCController extends Controller
             'seo_number' => 'required|string|max:50',
             'installed_on' => 'required|date',
             'assigned_ro_id' => 'nullable|exists:users,id',
+            'noc_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240', // 10MB max
+            'demand_notice_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240', // 10MB max
         ]);
 
         // NOTE: Allow assigning any RO user (not limited to subdivision)
@@ -284,6 +289,22 @@ class SDCController extends Controller
             'user_id' => $user->id,
         ]);
 
+        // Handle file uploads
+        $nocFilePath = null;
+        $demandNoticeFilePath = null;
+        
+        if ($request->hasFile('noc_file')) {
+            $nocFile = $request->file('noc_file');
+            $nocFileName = 'noc_' . $application->id . '_' . time() . '.' . $nocFile->getClientOriginalExtension();
+            $nocFilePath = $nocFile->storeAs('attachments/noc', $nocFileName, 'public');
+        }
+        
+        if ($request->hasFile('demand_notice_file')) {
+            $demandNoticeFile = $request->file('demand_notice_file');
+            $demandNoticeFileName = 'demand_notice_' . $application->id . '_' . time() . '.' . $demandNoticeFile->getClientOriginalExtension();
+            $demandNoticeFilePath = $demandNoticeFile->storeAs('attachments/demand_notice', $demandNoticeFileName, 'public');
+        }
+
         // Save to GlobalSummary
         $globalSummary = GlobalSummary::firstOrNew(['application_id' => $application->id]);
         $globalSummary->application_no = $application->application_no;
@@ -292,6 +313,24 @@ class SDCController extends Controller
         $globalSummary->sim_number = $validated['sim_number'];
         $globalSummary->customer_mobile_no = $application->phone;
         $globalSummary->date_on_draft_store = now();
+        
+        // Update file paths if new files were uploaded
+        if ($nocFilePath) {
+            // Delete old file if exists
+            if ($globalSummary->noc_file && Storage::disk('public')->exists($globalSummary->noc_file)) {
+                Storage::disk('public')->delete($globalSummary->noc_file);
+            }
+            $globalSummary->noc_file = $nocFilePath;
+        }
+        
+        if ($demandNoticeFilePath) {
+            // Delete old file if exists
+            if ($globalSummary->demand_notice_file && Storage::disk('public')->exists($globalSummary->demand_notice_file)) {
+                Storage::disk('public')->delete($globalSummary->demand_notice_file);
+            }
+            $globalSummary->demand_notice_file = $demandNoticeFilePath;
+        }
+        
         $globalSummary->save();
 
         return redirect()->route('sdc.dashboard')

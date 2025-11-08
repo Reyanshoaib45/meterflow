@@ -51,8 +51,14 @@
                                         ->latest()
                                         ->first();
                                     $assignmentTime = $assignmentHistory ? $assignmentHistory->created_at : $app->updated_at;
+                                    $totalHoursAllowed = 72;
                                     $hoursSinceAssignment = now()->diffInHours($assignmentTime);
-                                    $canEdit = $hoursSinceAssignment <= 24;
+                                    $canEdit = $hoursSinceAssignment < 24;
+                                    $endTime = $assignmentTime->copy()->addHours($totalHoursAllowed);
+                                    $remainingSeconds = max(0, $endTime->timestamp - now()->timestamp);
+                                    $hoursRemaining = floor($remainingSeconds / 3600);
+                                    $minutesRemaining = floor(($remainingSeconds % 3600) / 60);
+                                    $secondsRemaining = $remainingSeconds % 60;
                                 @endphp
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
@@ -75,8 +81,16 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                         {{ $assignmentTime->format('d M Y H:i') }}
                                         <br>
+                                        <span class="text-xs font-mono {{ $canEdit ? 'text-green-600' : 'text-red-600' }}" 
+                                              data-timer="{{ $remainingSeconds }}" 
+                                              data-app-id="{{ $app->id }}">
+                                            <span class="timer-hours">{{ str_pad($hoursRemaining, 2, '0', STR_PAD_LEFT) }}</span>:
+                                            <span class="timer-minutes">{{ str_pad($minutesRemaining, 2, '0', STR_PAD_LEFT) }}</span>:
+                                            <span class="timer-seconds">{{ str_pad($secondsRemaining, 2, '0', STR_PAD_LEFT) }}</span>
+                                        </span>
+                                        <br>
                                         <span class="text-xs {{ $canEdit ? 'text-green-600' : 'text-red-600' }}">
-                                            {{ $canEdit ? (24 - $hoursSinceAssignment) . ' hours left' : 'Expired' }}
+                                            {{ $canEdit ? 'Editable' : 'Expired' }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -122,4 +136,43 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Update timers for each application
+    document.querySelectorAll('[data-timer]').forEach(function(timerElement) {
+        let remainingSeconds = parseInt(timerElement.getAttribute('data-timer'));
+        const hoursSpan = timerElement.querySelector('.timer-hours');
+        const minutesSpan = timerElement.querySelector('.timer-minutes');
+        const secondsSpan = timerElement.querySelector('.timer-seconds');
+
+        function updateTimer() {
+            if (remainingSeconds <= 0) {
+                hoursSpan.textContent = '00';
+                minutesSpan.textContent = '00';
+                secondsSpan.textContent = '00';
+                timerElement.classList.remove('text-green-600', 'text-red-600');
+                timerElement.classList.add('text-red-600');
+                return;
+            }
+
+            const hours = Math.floor(remainingSeconds / 3600);
+            const minutes = Math.floor((remainingSeconds % 3600) / 60);
+            const seconds = remainingSeconds % 60;
+
+            hoursSpan.textContent = String(hours).padStart(2, '0');
+            minutesSpan.textContent = String(minutes).padStart(2, '0');
+            secondsSpan.textContent = String(seconds).padStart(2, '0');
+
+            remainingSeconds--;
+
+            if (remainingSeconds < 3600) {
+                timerElement.classList.remove('text-green-600');
+                timerElement.classList.add('text-orange-600');
+            }
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    });
+</script>
 @endsection
