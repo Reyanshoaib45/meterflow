@@ -164,7 +164,12 @@ class ROController extends Controller
                     $query->where('subdivision_id', $currentSubdivisionId)
                           ->where('assigned_ro_id', $user->id);
                 })
-                ->with(['application.histories', 'application.assignedRO', 'application.meter'])
+                ->with([
+                    'application:id,application_no,customer_name,status,subdivision_id,assigned_ro_id',
+                    'application.histories:id,application_id,action_type,remarks,created_at',
+                    'application.assignedRO:id,name,email',
+                    'application.meter:id,meter_no,application_id,consumer_id'
+                ])
                 ->latest()
                 ->paginate(15);
         }

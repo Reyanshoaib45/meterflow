@@ -125,9 +125,13 @@ class SDCController extends Controller
             abort(403, 'Unauthorized access. SDC role required.');
         }
 
-        // Get applications assigned to this SDC user
+        // Get applications assigned to this SDC user (eager load to avoid N+1)
         $applications = Application::where('assigned_sdc_id', $user->id)
-            ->with(['company', 'subdivision', 'meter'])
+            ->with([
+                'company:id,name',
+                'subdivision:id,name',
+                'meter:id,meter_no,meter_make,application_id,consumer_id,status'
+            ])
             ->latest()
             ->paginate(15);
 

@@ -263,11 +263,8 @@ class AdminController extends Controller
      */
     public function users()
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized access. Admin role required.');
-        }
-        
-        $users = User::latest()->paginate(15);
+        // Use UserManagementService for better organization
+        $users = $this->userService->getPaginatedUsers();
         return view('admin.users.index', compact('users'));
     }
     

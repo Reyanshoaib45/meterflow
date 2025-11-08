@@ -149,18 +149,22 @@ class LsController extends Controller
                 ->count(),
         ];
         
-        // Recent applications
+        // Recent applications (eager load to avoid N+1)
         $recentApplications = Application::where('subdivision_id', $currentSubdivisionId)
-            ->with(['company'])
+            ->with(['company:id,name', 'subdivision:id,name'])
             ->latest()
-            ->take(10)
+            ->limit(10)
             ->get();
         
-        // Recent bills/invoices for LS (SDO)
+        // Recent bills/invoices for LS (SDO) (eager load to avoid N+1)
         $recentBills = Bill::where('subdivision_id', $currentSubdivisionId)
-            ->with(['consumer', 'meter.application'])
+            ->with([
+                'consumer:id,name,cnic',
+                'meter:id,meter_no,consumer_id,application_id',
+                'meter.application:id,application_no,customer_name'
+            ])
             ->latest()
-            ->take(10)
+            ->limit(10)
             ->get();
         
         // Application status chart data
@@ -169,13 +173,16 @@ class LsController extends Controller
             ->groupBy('status')
             ->get();
         
-        // Recent activity
+        // Recent activity (eager load to avoid N+1)
         $recentActivity = ApplicationHistory::whereHas('application', function($q) use ($currentSubdivisionId) {
                 $q->where('subdivision_id', $currentSubdivisionId);
             })
-            ->with(['application', 'user'])
+            ->with([
+                'application:id,application_no,customer_name,status,subdivision_id',
+                'user:id,name,email'
+            ])
             ->latest()
-            ->take(10)
+            ->limit(10)
             ->get();
             
         return view('Ls.dashboard', compact(
@@ -205,7 +212,10 @@ class LsController extends Controller
         session(['current_subdivision_id' => $subdivisionId]);
         
         $query = Application::where('subdivision_id', $subdivisionId)
-            ->with(['company', 'meter']);
+            ->with([
+                'company:id,name',
+                'meter:id,meter_no,application_id,consumer_id,status'
+            ]);
         
         // Filters
         if ($request->filled('status')) {
@@ -231,7 +241,10 @@ class LsController extends Controller
      */
     public function editApplication($applicationId)
     {
-        $application = Application::with(['subdivision', 'company'])->findOrFail($applicationId);
+        $application = Application::with([
+                'subdivision:id,name,ls_id',
+                'company:id,name'
+            ])->findOrFail($applicationId);
         
         // Check if this application belongs to a subdivision of the LS user
         if ($application->subdivision->ls_id !== Auth::user()->id) {
