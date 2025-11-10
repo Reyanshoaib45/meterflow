@@ -1,0 +1,253 @@
+{
+  "info": {
+    "name": "MEPCO API",
+    "description": "Complete API collection for MEPCO Meter Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://127.0.0.1:8000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "TOKEN",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["register"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/user",
+              "host": ["{{BASE_URL}}"],
+              "path": ["user"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/logout",
+              "host": ["{{BASE_URL}}"],
+              "path": ["logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Applications",
+      "item": [
+        {
+          "name": "Get All Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/applications",
+              "host": ["{{BASE_URL}}"],
+              "path": ["applications"]
+            }
+          }
+        },
+        {
+          "name": "Submit Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_no\": \"APP-2024-001\",\n  \"customer_name\": \"Ali Ahmed\",\n  \"customer_cnic\": \"3520212345678\",\n  \"phone\": \"03001234567\",\n  \"address\": \"House 123\",\n  \"company_id\": 1,\n  \"subdivision_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/applications",
+              "host": ["{{BASE_URL}}"],
+              "path": ["applications"]
+            }
+          }
+        },
+        {
+          "name": "Track Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_no\": \"APP-2024-001\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/applications/track",
+              "host": ["{{BASE_URL}}"],
+              "path": ["applications", "track"]
+            }
+          }
+        },
+        {
+          "name": "Get Companies",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/companies",
+              "host": ["{{BASE_URL}}"],
+              "path": ["companies"]
+            }
+          }
+        },
+        {
+          "name": "Get Subdivisions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{BASE_URL}}/subdivisions",
+              "host": ["{{BASE_URL}}"],
+              "path": ["subdivisions"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Meters",
+      "item": [
+        {
+          "name": "Get All Meters",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/meters",
+              "host": ["{{BASE_URL}}"],
+              "path": ["meters"]
+            }
+          }
+        },
+        {
+          "name": "Check Meter Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meter_no\": \"MTR-001\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/meters/check",
+              "host": ["{{BASE_URL}}"],
+              "path": ["meters", "check"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Admin Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/dashboard/admin",
+              "host": ["{{BASE_URL}}"],
+              "path": ["dashboard", "admin"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
