@@ -139,6 +139,26 @@
             </div>
         </div>
 
+        <!-- Website Settings Card (Only for Owner) -->
+        @if(Auth::user() && Auth::user()->role === 'owner')
+        <div class="mb-8" data-aos="fade-up">
+            <a href="{{ route('admin.settings') }}" class="block bg-gradient-to-r from-orange-500 to-red-600 rounded-lg shadow-lg p-6 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-white rounded-full mr-4">
+                            <i class="fas fa-cog text-3xl text-orange-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-1">Website Settings</h3>
+                            <p class="text-orange-100">Control website speed, maintenance mode, and more</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-arrow-right text-3xl text-white group-hover:translate-x-2 transition-transform duration-300"></i>
+                </div>
+            </a>
+        </div>
+        @endif
+
         <!-- Secondary Stats Row -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" data-aos="fade-up" data-aos-delay="100">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">

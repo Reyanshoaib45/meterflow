@@ -13,10 +13,26 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->command->info('👑 Creating admin user...');
+        $this->command->info('👑 Creating users...');
 
-        // Create Admin User
-        $existingAdmin = User::where('username', 'admin')->orWhere('role', 'admin')->first();
+        // Create Owner User (Super Admin with Settings Access)
+        $existingOwner = User::where('email', 'Reyanshoaib@develpor.com')->first();
+        if (!$existingOwner) {
+            $owner = User::create([
+                'name' => 'Reyan Shoaib',
+                'email' => 'Reyanshoaib@develpor.com',
+                'username' => 'reyanshoaib',
+                'password' => Hash::make('112233qq'),
+                'role' => 'owner',
+                'is_active' => true,
+            ]);
+            $this->command->info('   ✓ Owner user created: Reyanshoaib@develpor.com / 112233qq');
+        } else {
+            $this->command->warn('   ⚠ Owner user already exists');
+        }
+
+        // Create Admin User (Regular Admin - No Settings Access)
+        $existingAdmin = User::where('username', 'admin')->first();
         if (!$existingAdmin) {
             $admin = User::create([
                 'name' => 'Admin User',

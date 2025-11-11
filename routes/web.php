@@ -18,6 +18,7 @@ use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\UserPanelController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function(){
     if (!Auth::check()) {
@@ -239,6 +240,12 @@ Route::middleware('auth')->group(function () {
             'destroy' => 'admin.global-summaries.destroy',
         ])->parameters(['global-summaries' => 'globalSummary']);
 
+    });
+    
+    // Owner Routes (Super Admin Only - Settings Access)
+    Route::middleware('owner')->group(function () {
+        Route::get('/admin/settings', [SettingsController::class, 'index'])->name('admin.settings');
+        Route::put('/admin/settings', [SettingsController::class, 'update'])->name('admin.settings.update');
     });
     
     // User Panel (auth only)
