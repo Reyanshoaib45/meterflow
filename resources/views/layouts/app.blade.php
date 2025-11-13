@@ -45,23 +45,26 @@
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    
+
     <!-- Custom Animations CSS -->
     <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom-animations.css') }}">
-    
+
     <!-- Global Form Input Styles -->
     <link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
-    
+
     <!-- Custom Table Styles -->
     <link rel="stylesheet" href="{{ asset('css/table-styles.css') }}">
-    
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -84,7 +87,7 @@
             }
         }
     </script>
-    
+
     <!-- Dark Mode Script -->
     <script>
         (function() {
@@ -112,7 +115,7 @@
             const toggleDarkMode = () => {
                 const html = document.documentElement;
                 const isDark = html.classList.contains('dark');
-                
+
                 if (isDark) {
                     html.classList.remove('dark');
                     localStorage.setItem('theme', 'light');
@@ -160,14 +163,14 @@
                     loader.style.display = 'none';
                 }, 300);
             }
-            
+
             // Add fade-in animation to content
             document.body.classList.add('page-loaded');
         });
-        
+
         // Smooth scroll behavior
         document.documentElement.style.scrollBehavior = 'smooth';
-        
+
         // Add loading state to forms
         document.addEventListener('submit', function(e) {
             const form = e.target;
@@ -181,14 +184,14 @@
                 }
             }
         });
-        
+
         // Enhanced form validation feedback
         document.querySelectorAll('input, textarea, select').forEach(field => {
             field.addEventListener('invalid', function(e) {
                 e.preventDefault();
                 this.classList.add('border-red-500', 'ring-2', 'ring-red-200');
                 this.classList.remove('border-gray-300', 'dark:border-gray-600');
-                
+
                 // Show error message
                 let errorMsg = this.parentElement.querySelector('.error-message');
                 if (!errorMsg) {
@@ -197,7 +200,7 @@
                     this.parentElement.appendChild(errorMsg);
                 }
                 errorMsg.textContent = this.validationMessage;
-                
+
                 // Remove error on input
                 this.addEventListener('input', function() {
                     this.classList.remove('border-red-500', 'ring-2', 'ring-red-200');
@@ -205,7 +208,7 @@
                     if (errorMsg) errorMsg.remove();
                 }, { once: true });
             });
-            
+
             // Add success state on valid input
             field.addEventListener('blur', function() {
                 if (this.validity.valid && this.value) {
@@ -214,7 +217,7 @@
                 }
             });
         });
-        
+
         // Keyboard navigation enhancement
         document.addEventListener('keydown', function(e) {
             // Escape key to close modals/notifications
@@ -227,7 +230,7 @@
                 });
             }
         });
-        
+
         // Add focus-visible polyfill for better keyboard navigation
         if (!CSS.supports('selector(:focus-visible)')) {
             document.addEventListener('keydown', function(e) {
@@ -335,25 +338,25 @@
 
     {{-- Alpine (for progressive unlock + small interactions). If you use Vite, you can import Alpine there instead. --}}
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    
+
     <!-- jQuery (required for Select2) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
-    
+
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
-    
+
     <!-- Custom Scripts -->
     <script src="{{ asset('js/custom-scripts.js') }}" defer></script>
-    
+
     <!-- Infinite Scroll Script -->
     <script src="{{ asset('js/infinite-scroll.js') }}" defer></script>
-    
+
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-    
+
     <!-- Particles.js will be loaded conditionally below -->
-    
+
     <!-- Initialize Libraries -->
     <script>
         // Initialize AOS with enhanced settings (idle for smoother main thread)
@@ -370,7 +373,7 @@
         } else {
             window.addEventListener('load', initAOS, { once: true });
         }
-        
+
         // Enhanced smooth scroll with custom easing
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -385,28 +388,28 @@
                 }
             });
         });
-        
+
         // Add parallax effect on scroll
         let lastScrollTop = 0;
         window.addEventListener('scroll', function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const scrollDiff = scrollTop - lastScrollTop;
-            
+
             document.querySelectorAll('[data-parallax]').forEach(element => {
                 const speed = element.dataset.parallax || 0.5;
                 const yPos = -(scrollTop * speed);
                 element.style.transform = `translateY(${yPos}px)`;
             });
-            
+
             lastScrollTop = scrollTop;
         }, { passive: true });
-        
+
         // Default lazy loading for images (opt-out via data-no-lazy)
         document.querySelectorAll('img:not([data-no-lazy])').forEach(img => {
             if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
             img.style.opacity = '0';
             img.style.transition = 'opacity 0.6s ease-in-out';
-            
+
             if (img.complete) {
                 img.style.opacity = '1';
             } else {
@@ -434,6 +437,6 @@
             document.body.appendChild(s);
         }
     </script>
-    
+
 </body>
 </html>

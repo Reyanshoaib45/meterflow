@@ -12,11 +12,11 @@
         <!-- Header with Search -->
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
-            
+
             <!-- Global Search -->
             <div class="w-96">
                 <form action="{{ route('admin.search') }}" method="GET" class="relative">
-                    <input type="text" name="q" placeholder="Search consumers, meters, bills..." 
+                    <input type="text" name="q" placeholder="Search consumers, meters, bills..."
                            class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     <svg class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -49,7 +49,7 @@
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>
-                                            <span class="table-badge 
+                                            <span class="table-badge
                                                 @if($user->role === 'admin') badge-info
                                                 @elseif($user->role === 'ls') badge-success
                                                 @elseif($user->role === 'sdc') badge-warning
@@ -183,8 +183,9 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <!-- Recent Applications -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow" data-aos="fade-right">
-                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Applications</h3>
+                <div class="px-6 d-flex justify-between items-center py-4 border-b border-gray-200 dark:border-gray-700">
+                    <span class="text-lg font-semibold text-gray-900 dark:text-white">Recent Applications</span>
+                    <a href="{{ route('admin.applications') }}" class="text-sm text-green-600 hover:text-green-700 font-medium">View All →</a>
                 </div>
                 <div class="p-6">
                     @if($recentApplications && $recentApplications->count() > 0)
@@ -197,7 +198,7 @@
                                         <p class="text-xs text-gray-500 dark:text-gray-400">{{ $app->subdivision->name ?? 'N/A' }}</p>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <span class="px-3 py-1 text-xs font-semibold rounded-full 
+                                        <span class="px-3 py-1 text-xs font-semibold rounded-full
                                             @if($app->status == 'approved') bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200
                                             @elseif($app->status == 'rejected') bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200
                                             @else bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 @endif">
@@ -229,7 +230,7 @@
                                         <p class="text-sm text-gray-600 dark:text-gray-300">{{ $complaint->subject }}</p>
                                         <p class="text-xs text-gray-500 dark:text-gray-400">{{ $complaint->consumer->name ?? 'N/A' }}</p>
                                     </div>
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full 
+                                    <span class="px-3 py-1 text-xs font-semibold rounded-full
                                         @if($complaint->status == 'resolved') bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200
                                         @elseif($complaint->status == 'pending') bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200
                                         @else bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 @endif">
@@ -250,7 +251,7 @@
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Quick Summary & Data Export</h3>
                 <div class="flex gap-2">
-                    <button onclick="document.getElementById('export-modal').classList.remove('hidden')" 
+                    <button onclick="document.getElementById('export-modal').classList.remove('hidden')"
                         class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -319,34 +320,34 @@
                 <div class="mt-3">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Export Data</h3>
                     <div class="space-y-2">
-                        <a href="{{ route('admin.export', ['type' => 'consumers']) }}" 
+                        <a href="{{ route('admin.export', ['type' => 'consumers']) }}"
                            class="block w-full text-left px-4 py-3 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 rounded border border-blue-200 dark:border-blue-700">
                             <span class="font-medium text-gray-900 dark:text-white">Export Consumers</span>
                             <p class="text-sm text-gray-600 dark:text-gray-300">All consumer data with details</p>
                         </a>
-                        <a href="{{ route('admin.export', ['type' => 'applications']) }}" 
+                        <a href="{{ route('admin.export', ['type' => 'applications']) }}"
                            class="block w-full text-left px-4 py-3 bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 rounded border border-green-200 dark:border-green-700">
                             <span class="font-medium text-gray-900 dark:text-white">Export Applications</span>
                             <p class="text-sm text-gray-600 dark:text-gray-300">All application records</p>
                         </a>
-                        <a href="{{ route('admin.export', ['type' => 'bills']) }}" 
+                        <a href="{{ route('admin.export', ['type' => 'bills']) }}"
                            class="block w-full text-left px-4 py-3 bg-purple-50 dark:bg-purple-900 hover:bg-purple-100 dark:hover:bg-purple-800 rounded border border-purple-200 dark:border-purple-700">
                             <span class="font-medium text-gray-900 dark:text-white">Export Bills</span>
                             <p class="text-sm text-gray-600 dark:text-gray-300">Complete billing history</p>
                         </a>
-                        <a href="{{ route('admin.export', ['type' => 'meters']) }}" 
+                        <a href="{{ route('admin.export', ['type' => 'meters']) }}"
                            class="block w-full text-left px-4 py-3 bg-yellow-50 dark:bg-yellow-900 hover:bg-yellow-100 dark:hover:bg-yellow-800 rounded border border-yellow-200 dark:border-yellow-700">
                             <span class="font-medium text-gray-900 dark:text-white">Export Meters</span>
                             <p class="text-sm text-gray-600 dark:text-gray-300">All meter information</p>
                         </a>
-                        <a href="{{ route('admin.export', ['type' => 'complaints']) }}" 
+                        <a href="{{ route('admin.export', ['type' => 'complaints']) }}"
                            class="block w-full text-left px-4 py-3 bg-red-50 dark:bg-red-900 hover:bg-red-100 dark:hover:bg-red-800 rounded border border-red-200 dark:border-red-700">
                             <span class="font-medium text-gray-900 dark:text-white">Export Complaints</span>
                             <p class="text-sm text-gray-600 dark:text-gray-300">All complaint records</p>
                         </a>
                     </div>
                     <div class="mt-4 flex justify-end">
-                        <button onclick="document.getElementById('export-modal').classList.add('hidden')" 
+                        <button onclick="document.getElementById('export-modal').classList.add('hidden')"
                             class="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded">
                             Close
                         </button>
@@ -373,7 +374,7 @@
                         <svg class="w-8 h-8 text-green-600 dark:text-green-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
-                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">SDO Users</span>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Users</span>
                     </a>
 
                     <a href="{{ route('admin.companies') }}" class="flex flex-col items-center p-4 bg-amber-50 dark:bg-amber-900 rounded-lg hover:bg-amber-100 dark:hover:bg-amber-800 transition quick-action">
@@ -436,7 +437,7 @@
                         <svg class="w-8 h-8 text-cyan-600 dark:text-cyan-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
-                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Edit Applications</span>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Applications</span>
                     </a>
 
                     <a href="{{ route('admin.users') }}?role=sdc" class="flex flex-col items-center p-4 bg-purple-50 dark:bg-purple-900 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-800 transition quick-action">

@@ -9,11 +9,12 @@
             ['name' => 'Applications', 'url' => '']
         ]" />
 
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900 dark:text-white">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-semibold">Applications Management</h2>
-                </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8" data-aos="fade-up">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Applications Management</h3>
+            </div>
+
+            <div class="p-6">
 
                 @if(session('success'))
                     <div class="mb-4 text-green-600">
@@ -21,61 +22,67 @@
                     </div>
                 @endif
 
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                @if($applications->count() > 0)
+                    <div class="custom-table-container">
+                        <table class="custom-table compact">
+                            <thead>
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Application No</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subdivision</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th>Application No</th>
+                                <th>Customer</th>
+                                <th>Company</th>
+                                <th>Subdivision</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
                             </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200" data-infinite-scroll data-next-page="{{ $applications->nextPageUrl() }}">
-                            @forelse($applications as $application)
+                            </thead>
+
+                            <tbody data-infinite-scroll data-next-page="{{ $applications->nextPageUrl() }}">
+                            @foreach($applications as $application)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $application->application_no }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $application->customer_name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $application->company->name ?? 'N/A' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $application->subdivision->name ?? 'N/A' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                            @if($application->status == 'approved') bg-green-100 text-green-800 
-                                            @elseif($application->status == 'rejected') bg-red-100 text-red-800 
-                                            @else bg-yellow-100 text-yellow-800 @endif">
-                                            {{ ucfirst($application->status) }}
-                                        </span>
+                                    <td>{{ $application->application_no }}</td>
+                                    <td>{{ $application->customer_name }}</td>
+                                    <td>{{ $application->company->name ?? 'N/A' }}</td>
+                                    <td>{{ $application->subdivision->name ?? 'N/A' }}</td>
+
+                                    <td>
+                                    <span class="table-badge
+                                        @if($application->status == 'approved') badge-success
+                                        @elseif($application->status == 'rejected') badge-danger
+                                        @else badge-warning @endif">
+                                        {{ ucfirst($application->status) }}
+                                    </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $application->created_at->format('Y-m-d') }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('admin.applications.edit', $application) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                        <a href="{{ route('admin.applications.history', $application) }}" class="text-blue-600 hover:text-blue-900 mr-3">History</a>
-                                        <form action="{{ route('admin.applications.destroy', $application) }}" method="POST" class="inline">
+
+                                    <td>{{ $application->created_at->format('Y-m-d') }}</td>
+
+                                    <td class="space-x-3">
+                                        <a href="{{ route('admin.applications.edit', $application) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        <a href="{{ route('admin.applications.history', $application) }}" class="text-blue-600 hover:text-blue-900">History</a>
+
+                                        <form action="{{ route('admin.applications.destroy', $application) }}"
+                                              method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure you want to delete this application? This action cannot be undone.')" 
+                                            <button type="submit"
+                                                    onclick="return confirm('Are you sure you want to delete this application? This action cannot be undone.')"
                                                     class="text-red-600 hover:text-red-900">
                                                 Delete
                                             </button>
                                         </form>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                                        No applications found.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                            @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+                @else
+                    <p class="text-gray-500 dark:text-gray-400 text-center py-4">No applications found.</p>
+                @endif
 
             </div>
         </div>
+
     </div>
-</div>
 @endsection
